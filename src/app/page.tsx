@@ -1,6 +1,8 @@
 "use client";
 
 import { Layout } from "antd";
+import Signup from "../../components/sign_up/signup";
+import Login from "../../components/login/login";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -28,11 +30,12 @@ const siderStyle: React.CSSProperties = {
 };
 
 const contentStyle: React.CSSProperties = {
+  flex: 1,
+  justifyContent: "center",
   textAlign: "center",
-  minHeight: 120,
-  lineHeight: "120px",
   color: "#fff",
   backgroundColor: "#0958d9",
+  height: "100%",
 };
 
 const footerStyle: React.CSSProperties = {
@@ -48,9 +51,11 @@ export default function Home() {
         <Header style={headerStyle}>Header</Header>
         <Layout>
           <Sider width="25%" style={siderStyle}>
-            Sider
+            <Login />
           </Sider>
-          <Content style={contentStyle}>Content</Content>
+          <Content style={contentStyle}>
+            <Signup />
+          </Content>
         </Layout>
         <Footer style={footerStyle}>Footer</Footer>
       </Layout>

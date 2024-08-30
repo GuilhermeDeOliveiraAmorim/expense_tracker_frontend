@@ -1,14 +1,11 @@
-import { UserRepository } from "../repository/user.repository";
+import { UserGateway } from "../gateway/user.gateway";
 import { CreateUserUseCase } from "../usecases/create_user";
+import { http } from "../util/http";
 
 export class UserFactory {
-  private userRepository: UserRepository;
-
-  constructor(userRepository: UserRepository) {
-    this.userRepository = userRepository;
-  }
+  userGateway = new UserGateway(http);
 
   createUserUseCase() {
-    return new CreateUserUseCase(this.userRepository);
+    return new CreateUserUseCase(this.userGateway);
   }
 }
