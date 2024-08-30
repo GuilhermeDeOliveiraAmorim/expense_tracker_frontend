@@ -1,8 +1,8 @@
 "use client";
 
 import { Layout } from "antd";
-import Signup from "../../components/sign_up/signup";
 import Login from "../../components/login/login";
+import Signup from "../../components/signup/signup";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -54,7 +54,7 @@ export default function Home() {
             <Login />
           </Sider>
           <Content style={contentStyle}>
-            <Signup />
+            <Login />
           </Content>
         </Layout>
         <Footer style={footerStyle}>Footer</Footer>

@@ -5,6 +5,7 @@ import {
   CreateUserInputDTO,
   CreateUserOutputDTO,
 } from "../usecases/create_user";
+import { LoginInputDTO, LoginOutputDTO } from "../usecases/login";
 
 export class UserGateway implements UserRepository {
   constructor(private http: AxiosInstance) {}
@@ -14,6 +15,12 @@ export class UserGateway implements UserRepository {
       apiRoutes.createUser,
       input
     );
+
+    return output.data;
+  }
+
+  async login(input: LoginInputDTO): Promise<LoginOutputDTO> {
+    const output = await this.http.post<LoginOutputDTO>(apiRoutes.login, input);
 
     return output.data;
   }

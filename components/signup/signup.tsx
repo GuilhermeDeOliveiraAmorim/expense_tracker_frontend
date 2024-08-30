@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { Button, Flex, Form, Input, message } from "antd";
+import { Button, Flex, Form, FormProps, Input, message } from "antd";
 import Password from "antd/es/input/Password";
 import { UserFactory } from "../../internal/factory/user.factory";
 import { CreateUserInputDTO } from "../../internal/usecases/create_user";
@@ -23,7 +25,7 @@ const Signup: React.FC = () => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed: FormProps<any>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
@@ -59,7 +61,7 @@ const Signup: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
-            Cadastrar
+            Sign Up
           </Button>
         </Form.Item>
       </Form>
