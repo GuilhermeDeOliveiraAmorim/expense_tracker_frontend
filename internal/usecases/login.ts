@@ -8,6 +8,8 @@ export type LoginInputDTO = {
 
 export type LoginOutputDTO = {
   access_token: string;
+  user_id: string;
+  message: string;
 };
 
 export class LoginUseCase {

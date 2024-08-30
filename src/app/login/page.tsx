@@ -1,7 +1,7 @@
 "use client";
 
 import { Layout } from "antd";
-import Signup from "../../components/signup/signup";
+import Login from "../../../components/login/login";
 
 const { Sider, Content } = Layout;
 
@@ -31,14 +31,14 @@ const contentStyle: React.CSSProperties = {
   backgroundColor: "#669bbc",
 };
 
-export default function Home() {
+export default function LoginPage() {
   return (
     <main>
       <Layout style={layoutStyle}>
         <Layout>
           <Sider width="50%" style={siderStyle}></Sider>
           <Content style={contentStyle}>
-            <Signup />
+            <Login />
           </Content>
         </Layout>
       </Layout>

@@ -15,7 +15,11 @@ const Signup: React.FC = () => {
 
       const response = await createUserUseCase.execute(values);
 
-      message.success(response.user_id);
+      message.success(response.message);
+
+      setTimeout(() => {}, 4000);
+
+      window.location.href = "/dashboard";
     } catch (error) {
       if (error instanceof Error) {
         message.error(error.message);
@@ -25,18 +29,21 @@ const Signup: React.FC = () => {
     }
   };
 
-  const onFinishFailed: FormProps<any>["onFinishFailed"] = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
-    <Flex justify="center" align="center" style={{ height: "100vh" }}>
+    <Flex
+      justify="center"
+      align="center"
+      style={{
+        padding: "10px",
+        backgroundColor: "#ffffff",
+        borderRadius: "8px",
+      }}
+    >
       <Form
         name="signup"
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         layout="vertical"
-        style={{ width: 300 }}
+        style={{ width: 300, backgroundColor: "#ffffff" }}
       >
         <Form.Item
           name="name"
@@ -59,9 +66,9 @@ const Signup: React.FC = () => {
         >
           <Password placeholder="Senha" />
         </Form.Item>
-        <Form.Item>
+        <Form.Item style={{ marginBottom: "0px" }}>
           <Button type="primary" htmlType="submit" block>
-            Sign Up
+            Cadastrar
           </Button>
         </Form.Item>
       </Form>
