@@ -2,6 +2,7 @@
 
 import { Layout } from "antd";
 import AppHeader from "../../../components/header/header";
+import AddCategory from "../../../components/category/addcategory";
 
 const { Content } = Layout;
 
@@ -26,7 +27,9 @@ export default function Dashboard() {
       <Layout style={layoutStyle}>
         <AppHeader />
         <Layout>
-          <Content style={contentStyle}></Content>
+          <Content style={contentStyle}>
+            <AddCategory />
+          </Content>
         </Layout>
       </Layout>
     </main>
