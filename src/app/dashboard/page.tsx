@@ -1,8 +1,9 @@
 "use client";
 
 import { Layout } from "antd";
-import AppHeader from "../../../components/header/header";
-import AddCategory from "../../../components/category/addcategory";
+import AppHeader from "../components/header/header";
+import AddCategory from "../components/category/addcategory";
+import { ListCategory } from "../components/category/listcategory";
 
 const { Content } = Layout;
 
@@ -29,6 +30,7 @@ export default function Dashboard() {
         <Layout>
           <Content style={contentStyle}>
             <AddCategory />
+            <ListCategory />
           </Content>
         </Layout>
       </Layout>

@@ -1,7 +1,7 @@
 import { Button, ColorPicker, Form, Input, message } from "antd";
-import { CreateCategoryInputDTO } from "../../internal/usecases/create_category";
-import { CategoryFactory } from "../../internal/factory/category.factory";
-import { rgbToHex } from "../../internal/util/functions";
+import { CategoryFactory } from "../../../../internal/factory/category.factory";
+import { CreateCategoryInputDTO } from "../../../../internal/usecases/create_category";
+import { rgbToHex } from "../../../../util/functions";
 
 type colorObject = {
   cleared: boolean;

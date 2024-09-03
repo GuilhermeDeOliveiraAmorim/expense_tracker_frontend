@@ -1,8 +1,8 @@
 "use client";
 
 import { Button, Form, Input, message } from "antd";
-import { LoginInputDTO } from "../../internal/usecases/login";
-import { UserFactory } from "../../internal/factory/user.factory";
+import { LoginInputDTO } from "../../../../internal/usecases/login";
+import { UserFactory } from "../../../../internal/factory/user.factory";
 
 const Login = () => {
   const onFinish = async (values: LoginInputDTO) => {

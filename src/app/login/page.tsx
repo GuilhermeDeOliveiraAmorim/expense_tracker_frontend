@@ -1,7 +1,7 @@
 "use client";
 
 import { Layout } from "antd";
-import Login from "../../../components/login/login";
+import Login from "../components/login/login";
 
 const { Sider, Content } = Layout;
 

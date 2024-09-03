@@ -5,6 +5,10 @@ import {
   CreateCategoryInputDTO,
   CreateCategoryOutputDTO,
 } from "../usecases/create_category";
+import {
+  GetCategoriesInputDTO,
+  GetCategoriesOutputDTO,
+} from "../usecases/get_categories";
 
 export class CategoryGateway implements CategoryRepository {
   constructor(private http: AxiosInstance) {}
@@ -16,7 +20,19 @@ export class CategoryGateway implements CategoryRepository {
       apiRoutes.createCategory,
       input
     );
-    
+
+    console.log(output);
+
+    return output.data;
+  }
+
+  async getCategories(
+    input: GetCategoriesInputDTO
+  ): Promise<GetCategoriesOutputDTO> {
+    const output = await this.http.get<GetCategoriesOutputDTO>(
+      apiRoutes.getCategories
+    );
+
     console.log(output);
 
     return output.data;

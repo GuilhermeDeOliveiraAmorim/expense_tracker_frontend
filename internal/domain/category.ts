@@ -1,5 +1,5 @@
 export class Category {
-  category_id: string;
+  id: string;
   active: boolean;
   created_at: Date;
   updated_at: Date;
@@ -8,7 +8,7 @@ export class Category {
   color: string;
 
   constructor(
-    category_id: string,
+    id: string,
     active: boolean,
     created_at: Date,
     updated_at: Date,
@@ -16,7 +16,7 @@ export class Category {
     name: string,
     color: string
   ) {
-    this.category_id = category_id;
+    this.id = id;
     this.active = active;
     this.created_at = created_at;
     this.updated_at = updated_at;

@@ -3,8 +3,8 @@
 import React from "react";
 import { Button, Flex, Form, FormProps, Input, message } from "antd";
 import Password from "antd/es/input/Password";
-import { UserFactory } from "../../internal/factory/user.factory";
-import { CreateUserInputDTO } from "../../internal/usecases/create_user";
+import { CreateUserInputDTO } from "../../../../internal/usecases/create_user";
+import { UserFactory } from "../../../../internal/factory/user.factory";
 
 const Signup: React.FC = () => {
   const onFinish = async (values: CreateUserInputDTO) => {
