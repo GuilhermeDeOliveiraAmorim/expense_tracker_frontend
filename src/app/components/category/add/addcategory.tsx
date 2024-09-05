@@ -1,10 +1,10 @@
 import React from "react";
 import * as Form from "@radix-ui/react-form";
-import "./login.css";
+import "./addcategory.css";
 
-const Login = () => (
+const AddCategory = () => (
   <Form.Root className="FormRoot">
-    <Form.Field className="FormField" name="email">
+    <Form.Field className="FormField" name="name">
       <div
         style={{
           display: "flex",
@@ -12,19 +12,19 @@ const Login = () => (
           justifyContent: "space-between",
         }}
       >
-        <Form.Label className="FormLabel">Email</Form.Label>
+        <Form.Label className="FormLabel">Name</Form.Label>
         <Form.Message className="FormMessage" match="valueMissing">
-          Please enter your email
+          Please enter category name
         </Form.Message>
         <Form.Message className="FormMessage" match="typeMismatch">
-          Please provide a valid email
+          Please provide a valid category name
         </Form.Message>
       </div>
       <Form.Control asChild>
-        <input className="Input" type="email" required />
+        <input className="Input" type="text" required />
       </Form.Control>
     </Form.Field>
-    <Form.Field className="FormField" name="password">
+    <Form.Field className="FormField" name="color">
       <div
         style={{
           display: "flex",
@@ -32,24 +32,18 @@ const Login = () => (
           justifyContent: "space-between",
         }}
       >
-        <Form.Label className="FormLabel">Password</Form.Label>
-        <Form.Message className="FormMessage" match="valueMissing">
-          Please enter your password
-        </Form.Message>
-        <Form.Message className="FormMessage" match="typeMismatch">
-          Please provide a valid email
-        </Form.Message>
+        <Form.Label className="FormLabel">Color</Form.Label>
       </div>
-      <Form.Control asChild>
-        <input className="Input" type="password" required />
-      </Form.Control>
+      <div className="ColorPickerContainer">
+        <input type="color" defaultValue="#1d1d1d" className="ColorPicker" />
+      </div>
     </Form.Field>
     <Form.Submit asChild>
       <button className="Button" style={{ marginTop: 10 }}>
-        Login
+        Add Category
       </button>
     </Form.Submit>
   </Form.Root>
 );
 
-export default Login;
+export default AddCategory;
