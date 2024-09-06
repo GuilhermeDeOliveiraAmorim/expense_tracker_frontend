@@ -38,8 +38,8 @@ export default function Logo({ width, height }: LogoProps) {
         <path
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
           d="M53.2375,12.777q.7611.5013,1.4822,1.0818c10.08,8.1245,10.0527,24.8829-.061,37.4308S28.1748,67.4234,18.0948,59.2988a19.09,19.09,0,0,1-2.172-2.05"
         />
         <ellipse
@@ -50,8 +50,8 @@ export default function Logo({ width, height }: LogoProps) {
           transform="translate(-14.2455 39.4907) rotate(-51.131)"
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
         />
         <line
           x1="51.3734"
@@ -60,8 +60,8 @@ export default function Logo({ width, height }: LogoProps) {
           y2="51.2896"
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
         />
         <line
           x1="47.9155"
@@ -70,8 +70,8 @@ export default function Logo({ width, height }: LogoProps) {
           y2="55.3725"
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
         />
         <line
           x1="44.2573"
@@ -80,8 +80,8 @@ export default function Logo({ width, height }: LogoProps) {
           y2="58.6263"
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
         />
         <line
           x1="40.2427"
@@ -90,8 +90,8 @@ export default function Logo({ width, height }: LogoProps) {
           y2="61.3263"
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
         />
         <line
           x1="54.0356"
@@ -100,15 +100,15 @@ export default function Logo({ width, height }: LogoProps) {
           y2="47.1887"
           fill="none"
           stroke="#000"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeMiterlimit={"10"}
+          strokeWidth={"2"}
         />
         <path
           fill="none"
           stroke="#000"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={"2"}
           d="M20.6524,44.72c.0722-.2316.6087-2.2138.6809-2.4455,5.9173.1054,6.209-.0917,7.0882-3.008,1.661-5.5087,2.1449-6.4941,3.8058-12.0028.5824-1.9314.4791-2.3538-2.29-2.882L28.25,24.0707c.063-.2034.4414-2.0746.5044-2.278a94.249,94.249,0,0,0,12.214-.7883l-5.4991,19c-.8584,2.9659-.7526,3.2031,4.9288,4.3013-.0656.2347-.5987,2.2183-.6642,2.453Z"
         />
       </g>
