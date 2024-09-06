@@ -1,7 +1,13 @@
+import CommomHeader from "@/components/layout/common/header/commonheader";
+import Logo from "@/components/logo/logo";
+
 export default function Home() {
   return (
     <div>
+      <CommomHeader />
+
       <section className="bg-blue-600 text-white h-screen flex flex-col justify-center items-center text-center px-4">
+        <Logo height="240" width="240" />
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
           Organize suas Finanças
         </h1>

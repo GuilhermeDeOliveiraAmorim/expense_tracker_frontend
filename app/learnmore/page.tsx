@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,26 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Logo from "@/components/logo/logo";
+import CommomHeader from "@/components/layout/common/header/commonheader";
 
 export default function LearnMore() {
   return (
     <div>
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto flex justify-between items-center py-4 px-6">
-          <div className="flex items-center space-x-3">
-            <Logo height="40" width="40" />
-            <span className="text-xl font-bold text-gray-700">
-              Expense Insight
-            </span>
-          </div>
-
-          <div className="flex space-x-4">
-            <Button>Cadastrar</Button>
-            <Button>Login</Button>
-          </div>
-        </div>
-      </header>
+      <CommomHeader />
 
       <section id="saiba-mais" className="py-16 bg-gray-100 text-gray-800 px-4">
         <div className="max-w-5xl mx-auto text-center">
