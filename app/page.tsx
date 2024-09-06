@@ -1,7 +1,6 @@
 export default function Home() {
   return (
     <div>
-      {/* Hero Section */}
       <section className="bg-blue-600 text-white h-screen flex flex-col justify-center items-center text-center px-4">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
           Organize suas Finanças
@@ -25,7 +24,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Saiba Mais Section */}
       <section id="saiba-mais" className="py-16 bg-gray-100 text-gray-800 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">
@@ -66,7 +64,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Call to Action Section */}
       <section
         id="cadastro"
         className="py-16 bg-blue-600 text-white text-center px-4"
@@ -84,7 +81,7 @@ export default function Home() {
             Cadastrar Despesas
           </a>
           <a
-            href="#saiba-mais"
+            href="/learnmore"
             className="bg-gray-100 text-blue-600 py-3 px-6 rounded-full text-lg font-semibold hover:bg-white transition"
           >
             Saiba Mais

@@ -57,7 +57,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       backgroundImage: {
-        "login": "url('public/coins-8450635_640.jpg')",
+        "login": "url('auth-bg.jpg')",
       },
     },
   },
