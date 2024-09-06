@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { UserFactory } from "@/internal/factory/user.factory";
 import { LoginInputDTO } from "@/internal/usecases/login";
 import { useRouter } from "next/navigation";
+import { Icons } from "@/components/ui/icons";
 
 export default function LoginForm() {
   const { toast } = useToast();
@@ -32,6 +33,8 @@ export default function LoginForm() {
         variant: "destructive",
         title: "Email and password required",
         description: "Email and password required for authentication",
+        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        duration: 1500,
       });
       return;
     }
@@ -54,24 +57,29 @@ export default function LoginForm() {
         style: {
           backgroundColor: "#4ade80",
         },
-        duration: 2000,
+        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        duration: 1500,
       });
 
       setTimeout(() => {
         router.push("/dashboard");
-      }, 2000);
+      }, 1500);
     } catch (error) {
       if (error instanceof Error) {
         toast({
           variant: "destructive",
           title: "Error",
           description: error.message,
+          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          duration: 1500,
         });
       } else {
         toast({
           variant: "default",
           title: "Error",
           description: "An unexpected error occurred",
+          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          duration: 1500,
         });
       }
     }
