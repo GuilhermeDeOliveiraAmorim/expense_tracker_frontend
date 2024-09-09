@@ -38,7 +38,7 @@ import { GetCategoriesOutputDTO } from "@/internal/usecases/get_categories";
 import { ExpenseFactory } from "@/internal/factory/expense.factory";
 import { Category } from "@/internal/domain/category";
 
-export default function AddExpenseForm() {
+export default function AddExpenseFormHorizontal() {
   const { toast } = useToast();
 
   const [categories, setCategories] = useState<GetCategoriesOutputDTO>();
