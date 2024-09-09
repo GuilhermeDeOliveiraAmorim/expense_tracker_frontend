@@ -2,7 +2,7 @@ import axios from "axios";
 import { CategoryRepository } from "../repository/category.repository";
 import { Category } from "../domain/category";
 
-export type GetCategoriesInputDTO = {};
+export type GetCategoriesInputDTO = object;
 
 export type GetCategoriesOutputDTO = {
   categories: Category[];

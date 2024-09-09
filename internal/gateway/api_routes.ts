@@ -3,4 +3,5 @@ export const apiRoutes = {
   login: "/login",
   createCategory: "/categories",
   getCategories: "/categories/all",
+  getExpenses: "/expenses/all",
 };
