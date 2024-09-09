@@ -3,7 +3,7 @@ import { ExpenseRepository } from "../repository/expense.repository";
 
 export type CreateExpenseInputDTO = {
   user_id: string;
-  amount: number;
+  amount: string;
   expense_date: string;
   category_id: string;
   notes: string;
