@@ -50,6 +50,9 @@ export default function LoginForm() {
 
       const response = await loginUseCase.execute(input);
 
+      sessionStorage.setItem("user_id", response.user_id);
+      sessionStorage.setItem("access_token", response.access_token);
+
       toast({
         variant: "default",
         title: response.name,
@@ -116,7 +119,7 @@ export default function LoginForm() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button>Login</Button>
+          <Button type="submit">Login</Button>
         </CardFooter>
       </form>
     </Card>
