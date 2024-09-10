@@ -48,12 +48,27 @@ export default function AddExpenseForm() {
   const [categoryId, setCategoryId] = useState("");
 
   useEffect(() => {
+    const user_id = sessionStorage.getItem("user_id");
+
+    if (user_id === null || user_id === undefined) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "User not authenticated",
+        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        duration: 1500,
+      });
+      return;
+    }
+
     const fetchCategories = async () => {
       try {
         const categoryFactory = new CategoryFactory();
         const categories = await categoryFactory
           .getCategoriesUseCase()
-          .execute({});
+          .execute({
+            user_id: user_id,
+          });
         setCategories(categories);
       } catch (error) {
         if (error instanceof Error) {

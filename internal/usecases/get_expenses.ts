@@ -2,7 +2,9 @@ import axios from "axios";
 import { ExpenseRepository } from "../repository/expense.repository";
 import { Expense } from "../domain/expense";
 
-export type GetExpensesInputDTO = object;
+export type GetExpensesInputDTO = {
+  user_id: string;
+};
 
 export type GetExpensesOutputDTO = {
   categories: Expense[];
