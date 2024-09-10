@@ -2,6 +2,7 @@ import axios from "axios";
 import { CategoryRepository } from "../repository/category.repository";
 
 export type CreateCategoryInputDTO = {
+  user_id: string;
   name: string;
   color: string;
 };
@@ -19,10 +20,8 @@ export class CreateCategoryUseCase {
   ): Promise<CreateCategoryOutputDTO> {
     try {
       const output = await this.CategoryGateway.createCategory(input);
-      console.log(output);
       return output;
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data.error.detail);
       } else {

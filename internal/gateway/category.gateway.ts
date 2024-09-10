@@ -21,8 +21,6 @@ export class CategoryGateway implements CategoryRepository {
       input
     );
 
-    console.log(output);
-
     return output.data;
   }
 
@@ -33,8 +31,6 @@ export class CategoryGateway implements CategoryRepository {
     const output = await this.http.get<GetCategoriesOutputDTO>(
       apiRoutes.getCategories
     );
-
-    console.log(output);
 
     return output.data;
   }
