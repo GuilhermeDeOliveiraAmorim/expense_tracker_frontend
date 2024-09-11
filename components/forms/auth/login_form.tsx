@@ -33,7 +33,7 @@ export default function LoginForm() {
         variant: "destructive",
         title: "Email and password required",
         description: "Email and password required for authentication",
-        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
       return;
@@ -60,7 +60,7 @@ export default function LoginForm() {
         style: {
           backgroundColor: "#4ade80",
         },
-        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
 
@@ -73,7 +73,7 @@ export default function LoginForm() {
           variant: "destructive",
           title: "Error",
           description: error.message,
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
       } else {
@@ -81,7 +81,7 @@ export default function LoginForm() {
           variant: "default",
           title: "Error",
           description: "An unexpected error occurred",
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
       }

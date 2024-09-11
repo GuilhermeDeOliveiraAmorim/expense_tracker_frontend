@@ -69,7 +69,10 @@ export default function AddExpenseForm() {
           .execute({
             user_id: user_id,
           });
-        setCategories(categories);
+
+        if (categories.categories) {
+          setCategories(categories);
+        }
       } catch (error) {
         if (error instanceof Error) {
           toast({

@@ -16,6 +16,7 @@ import { useState } from "react";
 import { UserFactory } from "@/internal/factory/user.factory";
 import { CreateUserInputDTO } from "@/internal/usecases/create_user";
 import { useRouter } from "next/navigation";
+import { Icons } from "@/components/ui/icons";
 
 export default function SignupForm() {
   const { toast } = useToast();
@@ -33,6 +34,8 @@ export default function SignupForm() {
         variant: "destructive",
         title: "Name, email and password required",
         description: "Name, email and password required for create an account",
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
       });
       return;
     }
@@ -56,7 +59,8 @@ export default function SignupForm() {
         style: {
           backgroundColor: "#4ade80",
         },
-        duration: 2000,
+        action: <Icons.check className="mr-2 h-4 w-4" />,
+        duration: 1500,
       });
 
       setTimeout(() => {
@@ -68,12 +72,16 @@ export default function SignupForm() {
           variant: "destructive",
           title: "Error",
           description: error.message,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
+          duration: 1500,
         });
       } else {
         toast({
           variant: "default",
           title: "Error",
           description: "An unexpected error occurred",
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
+          duration: 1500,
         });
       }
     }
