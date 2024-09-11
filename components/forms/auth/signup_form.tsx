@@ -54,7 +54,7 @@ export default function SignupForm() {
 
       toast({
         variant: "default",
-        title: response.user_id,
+        title: response.name,
         description: response.message,
         style: {
           backgroundColor: "#4ade80",
