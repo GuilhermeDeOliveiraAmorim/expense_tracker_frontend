@@ -25,11 +25,10 @@ export class CategoryGateway implements CategoryRepository {
   }
 
   async getCategories(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     input: GetCategoriesInputDTO
   ): Promise<GetCategoriesOutputDTO> {
     const output = await this.http.get<GetCategoriesOutputDTO>(
-      apiRoutes.getCategories
+      `${apiRoutes.getCategories}?user_id=${input.user_id}`
     );
 
     return output.data;

@@ -24,15 +24,10 @@ export class ExpenseGateway implements ExpenseRepository {
     return output.data;
   }
 
-  async getExpenses(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    input: GetExpensesInputDTO
-  ): Promise<GetExpensesOutputDTO> {
+  async getExpenses(input: GetExpensesInputDTO): Promise<GetExpensesOutputDTO> {
     const output = await this.http.get<GetExpensesOutputDTO>(
-      apiRoutes.getExpenses
+      `${apiRoutes.getExpenses}?user_id=${input.user_id}`
     );
-
-    console.log(output);
 
     return output.data;
   }

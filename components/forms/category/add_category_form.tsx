@@ -20,7 +20,7 @@ export default function AddCategoryForm() {
   const { toast } = useToast();
 
   const [name, setName] = useState("");
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#1d1d1d");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
