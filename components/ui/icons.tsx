@@ -23,6 +23,7 @@ import {
   Twitter,
   User,
   X,
+  AlertTriangleIcon,
 } from "lucide-react";
 
 export const Icons = {
@@ -47,6 +48,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  alert: AlertTriangleIcon,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

@@ -1,8 +1,6 @@
-import ReceiptsAndExpensesPerMonth from "@/components/charts/receiptsandexpensespermonth/receiptsandexpensespermonth";
 import AddCategoryForm from "@/components/forms/category/add_category_form";
-import AddExpenseFormHorizontal from "@/components/forms/expense/add_expense_form_horizontal";
+import AddExpenseForm from "@/components/forms/expense/add_expense_form";
 import DashboardHeader from "@/components/layout/common/header/dashboardheader";
-import ExpenseSimpleTablePeriod from "@/components/tables/expensessimpletableperiod/expensessimpletableperiod";
 
 export default function Home() {
   return (
@@ -33,10 +31,8 @@ export default function Home() {
         </aside>
 
         <main className="flex flex-col bg-gray-100 p-6 gap-6 w-full">
-          <AddExpenseFormHorizontal />
+          <AddExpenseForm />
           <AddCategoryForm />
-          <ReceiptsAndExpensesPerMonth />
-          <ExpenseSimpleTablePeriod />
         </main>
       </div>
 

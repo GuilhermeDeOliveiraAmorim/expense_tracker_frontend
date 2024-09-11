@@ -30,6 +30,7 @@ export default function AddCategoryForm() {
         variant: "destructive",
         title: "All fields are required",
         description: "Please fill in all the fields.",
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
       return;
@@ -43,7 +44,7 @@ export default function AddCategoryForm() {
           variant: "destructive",
           title: "Error",
           description: "User not authenticated",
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
         return;
@@ -67,7 +68,7 @@ export default function AddCategoryForm() {
         style: {
           backgroundColor: "#4ade80",
         },
-        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
 
@@ -79,7 +80,7 @@ export default function AddCategoryForm() {
           variant: "destructive",
           title: "Error",
           description: error.message,
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
       } else {
@@ -87,7 +88,7 @@ export default function AddCategoryForm() {
           variant: "default",
           title: "Error",
           description: "An unexpected error occurred",
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
       }

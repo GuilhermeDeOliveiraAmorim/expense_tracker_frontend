@@ -55,7 +55,7 @@ export default function AddExpenseForm() {
         variant: "destructive",
         title: "Error",
         description: "User not authenticated",
-        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
       return;
@@ -76,17 +76,19 @@ export default function AddExpenseForm() {
             variant: "destructive",
             title: "Error",
             description: error.message,
-            action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+            action: <Icons.alert className="mr-2 h-4 w-4" />,
             duration: 1500,
           });
+          return;
         } else {
           toast({
             variant: "default",
             title: "Error",
             description: "An unexpected error occurred",
-            action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+            action: <Icons.alert className="mr-2 h-4 w-4" />,
             duration: 1500,
           });
+          return;
         }
       }
     };
@@ -102,6 +104,7 @@ export default function AddExpenseForm() {
         variant: "destructive",
         title: "All fields are required",
         description: "Please fill in all the fields.",
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
       return;
@@ -115,7 +118,7 @@ export default function AddExpenseForm() {
           variant: "destructive",
           title: "Error",
           description: "User not authenticated",
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
         return;
@@ -136,12 +139,12 @@ export default function AddExpenseForm() {
 
       toast({
         variant: "default",
-        title: response.expense_id,
-        description: "OK",
+        title: "Success",
+        description: response.message,
         style: {
           backgroundColor: "#4ade80",
         },
-        action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+        action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
 
@@ -156,15 +159,15 @@ export default function AddExpenseForm() {
           variant: "destructive",
           title: "Error",
           description: error.message,
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
       } else {
         toast({
-          variant: "default",
+          variant: "destructive",
           title: "Error",
           description: "An unexpected error occurred",
-          action: <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />,
+          action: <Icons.alert className="mr-2 h-4 w-4" />,
           duration: 1500,
         });
       }

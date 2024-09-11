@@ -11,6 +11,7 @@ export type CreateExpenseInputDTO = {
 
 export type CreateExpenseOutputDTO = {
   expense_id: string;
+  message: string;
 };
 
 export class CreateExpenseUseCase {
