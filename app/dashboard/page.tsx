@@ -1,5 +1,6 @@
 import AddCategoryForm from "@/components/forms/category/add_category_form";
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
+import AddTagForm from "@/components/forms/tag/add_tag_form";
 import DashboardHeader from "@/components/layout/common/header/dashboardheader";
 
 export default function Home() {
@@ -31,8 +32,9 @@ export default function Home() {
         </aside>
 
         <main className="flex flex-col bg-gray-100 p-6 gap-6 w-full">
-          <AddExpenseForm />
           <AddCategoryForm />
+          <AddTagForm />
+          <AddExpenseForm />
         </main>
       </div>
 
