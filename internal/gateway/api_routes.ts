@@ -5,4 +5,6 @@ export const apiRoutes = {
   createExpense: "/expenses",
   getCategories: "/categories/all",
   getExpenses: "/expenses/all",
+  getTags: "/tags/all",
+  createTag: "/tags",
 };

@@ -11,6 +11,5 @@ export interface CategoryRepository {
   createCategory(
     input: CreateCategoryInputDTO
   ): Promise<CreateCategoryOutputDTO>;
-
   getCategories(input: GetCategoriesInputDTO): Promise<GetCategoriesOutputDTO>;
 }
