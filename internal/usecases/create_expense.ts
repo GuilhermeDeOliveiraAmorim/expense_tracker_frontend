@@ -7,6 +7,7 @@ export type CreateExpenseInputDTO = {
   expense_date: string;
   category_id: string;
   notes: string;
+  tags: string[];
 };
 
 export type CreateExpenseOutputDTO = {
