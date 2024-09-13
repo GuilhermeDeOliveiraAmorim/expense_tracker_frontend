@@ -39,6 +39,9 @@ import { ExpenseFactory } from "@/internal/factory/expense.factory";
 import { Category } from "@/internal/domain/category";
 import { TagFactory } from "@/internal/factory/tag.factory";
 import { MultiSelect } from "@/components/ui/multipleselector";
+import AddCategoryForm from "../category/add_category_form";
+import AddTagForm from "../tag/add_tag_form";
+import FormDialog from "@/components/ui/formdialog";
 
 type Option = {
   label: string;
@@ -295,48 +298,54 @@ export default function AddExpenseForm() {
                 />
               </PopoverContent>
             </Popover>
-            <Select
-              name="category"
-              key={categoryId}
-              onValueChange={(value) => setCategoryId(value)}
-              value={categoryId}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Categories</SelectLabel>
-                  {categories?.categories.map((category: Category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <div
-                          style={{
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: category.color,
-                            borderRadius: "50%",
-                            display: "inline-block",
-                            margin: "0 4px",
-                          }}
-                        ></div>
-                        {category.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <MultiSelect
-              options={tags || []}
-              onValueChange={(selectedValues) =>
-                setSelectedTags(selectedValues)
-              }
-              defaultValue={selectedTags}
-              placeholder="Select tags"
-              variant="inverted"
-              maxCount={3}
-            />
+            <div className="flex gap-4">
+              <Select
+                name="category"
+                key={categoryId}
+                onValueChange={(value) => setCategoryId(value)}
+                value={categoryId}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Categories</SelectLabel>
+                    {categories?.categories.map((category: Category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <div
+                            style={{
+                              width: "12px",
+                              height: "12px",
+                              backgroundColor: category.color,
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              margin: "0 4px",
+                            }}
+                          ></div>
+                          {category.name}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <FormDialog form={<AddCategoryForm />} />
+            </div>
+            <div className="flex gap-4">
+              <MultiSelect
+                options={tags || []}
+                onValueChange={(selectedValues) =>
+                  setSelectedTags(selectedValues)
+                }
+                defaultValue={selectedTags}
+                placeholder="Select tags"
+                variant="inverted"
+                maxCount={3}
+              />
+              <FormDialog form={<AddTagForm />} />
+            </div>
             <Textarea
               name="notes"
               id="notes"
