@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CategoryFactory } from "@/internal/factory/category.factory";
 import { CreateExpenseInputDTO } from "@/internal/usecases/create_expense";
 import {
   Popover,
@@ -27,48 +26,49 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { ExpenseFactory } from "@/internal/factory/expense.factory";
-import { TagFactory } from "@/internal/factory/tag.factory";
 import { MultiSelect } from "@/components/ui/multipleselector";
 import AddCategoryForm from "../category/add_category_form";
 import AddTagForm from "../tag/add_tag_form";
 import FormDialog from "@/components/ui/formdialog";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";
-
-export const fetchCategories = async (user_id: string) => {
-  const categoryFactory = new CategoryFactory();
-  const response = await categoryFactory
-    .getCategoriesUseCase()
-    .execute({ user_id });
-  return response;
-};
-
-export const fetchTags = async (user_id: string) => {
-  const tagFactory = new TagFactory();
-  const response = await tagFactory.getTagsUseCase().execute({ user_id });
-  return response;
-};
+import { getCategories } from "@/components/query_functions/qf.categoy";
+import { getTags } from "@/components/query_functions/qf.tag";
 
 export default function AddExpenseForm() {
   const { toast } = useToast();
-  const user_id = sessionStorage.getItem("user_id");
-
+  const [userId, setUserId] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState<Date>();
   const [notes, setNotes] = useState("");
   const [categoryId, setCategoryId] = useState("");
 
+  useEffect(() => {
+    const storedUserId = sessionStorage.getItem("userId");
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "User not authenticated",
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+    }
+  }, [toast]);
+
   const {
     data: categoriesData,
     error: categoriesError,
     isLoading: categoriesLoading,
   } = useQuery({
-    queryKey: ["categories", user_id],
-    queryFn: () => fetchCategories(user_id!),
-    enabled: !!user_id,
+    queryKey: ["categories", userId],
+    queryFn: () => getCategories(userId!),
+    enabled: !!userId,
   });
 
   const {
@@ -76,9 +76,9 @@ export default function AddExpenseForm() {
     error: tagsError,
     isLoading: tagsLoading,
   } = useQuery({
-    queryKey: ["tags", user_id],
-    queryFn: () => fetchTags(user_id!),
-    enabled: !!user_id,
+    queryKey: ["tags", userId],
+    queryFn: () => getTags(userId!),
+    enabled: !!userId,
   });
 
   if (categoriesError || tagsError) {
@@ -111,9 +111,9 @@ export default function AddExpenseForm() {
     }
 
     try {
-      const user_id = sessionStorage.getItem("user_id");
+      const userId = sessionStorage.getItem("userId");
 
-      if (user_id === null || user_id === undefined) {
+      if (userId === null || userId === undefined) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -125,7 +125,7 @@ export default function AddExpenseForm() {
       }
 
       const input: CreateExpenseInputDTO = {
-        user_id: user_id,
+        user_id: userId,
         amount: amount,
         expense_date: format(date, "ddMMyyyy"),
         category_id: categoryId,
