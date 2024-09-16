@@ -1,14 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
@@ -193,7 +186,6 @@ export default function AddExpenseForm() {
         <CardContent>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Amount</Label>
               <Input
                 id="amount"
                 type="number"
@@ -284,18 +276,20 @@ export default function AddExpenseForm() {
 
               <FormDialog form={<AddTagForm />} />
             </div>
-            <Textarea
-              name="notes"
-              id="notes"
-              value={notes}
-              placeholder="Type your message here"
-              onChange={(e) => setNotes(e.target.value)}
-            />
+            <div className="flex gap-4 items-end">
+              <Textarea
+                name="notes"
+                id="notes"
+                value={notes}
+                placeholder="Type your message here"
+                onChange={(e) => setNotes(e.target.value)}
+              />{" "}
+              <Button type="submit">
+                <Icons.save className="w-5" />
+              </Button>
+            </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button type="submit">Add</Button>
-        </CardFooter>
       </Card>
     </form>
   );

@@ -1,14 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -104,7 +97,6 @@ export default function AddTagForm() {
         <CardContent>
           <div className="grid w-full items-center gap-4 mb-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Name</Label>
               <Input
                 id="name"
                 type="text"
@@ -116,19 +108,20 @@ export default function AddTagForm() {
           </div>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Color</Label>
-              <Input
-                id="color"
-                type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              ></Input>
+              <div className="flex gap-4">
+                <Input
+                  id="color"
+                  type="color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                ></Input>
+                <Button type="submit">
+                  <Icons.save className="w-5" />
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button type="submit">Add</Button>
-        </CardFooter>
       </Card>
     </form>
   );
