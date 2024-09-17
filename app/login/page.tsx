@@ -1,4 +1,5 @@
 import LoginForm from "@/components/forms/auth/login_form";
+import AuthLogo from "@/components/logo/authlogo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,16 +7,14 @@ export const metadata: Metadata = {
   description: "Login to your account on Expense Insight",
 };
 
-export default function Home() {
+export default function Login() {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex h-full">
-        <div className="w-1/2 bg-login bg-cover flex items-center justify-center"></div>
-        <div className="w-1/2 bg-white flex items-center justify-center">
-          <h2 className="text-white text-2xl">
-            <LoginForm />
-          </h2>
-        </div>
+    <div className="flex h-screen">
+      <div className="w-1/2 bg-black">
+        <AuthLogo />
+      </div>
+      <div className="w-1/2 bg-white">
+        <LoginForm />
       </div>
     </div>
   );

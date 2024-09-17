@@ -1,15 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -35,11 +26,11 @@ export default function SignupForm() {
     mutationFn: signup,
     onSuccess: (output: CreateUserOutputDTO) =>
       displayNotification({
+        variantToast: "default",
+        durationToast: 2500,
         outputType: {
           success: output,
         },
-        variantToast: "default",
-        durationToast: 2500,
         styleToast: {
           backgroundColor: "#4ade80",
         },
@@ -50,11 +41,11 @@ export default function SignupForm() {
       }),
     onError: (error: Error) =>
       displayNotification({
+        variantToast: "destructive",
+        durationToast: 2500,
         outputType: {
           error: error,
         },
-        durationToast: 2500,
-        variantToast: "destructive",
       }),
   });
 
@@ -85,63 +76,63 @@ export default function SignupForm() {
     mutation.mutate({ email, name, password });
   };
 
+  const goToLoginPage = () => {
+    router.push("/login");
+  };
+
   return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Create an account</CardTitle>
-        <CardDescription>Understand your finances</CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                placeholder="Your name here"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                aria-label="Name"
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Email</Label>
-              <Input
-                id="email"
-                placeholder="Your email here"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                aria-label="Email"
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Create a strong password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                aria-label="Password"
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Confirm password</Label>
-              <Input
-                id="password_confirmed"
-                type="password"
-                placeholder="Enter the password you created here"
-                value={passwordConfirmed}
-                onChange={(e) => setPasswordConfirmed(e.target.value)}
-                aria-label="Confirm password"
-              />
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button>Register</Button>
-        </CardFooter>
+    <div className="flex flex-col h-full pl-52 pr-52 pb-52 pt-24 justify-between">
+      <div className="flex justify-end">
+        <Button onClick={goToLoginPage}>Login</Button>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 align-middle content-center justify-center w-full h-full"
+      >
+        <div className="flex flex-col space-y-2 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Create an account
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Enter your name, email and a password below to create your account
+          </p>
+        </div>
+        <Input
+          id="name"
+          placeholder="Your name here"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-label="Name"
+          className="space-y-1.5"
+        />
+        <Input
+          id="email"
+          placeholder="Your email here"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-label="Email"
+          className="space-y-1.5"
+        />
+        <Input
+          id="password"
+          type="password"
+          placeholder="Create a strong password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          aria-label="Password"
+          className="space-y-1.5"
+        />
+        <Input
+          id="password_confirmed"
+          type="password"
+          placeholder="Enter the password you created"
+          value={passwordConfirmed}
+          onChange={(e) => setPasswordConfirmed(e.target.value)}
+          aria-label="Confirm password"
+          className="space-y-1.5"
+        />
+        <Button>Register</Button>
       </form>
-    </Card>
+    </div>
   );
 }

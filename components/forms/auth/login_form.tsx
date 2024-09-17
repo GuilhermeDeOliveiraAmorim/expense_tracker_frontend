@@ -1,15 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -69,42 +60,44 @@ export default function LoginForm() {
     mutation.mutate({ email, password });
   };
 
+  const goToSignupPage = () => {
+    router.push("/signup");
+  };
+
   return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Login to account</CardTitle>
-        <CardDescription>Manage your finances.</CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Email</Label>
-              <Input
-                id="email"
-                placeholder="Your email here"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                aria-label="Email"
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Create a strong password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                aria-label="Password"
-              />
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button type="submit">Login</Button>
-        </CardFooter>
+    <div className="flex flex-col h-full pl-52 pr-52 pb-52 pt-24 justify-between">
+      <div className="flex justify-end">
+        <Button onClick={goToSignupPage}>Sign Up</Button>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 align-middle content-center justify-center w-full h-full"
+      >
+        <div className="flex flex-col space-y-2 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+          <p className="text-sm text-muted-foreground">
+            Enter your email and password to log in to your account
+          </p>
+        </div>
+        <Input
+          id="email"
+          placeholder="Your email here"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-label="Email"
+          className="space-y-1.5"
+        />
+        <Input
+          id="password"
+          type="password"
+          placeholder="Your password here"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          aria-label="Password"
+          className="space-y-1.5"
+        />
+        <Button type="submit">Login</Button>
       </form>
-    </Card>
+    </div>
   );
 }
