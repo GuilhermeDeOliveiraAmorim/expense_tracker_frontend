@@ -24,7 +24,7 @@ export class CreateCategoryUseCase {
       return output;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        throw new Error(error.response?.data.error.detail);
+        throw error;
       } else {
         throw new Error("An unexpected error occurred");
       }
