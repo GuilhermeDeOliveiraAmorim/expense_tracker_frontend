@@ -20,7 +20,7 @@ export default function Home() {
         title: "Error",
         description: "User not authenticated",
         action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
       return;
     }

@@ -15,7 +15,6 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { LoginInputDTO, LoginOutputDTO } from "@/internal/usecases/login";
 import { useRouter } from "next/navigation";
-import { Icons } from "@/components/ui/icons";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/components/query_functions/qf.auth";
 
@@ -36,8 +35,7 @@ export default function LoginForm() {
         style: {
           backgroundColor: "#4ade80",
         },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1000,
+        duration: 1500,
       });
     },
     onError: (error) => {
@@ -45,8 +43,7 @@ export default function LoginForm() {
         variant: "destructive",
         title: "Error",
         description: error.message,
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
     },
   });
@@ -59,7 +56,6 @@ export default function LoginForm() {
         variant: "destructive",
         title: "Email and password required",
         description: "Email and password required for authentication",
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
       return;

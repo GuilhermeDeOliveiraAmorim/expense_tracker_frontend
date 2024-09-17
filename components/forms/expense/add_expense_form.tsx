@@ -60,13 +60,12 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
     onSuccess: (output: CreateExpenseOutputDTO) => {
       toast({
         variant: "default",
-        title: output.expense_id,
-        description: output.message,
+        title: output.success_message,
+        description: output.content_message,
         style: {
           backgroundColor: "#4ade80",
         },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
       queryClient.invalidateQueries();
     },
@@ -75,8 +74,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
         variant: "destructive",
         title: "Error",
         description: error.message,
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
     },
   });
@@ -106,8 +104,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
       variant: "destructive",
       title: "Error",
       description: "Failed to fetch categories and tags",
-      action: <Icons.alert className="mr-2 h-4 w-4" />,
-      duration: 1500,
+      duration: 2500,
     });
     return;
   }
@@ -132,8 +129,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
         variant: "destructive",
         title: "All fields are required",
         description: "Please fill in all the fields.",
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
       return;
     }

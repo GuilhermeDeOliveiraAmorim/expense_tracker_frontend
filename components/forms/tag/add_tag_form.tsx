@@ -33,8 +33,7 @@ export default function AddTagForm(props: AuthFormProps) {
         style: {
           backgroundColor: "#4ade80",
         },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
       queryClient.invalidateQueries({
         queryKey: ["tags", user_id],
@@ -45,8 +44,7 @@ export default function AddTagForm(props: AuthFormProps) {
         variant: "destructive",
         title: "Error",
         description: error.message,
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
     },
   });
@@ -59,8 +57,7 @@ export default function AddTagForm(props: AuthFormProps) {
         variant: "destructive",
         title: "All fields are required",
         description: "Please fill in all the fields.",
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 2500,
       });
       return;
     }
