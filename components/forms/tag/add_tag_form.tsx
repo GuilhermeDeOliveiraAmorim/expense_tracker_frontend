@@ -36,7 +36,9 @@ export default function AddTagForm(props: AuthFormProps) {
         action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({
+        queryKey: ["tags", user_id],
+      });
     },
     onError: (error) => {
       toast({

@@ -41,11 +41,10 @@ import { getTags } from "@/components/query_functions/qf.tag";
 import { AuthFormProps } from "@/props_types/auth";
 import { createExpense } from "@/components/query_functions/qf.expense";
 
-export default function AddExpenseForm(props: AuthFormProps) {
+export default function AddExpenseForm({ user_id }: AuthFormProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { user_id } = props;
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState<Date>();
@@ -140,7 +139,10 @@ export default function AddExpenseForm(props: AuthFormProps) {
     }
 
     const category_id = categoryId;
-    const expense_date = format(date, "ddMMyyyy");
+    const expense_date = format(
+      date instanceof Date ? date : new Date(),
+      "ddMMyyyy"
+    );
     const tags = selectedTags;
 
     mutation.mutate({
@@ -265,7 +267,7 @@ export default function AddExpenseForm(props: AuthFormProps) {
                 value={notes}
                 placeholder="Type your message here"
                 onChange={(e) => setNotes(e.target.value)}
-              />{" "}
+              />
               <Button type="submit">
                 <Icons.save className="w-5" />
               </Button>

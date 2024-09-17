@@ -14,11 +14,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCategory } from "@/components/query_functions/qf.categoy";
 import { AuthFormProps } from "@/props_types/auth";
 
-export default function AddCategoryForm(props: AuthFormProps) {
+export default function AddCategoryForm({ user_id }: AuthFormProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-
-  const { user_id } = props;
 
   const [name, setName] = useState("");
   const [color, setColor] = useState("#1d1d1d");
@@ -40,7 +38,9 @@ export default function AddCategoryForm(props: AuthFormProps) {
         action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1500,
       });
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({
+        queryKey: ["categories", user_id],
+      });
     },
     onError: (error) => {
       toast({
@@ -70,7 +70,7 @@ export default function AddCategoryForm(props: AuthFormProps) {
     mutation.mutate({ user_id, name, color });
 
     setName("");
-    setColor("");
+    setColor("#1d1d1d");
   };
 
   return (
@@ -88,6 +88,7 @@ export default function AddCategoryForm(props: AuthFormProps) {
                 placeholder="Your category name here"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                aria-label="Category name"
               />
             </div>
           </div>
@@ -99,6 +100,7 @@ export default function AddCategoryForm(props: AuthFormProps) {
                   type="color"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
+                  aria-label="Category color"
                 ></Input>
                 <Button type="submit">
                   <Icons.save className="w-5" />

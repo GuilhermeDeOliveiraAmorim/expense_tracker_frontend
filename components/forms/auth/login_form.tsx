@@ -16,12 +16,11 @@ import { useToast } from "@/hooks/use-toast";
 import { LoginInputDTO, LoginOutputDTO } from "@/internal/usecases/login";
 import { useRouter } from "next/navigation";
 import { Icons } from "@/components/ui/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { login } from "@/components/query_functions/qf.auth";
 
 export default function LoginForm() {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -40,7 +39,6 @@ export default function LoginForm() {
         action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1000,
       });
-      queryClient.invalidateQueries();
     },
     onError: (error) => {
       toast({

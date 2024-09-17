@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export default function RootLayout({
   children,
@@ -18,6 +19,7 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           {children}
           <Toaster />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>
     </html>

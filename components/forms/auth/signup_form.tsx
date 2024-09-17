@@ -19,12 +19,11 @@ import {
 } from "@/internal/usecases/create_user";
 import { useRouter } from "next/navigation";
 import { Icons } from "@/components/ui/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { signup } from "@/components/query_functions/qf.auth";
 
 export default function SignupForm() {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [name, setName] = useState("");
@@ -44,7 +43,6 @@ export default function SignupForm() {
         action: <Icons.check className="mr-2 h-4 w-4" />,
         duration: 1000,
       });
-      queryClient.invalidateQueries();
     },
     onError: (error) => {
       toast({
