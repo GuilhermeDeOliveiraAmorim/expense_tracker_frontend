@@ -13,18 +13,45 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { UserFactory } from "@/internal/factory/user.factory";
-import { LoginInputDTO } from "@/internal/usecases/login";
+import { LoginInputDTO, LoginOutputDTO } from "@/internal/usecases/login";
 import { useRouter } from "next/navigation";
 import { Icons } from "@/components/ui/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { login } from "@/components/query_functions/qf.auth";
 
 export default function LoginForm() {
-  const router = useRouter();
-
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const mutation = useMutation<LoginOutputDTO, Error, LoginInputDTO>({
+    mutationFn: login,
+    onSuccess: (output: LoginOutputDTO) => {
+      toast({
+        variant: "default",
+        title: output.name,
+        description: output.message,
+        style: {
+          backgroundColor: "#4ade80",
+        },
+        action: <Icons.check className="mr-2 h-4 w-4" />,
+        duration: 1000,
+      });
+      queryClient.invalidateQueries();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,53 +67,11 @@ export default function LoginForm() {
       return;
     }
 
-    try {
-      const input: LoginInputDTO = {
-        email,
-        password,
-      };
+    mutation.mutate({ email, password });
 
-      const userFactory = new UserFactory();
-      const loginUseCase = userFactory.loginUseCase();
-
-      const response = await loginUseCase.execute(input);
-
-      sessionStorage.setItem("user_id", response.user_id);
-      sessionStorage.setItem("access_token", response.access_token);
-
-      toast({
-        variant: "default",
-        title: response.name,
-        description: response.message,
-        style: {
-          backgroundColor: "#4ade80",
-        },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1000,
-      });
-
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1000);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      } else {
-        toast({
-          variant: "default",
-          title: "Error",
-          description: "An unexpected error occurred",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      }
-    }
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 1000);
   };
 
   return (

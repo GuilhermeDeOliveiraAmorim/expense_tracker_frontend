@@ -13,18 +13,49 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { UserFactory } from "@/internal/factory/user.factory";
-import { CreateUserInputDTO } from "@/internal/usecases/create_user";
+import {
+  CreateUserInputDTO,
+  CreateUserOutputDTO,
+} from "@/internal/usecases/create_user";
 import { useRouter } from "next/navigation";
 import { Icons } from "@/components/ui/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { signup } from "@/components/query_functions/qf.auth";
 
 export default function SignupForm() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+
+  const mutation = useMutation<CreateUserOutputDTO, Error, CreateUserInputDTO>({
+    mutationFn: signup,
+    onSuccess: (output: CreateUserOutputDTO) => {
+      toast({
+        variant: "default",
+        title: output.name,
+        description: output.message,
+        style: {
+          backgroundColor: "#4ade80",
+        },
+        action: <Icons.check className="mr-2 h-4 w-4" />,
+        duration: 1000,
+      });
+      queryClient.invalidateQueries();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,51 +71,11 @@ export default function SignupForm() {
       return;
     }
 
-    try {
-      const input: CreateUserInputDTO = {
-        name,
-        email,
-        password,
-      };
+    mutation.mutate({ email, name, password });
 
-      const userFactory = new UserFactory();
-      const createUserUseCase = userFactory.createUserUseCase();
-
-      const response = await createUserUseCase.execute(input);
-
-      toast({
-        variant: "default",
-        title: response.name,
-        description: response.message,
-        style: {
-          backgroundColor: "#4ade80",
-        },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
-      });
-
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      } else {
-        toast({
-          variant: "default",
-          title: "Error",
-          description: "An unexpected error occurred",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      }
-    }
+    setTimeout(() => {
+      router.push("/login");
+    }, 1000);
   };
 
   return (

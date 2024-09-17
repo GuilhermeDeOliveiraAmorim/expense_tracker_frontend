@@ -16,7 +16,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CreateExpenseInputDTO } from "@/internal/usecases/create_expense";
+import {
+  CreateExpenseInputDTO,
+  CreateExpenseOutputDTO,
+} from "@/internal/usecases/create_expense";
 import {
   Popover,
   PopoverContent,
@@ -25,29 +28,59 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { ExpenseFactory } from "@/internal/factory/expense.factory";
 import { MultiSelect } from "@/components/ui/multipleselector";
 import AddCategoryForm from "../category/add_category_form";
 import AddTagForm from "../tag/add_tag_form";
 import FormDialog from "@/components/ui/formdialog";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getCategories } from "@/components/query_functions/qf.categoy";
 import { getTags } from "@/components/query_functions/qf.tag";
 import { AuthFormProps } from "@/props_types/auth";
+import { createExpense } from "@/components/query_functions/qf.expense";
 
 export default function AddExpenseForm(props: AuthFormProps) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { user_id } = props;
-
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState<Date>();
   const [notes, setNotes] = useState("");
   const [categoryId, setCategoryId] = useState("");
+
+  const mutation = useMutation<
+    CreateExpenseOutputDTO,
+    Error,
+    CreateExpenseInputDTO
+  >({
+    mutationFn: createExpense,
+    onSuccess: (output: CreateExpenseOutputDTO) => {
+      toast({
+        variant: "default",
+        title: output.expense_id,
+        description: output.message,
+        style: {
+          backgroundColor: "#4ade80",
+        },
+        action: <Icons.check className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+      queryClient.invalidateQueries();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+    },
+  });
 
   const {
     data: categoriesData,
@@ -80,9 +113,17 @@ export default function AddExpenseForm(props: AuthFormProps) {
     return;
   }
 
-  const categories = categoriesData?.categories || [];
-  const tags =
-    tagsData?.tags.map((tag) => ({ label: tag.name, value: tag.id })) || [];
+  let categories: Category[] = [];
+  let tags: { label: string; value: string }[] = [];
+
+  if (tagsData?.tags === null || categoriesData?.categories === null) {
+    categories = [];
+    tags = [];
+  } else {
+    categories = categoriesData?.categories || [];
+    tags =
+      tagsData?.tags.map((tag) => ({ label: tag.name, value: tag.id })) || [];
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,71 +139,24 @@ export default function AddExpenseForm(props: AuthFormProps) {
       return;
     }
 
-    try {
-      const userId = sessionStorage.getItem("userId");
+    const category_id = categoryId;
+    const expense_date = format(date, "ddMMyyyy");
+    const tags = selectedTags;
 
-      if (userId === null || userId === undefined) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "User not authenticated",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-        return;
-      }
+    mutation.mutate({
+      amount,
+      category_id,
+      expense_date,
+      notes,
+      tags,
+      user_id,
+    });
 
-      const input: CreateExpenseInputDTO = {
-        user_id: userId,
-        amount: amount,
-        expense_date: format(date, "ddMMyyyy"),
-        category_id: categoryId,
-        notes: notes,
-        tags: selectedTags,
-      };
-
-      const expenseFactory = new ExpenseFactory();
-      const createExpenseUseCase = expenseFactory.createExpenseUseCase();
-
-      const response = await createExpenseUseCase.execute(input);
-
-      toast({
-        variant: "default",
-        title: "Success",
-        description: response.message,
-        style: {
-          backgroundColor: "#4ade80",
-        },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
-      });
-
-      setAmount("");
-      setDate(undefined);
-      setNotes("");
-      setCategoryId("");
-      // setCategories(categories);
-      // setTags(tags);
-      setSelectedTags([]);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "An unexpected error occurred",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      }
-    }
+    setAmount("");
+    setDate(undefined);
+    setNotes("");
+    setCategoryId("");
+    setSelectedTags([]);
   };
 
   return (
