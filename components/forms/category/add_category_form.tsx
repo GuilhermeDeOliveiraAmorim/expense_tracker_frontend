@@ -13,6 +13,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCategory } from "@/components/query_functions/qf.categoy";
 import { AuthFormProps } from "@/props_types/auth";
+import { displayNotification } from "@/components/util/notification.handler";
 
 export default function AddCategoryForm({ user_id }: AuthFormProps) {
   const queryClient = useQueryClient();
@@ -27,28 +28,30 @@ export default function AddCategoryForm({ user_id }: AuthFormProps) {
     CreateCategoryInputDTO
   >({
     mutationFn: createCategory,
-    onSuccess: (output: CreateCategoryOutputDTO) => {
-      toast({
-        variant: "default",
-        title: output.success_message,
-        description: output.content_message,
-        style: {
+    onSuccess: (output: CreateCategoryOutputDTO) =>
+      displayNotification({
+        outputType: {
+          success: output,
+        },
+        variantToast: "default",
+        durationToast: 2500,
+        styleToast: {
           backgroundColor: "#4ade80",
         },
-        duration: 2500,
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["categories", user_id],
-      });
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-        duration: 2500,
-      });
-    },
+        queryClient: queryClient,
+        queryKey: {
+          query: "categories",
+          key: user_id,
+        },
+      }),
+    onError: (error: Error) =>
+      displayNotification({
+        durationToast: 2500,
+        outputType: {
+          error: error,
+        },
+        variantToast: "destructive",
+      }),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

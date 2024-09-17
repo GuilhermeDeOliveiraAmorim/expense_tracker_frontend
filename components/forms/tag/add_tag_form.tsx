@@ -13,6 +13,7 @@ import {
 import { AuthFormProps } from "@/props_types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTag } from "@/components/query_functions/qf.tag";
+import { displayNotification } from "@/components/util/notification.handler";
 
 export default function AddTagForm({ user_id }: AuthFormProps) {
   const queryClient = useQueryClient();
@@ -23,28 +24,30 @@ export default function AddTagForm({ user_id }: AuthFormProps) {
 
   const mutation = useMutation<CreateTagOutputDTO, Error, CreateTagInputDTO>({
     mutationFn: createTag,
-    onSuccess: (output: CreateTagOutputDTO) => {
-      toast({
-        variant: "default",
-        title: output.success_message,
-        description: output.content_message,
-        style: {
+    onSuccess: (output: CreateTagOutputDTO) =>
+      displayNotification({
+        outputType: {
+          success: output,
+        },
+        variantToast: "default",
+        durationToast: 2500,
+        styleToast: {
           backgroundColor: "#4ade80",
         },
-        duration: 2500,
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["tags", user_id],
-      });
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-        duration: 2500,
-      });
-    },
+        queryClient: queryClient,
+        queryKey: {
+          query: "tags",
+          key: user_id,
+        },
+      }),
+    onError: (error: Error) =>
+      displayNotification({
+        outputType: {
+          error: error,
+        },
+        durationToast: 2500,
+        variantToast: "destructive",
+      }),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,7 +66,7 @@ export default function AddTagForm({ user_id }: AuthFormProps) {
     mutation.mutate({ user_id, name, color });
 
     setName("");
-    setColor("");
+    setColor("#1d1d1d");
   };
 
   return (

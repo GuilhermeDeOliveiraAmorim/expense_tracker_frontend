@@ -29,9 +29,6 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { MultiSelect } from "@/components/ui/multipleselector";
-import AddCategoryForm from "../category/add_category_form";
-import AddTagForm from "../tag/add_tag_form";
-import FormDialog from "@/components/ui/formdialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Category } from "@/internal/domain/category";
@@ -40,9 +37,12 @@ import { getCategories } from "@/components/query_functions/qf.categoy";
 import { getTags } from "@/components/query_functions/qf.tag";
 import { AuthFormProps } from "@/props_types/auth";
 import { createExpense } from "@/components/query_functions/qf.expense";
+import { displayNotification } from "@/components/util/notification.handler";
+import AddCategoryForm from "../category/add_category_form";
+import AddTagForm from "../tag/add_tag_form";
+import FormDialog from "@/components/ui/formdialog";
 
 export default function AddExpenseForm({ user_id }: AuthFormProps) {
-  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -57,27 +57,30 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
     CreateExpenseInputDTO
   >({
     mutationFn: createExpense,
-    onSuccess: (output: CreateExpenseOutputDTO) => {
-      toast({
-        variant: "default",
-        title: output.success_message,
-        description: output.content_message,
-        style: {
+    onSuccess: (output: CreateExpenseOutputDTO) =>
+      displayNotification({
+        outputType: {
+          success: output,
+        },
+        variantToast: "default",
+        durationToast: 2500,
+        styleToast: {
           backgroundColor: "#4ade80",
         },
-        duration: 2500,
-      });
-      queryClient.invalidateQueries();
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-        duration: 2500,
-      });
-    },
+      }),
+    onError: (error: Error) =>
+      displayNotification({
+        outputType: {
+          error: error,
+        },
+        durationToast: 2500,
+        variantToast: "destructive",
+      }),
   });
+
+  const input: { user_id: string } = {
+    user_id: user_id,
+  };
 
   const {
     data: categoriesData,
@@ -85,7 +88,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
     isLoading: categoriesLoading,
   } = useQuery({
     queryKey: ["categories", user_id],
-    queryFn: () => getCategories(user_id!),
+    queryFn: () => getCategories(input),
     enabled: !!user_id,
   });
 
@@ -95,7 +98,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
     isLoading: tagsLoading,
   } = useQuery({
     queryKey: ["tags", user_id],
-    queryFn: () => getTags(user_id!),
+    queryFn: () => getTags(input),
     enabled: !!user_id,
   });
 

@@ -17,6 +17,7 @@ import { LoginInputDTO, LoginOutputDTO } from "@/internal/usecases/login";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/components/query_functions/qf.auth";
+import { displayNotification } from "@/components/util/notification.handler";
 
 export default function LoginForm() {
   const { toast } = useToast();
@@ -27,25 +28,29 @@ export default function LoginForm() {
 
   const mutation = useMutation<LoginOutputDTO, Error, LoginInputDTO>({
     mutationFn: login,
-    onSuccess: (output: LoginOutputDTO) => {
-      toast({
-        variant: "default",
-        title: output.success_message,
-        description: output.content_message,
-        style: {
+    onSuccess: (output: LoginOutputDTO) =>
+      displayNotification({
+        outputType: {
+          success: output,
+        },
+        variantToast: "default",
+        durationToast: 2500,
+        styleToast: {
           backgroundColor: "#4ade80",
         },
-        duration: 1500,
-      });
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-        duration: 2500,
-      });
-    },
+        redirect: {
+          router: router,
+          routerPath: "/dashboard",
+        },
+      }),
+    onError: (error: Error) =>
+      displayNotification({
+        outputType: {
+          error: error,
+        },
+        durationToast: 2500,
+        variantToast: "destructive",
+      }),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,16 +61,12 @@ export default function LoginForm() {
         variant: "destructive",
         title: "Email and password required",
         description: "Email and password required for authentication",
-        duration: 1500,
+        duration: 2500,
       });
       return;
     }
 
     mutation.mutate({ email, password });
-
-    setTimeout(() => {
-      router.push("/dashboard");
-    }, 1000);
   };
 
   return (
@@ -84,6 +85,7 @@ export default function LoginForm() {
                 placeholder="Your email here"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                aria-label="Email"
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -94,6 +96,7 @@ export default function LoginForm() {
                 placeholder="Create a strong password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                aria-label="Password"
               />
             </div>
           </div>

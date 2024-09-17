@@ -20,6 +20,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "@/components/query_functions/qf.auth";
+import { displayNotification } from "@/components/util/notification.handler";
 
 export default function SignupForm() {
   const { toast } = useToast();
@@ -28,28 +29,33 @@ export default function SignupForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmed, setPasswordConfirmed] = useState("");
 
   const mutation = useMutation<CreateUserOutputDTO, Error, CreateUserInputDTO>({
     mutationFn: signup,
-    onSuccess: (output: CreateUserOutputDTO) => {
-      toast({
-        variant: "default",
-        title: output.success_message,
-        description: output.content_message,
-        style: {
+    onSuccess: (output: CreateUserOutputDTO) =>
+      displayNotification({
+        outputType: {
+          success: output,
+        },
+        variantToast: "default",
+        durationToast: 2500,
+        styleToast: {
           backgroundColor: "#4ade80",
         },
-        duration: 1500,
-      });
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-        duration: 2500,
-      });
-    },
+        redirect: {
+          router: router,
+          routerPath: "/login",
+        },
+      }),
+    onError: (error: Error) =>
+      displayNotification({
+        outputType: {
+          error: error,
+        },
+        durationToast: 2500,
+        variantToast: "destructive",
+      }),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,23 +66,30 @@ export default function SignupForm() {
         variant: "destructive",
         title: "Name, email and password required",
         description: "Name, email and password required for create an account",
-        duration: 1500,
+        duration: 2500,
       });
       return;
     }
 
-    mutation.mutate({ email, name, password });
+    if (password !== passwordConfirmed) {
+      toast({
+        variant: "destructive",
+        title: "Passwords do not match",
+        description: "Please ensure your passwords match",
+        duration: 2500,
+      });
+      setPasswordConfirmed("");
+      return;
+    }
 
-    setTimeout(() => {
-      router.push("/login");
-    }, 1500);
+    mutation.mutate({ email, name, password });
   };
 
   return (
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Create an account</CardTitle>
-        <CardDescription>Understand your finances.</CardDescription>
+        <CardDescription>Understand your finances</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent>
@@ -88,6 +101,7 @@ export default function SignupForm() {
                 placeholder="Your name here"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                aria-label="Name"
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -97,6 +111,7 @@ export default function SignupForm() {
                 placeholder="Your email here"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                aria-label="Email"
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -107,6 +122,18 @@ export default function SignupForm() {
                 placeholder="Create a strong password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                aria-label="Password"
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="framework">Confirm password</Label>
+              <Input
+                id="password_confirmed"
+                type="password"
+                placeholder="Enter the password you created here"
+                value={passwordConfirmed}
+                onChange={(e) => setPasswordConfirmed(e.target.value)}
+                aria-label="Confirm password"
               />
             </div>
           </div>
