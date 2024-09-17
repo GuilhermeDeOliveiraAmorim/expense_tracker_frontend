@@ -30,8 +30,8 @@ export default function AddCategoryForm({ user_id }: AuthFormProps) {
     onSuccess: (output: CreateCategoryOutputDTO) => {
       toast({
         variant: "default",
-        title: output.category_id,
-        description: output.message,
+        title: output.success_message,
+        description: output.content_message,
         style: {
           backgroundColor: "#4ade80",
         },

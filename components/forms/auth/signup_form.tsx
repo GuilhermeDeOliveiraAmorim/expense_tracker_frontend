@@ -34,8 +34,8 @@ export default function SignupForm() {
     onSuccess: (output: CreateUserOutputDTO) => {
       toast({
         variant: "default",
-        title: output.name,
-        description: output.message,
+        title: output.success_message,
+        description: output.content_message,
         style: {
           backgroundColor: "#4ade80",
         },

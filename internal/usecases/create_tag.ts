@@ -9,7 +9,8 @@ export type CreateTagInputDTO = {
 
 export type CreateTagOutputDTO = {
   tag_id: string;
-  message: string;
+  success_message: string;
+  content_message: string;
 };
 
 export class CreateTagUseCase {

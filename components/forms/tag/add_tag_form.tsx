@@ -28,8 +28,8 @@ export default function AddTagForm(props: AuthFormProps) {
     onSuccess: (output: CreateTagOutputDTO) => {
       toast({
         variant: "default",
-        title: output.tag_id,
-        description: output.message,
+        title: output.success_message,
+        description: output.content_message,
         style: {
           backgroundColor: "#4ade80",
         },

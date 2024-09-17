@@ -10,7 +10,8 @@ export type LoginOutputDTO = {
   name: string;
   user_id: string;
   access_token: string;
-  message: string;
+  success_message: string;
+  content_message: string;
 };
 
 export class LoginUseCase {

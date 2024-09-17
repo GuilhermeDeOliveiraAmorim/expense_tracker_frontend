@@ -12,8 +12,6 @@ export type CreateExpenseInputDTO = {
 
 export type CreateExpenseOutputDTO = {
   expense_id: string;
-  amount: string;
-  expense_date: string;
   success_message: string;
   content_message: string;
 };

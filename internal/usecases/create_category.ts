@@ -9,7 +9,8 @@ export type CreateCategoryInputDTO = {
 
 export type CreateCategoryOutputDTO = {
   category_id: string;
-  message: string;
+  success_message: string;
+  content_message: string;
 };
 
 export class CreateCategoryUseCase {

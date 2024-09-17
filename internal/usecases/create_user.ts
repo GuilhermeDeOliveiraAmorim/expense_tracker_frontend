@@ -10,7 +10,8 @@ export type CreateUserInputDTO = {
 export type CreateUserOutputDTO = {
   name: string;
   user_id: string;
-  message: string;
+  success_message: string;
+  content_message: string;
 };
 
 export class CreateUserUseCase {

@@ -30,8 +30,8 @@ export default function LoginForm() {
     onSuccess: (output: LoginOutputDTO) => {
       toast({
         variant: "default",
-        title: output.name,
-        description: output.message,
+        title: output.success_message,
+        description: output.content_message,
         style: {
           backgroundColor: "#4ade80",
         },
