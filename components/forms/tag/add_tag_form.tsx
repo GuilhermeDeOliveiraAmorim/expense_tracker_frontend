@@ -6,14 +6,48 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Icons } from "@/components/ui/icons";
-import { TagFactory } from "@/internal/factory/tag.factory";
-import { CreateTagInputDTO } from "@/internal/usecases/create_tag";
+import {
+  CreateTagInputDTO,
+  CreateTagOutputDTO,
+} from "@/internal/usecases/create_tag";
+import { AuthFormProps } from "@/props_types/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createTag } from "@/components/query_functions/qf.tag";
 
-export default function AddTagForm() {
+export default function AddTagForm(props: AuthFormProps) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  const { user_id } = props;
 
   const [name, setName] = useState("");
   const [color, setColor] = useState("#1d1d1d");
+
+  const mutation = useMutation<CreateTagOutputDTO, Error, CreateTagInputDTO>({
+    mutationFn: createTag,
+    onSuccess: (output: CreateTagOutputDTO) => {
+      toast({
+        variant: "default",
+        title: output.tag_id,
+        description: output.message,
+        style: {
+          backgroundColor: "#4ade80",
+        },
+        action: <Icons.check className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+      queryClient.invalidateQueries();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,63 +63,10 @@ export default function AddTagForm() {
       return;
     }
 
-    try {
-      const user_id = sessionStorage.getItem("user_id");
+    mutation.mutate({ user_id, name, color });
 
-      if (user_id === null || user_id === undefined) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "User not authenticated",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-        return;
-      }
-
-      const input: CreateTagInputDTO = {
-        user_id: user_id,
-        name: name,
-        color: color,
-      };
-
-      const tagFactory = new TagFactory();
-      const createTagUseCase = tagFactory.createTagUseCase();
-
-      const response = await createTagUseCase.execute(input);
-
-      toast({
-        variant: "default",
-        title: response.message,
-        description: "OK",
-        style: {
-          backgroundColor: "#4ade80",
-        },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
-      });
-
-      setName("");
-      setColor("");
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      } else {
-        toast({
-          variant: "default",
-          title: "Error",
-          description: "An unexpected error occurred",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      }
-    }
+    setName("");
+    setColor("");
   };
 
   return (

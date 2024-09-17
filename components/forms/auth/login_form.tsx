@@ -19,11 +19,12 @@ import { useRouter } from "next/navigation";
 import { Icons } from "@/components/ui/icons";
 
 export default function LoginForm() {
+  const router = useRouter();
+
   const { toast } = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,12 +62,12 @@ export default function LoginForm() {
           backgroundColor: "#4ade80",
         },
         action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
+        duration: 1000,
       });
 
       setTimeout(() => {
         router.push("/dashboard");
-      }, 1500);
+      }, 1000);
     } catch (error) {
       if (error instanceof Error) {
         toast({

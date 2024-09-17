@@ -31,44 +31,32 @@ import AddCategoryForm from "../category/add_category_form";
 import AddTagForm from "../tag/add_tag_form";
 import FormDialog from "@/components/ui/formdialog";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getCategories } from "@/components/query_functions/qf.categoy";
 import { getTags } from "@/components/query_functions/qf.tag";
+import { AuthFormProps } from "@/props_types/auth";
 
-export default function AddExpenseForm() {
+export default function AddExpenseForm(props: AuthFormProps) {
   const { toast } = useToast();
-  const [userId, setUserId] = useState<string | null>(null);
+
+  const { user_id } = props;
+
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState<Date>();
   const [notes, setNotes] = useState("");
   const [categoryId, setCategoryId] = useState("");
 
-  useEffect(() => {
-    const storedUserId = sessionStorage.getItem("userId");
-    if (storedUserId) {
-      setUserId(storedUserId);
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "User not authenticated",
-        action: <Icons.alert className="mr-2 h-4 w-4" />,
-        duration: 1500,
-      });
-    }
-  }, [toast]);
-
   const {
     data: categoriesData,
     error: categoriesError,
     isLoading: categoriesLoading,
   } = useQuery({
-    queryKey: ["categories", userId],
-    queryFn: () => getCategories(userId!),
-    enabled: !!userId,
+    queryKey: ["categories", user_id],
+    queryFn: () => getCategories(user_id!),
+    enabled: !!user_id,
   });
 
   const {
@@ -76,9 +64,9 @@ export default function AddExpenseForm() {
     error: tagsError,
     isLoading: tagsLoading,
   } = useQuery({
-    queryKey: ["tags", userId],
-    queryFn: () => getTags(userId!),
-    enabled: !!userId,
+    queryKey: ["tags", user_id],
+    queryFn: () => getTags(user_id!),
+    enabled: !!user_id,
   });
 
   if (categoriesError || tagsError) {
@@ -256,7 +244,7 @@ export default function AddExpenseForm() {
                 </Select>
               )}
 
-              <FormDialog form={<AddCategoryForm />} />
+              <FormDialog form={<AddCategoryForm user_id={user_id} />} />
             </div>
             <div className="flex gap-4">
               {tagsLoading ? (
@@ -274,7 +262,7 @@ export default function AddExpenseForm() {
                 />
               )}
 
-              <FormDialog form={<AddTagForm />} />
+              <FormDialog form={<AddTagForm user_id={user_id} />} />
             </div>
             <div className="flex gap-4 items-end">
               <Textarea

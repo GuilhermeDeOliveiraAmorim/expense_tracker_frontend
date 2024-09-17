@@ -6,14 +6,52 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Icons } from "@/components/ui/icons";
-import { CategoryFactory } from "@/internal/factory/category.factory";
-import { CreateCategoryInputDTO } from "@/internal/usecases/create_category";
+import {
+  CreateCategoryInputDTO,
+  CreateCategoryOutputDTO,
+} from "@/internal/usecases/create_category";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createCategory } from "@/components/query_functions/qf.categoy";
+import { AuthFormProps } from "@/props_types/auth";
 
-export default function AddCategoryForm() {
+export default function AddCategoryForm(props: AuthFormProps) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  const { user_id } = props;
 
   const [name, setName] = useState("");
   const [color, setColor] = useState("#1d1d1d");
+
+  const mutation = useMutation<
+    CreateCategoryOutputDTO,
+    Error,
+    CreateCategoryInputDTO
+  >({
+    mutationFn: createCategory,
+    onSuccess: (output: CreateCategoryOutputDTO) => {
+      toast({
+        variant: "default",
+        title: output.category_id,
+        description: output.message,
+        style: {
+          backgroundColor: "#4ade80",
+        },
+        action: <Icons.check className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+      queryClient.invalidateQueries();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,63 +67,10 @@ export default function AddCategoryForm() {
       return;
     }
 
-    try {
-      const user_id = sessionStorage.getItem("user_id");
+    mutation.mutate({ user_id, name, color });
 
-      if (user_id === null || user_id === undefined) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "User not authenticated",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-        return;
-      }
-
-      const input: CreateCategoryInputDTO = {
-        user_id: user_id,
-        name: name,
-        color: color,
-      };
-
-      const categoryFactory = new CategoryFactory();
-      const createCategoryUseCase = categoryFactory.createCategoryUseCase();
-
-      const response = await createCategoryUseCase.execute(input);
-
-      toast({
-        variant: "default",
-        title: response.message,
-        description: "OK",
-        style: {
-          backgroundColor: "#4ade80",
-        },
-        action: <Icons.check className="mr-2 h-4 w-4" />,
-        duration: 1500,
-      });
-
-      setName("");
-      setColor("");
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      } else {
-        toast({
-          variant: "default",
-          title: "Error",
-          description: "An unexpected error occurred",
-          action: <Icons.alert className="mr-2 h-4 w-4" />,
-          duration: 1500,
-        });
-      }
-    }
+    setName("");
+    setColor("");
   };
 
   return (

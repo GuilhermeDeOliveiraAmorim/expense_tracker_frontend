@@ -1,9 +1,33 @@
+"use client";
+
 import AddCategoryForm from "@/components/forms/category/add_category_form";
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
 import AddTagForm from "@/components/forms/tag/add_tag_form";
 import DashboardHeader from "@/components/layout/common/header/dashboardheader";
+import { Icons } from "@/components/ui/icons";
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const id = sessionStorage.getItem("user_id");
+
+    if (id === null || id === undefined) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "User not authenticated",
+        action: <Icons.alert className="mr-2 h-4 w-4" />,
+        duration: 1500,
+      });
+      return;
+    }
+
+    setUserId(id);
+  }, [userId]);
+
   return (
     <div className="flex flex-col h-screen">
       <DashboardHeader />
@@ -32,9 +56,9 @@ export default function Home() {
         </aside>
 
         <main className="flex flex-col bg-gray-100 p-6 gap-6 w-full">
-          <AddCategoryForm />
-          <AddTagForm />
-          <AddExpenseForm />
+          <AddCategoryForm user_id={userId} />
+          <AddTagForm user_id={userId} />
+          <AddExpenseForm user_id={userId} />
         </main>
       </div>
 

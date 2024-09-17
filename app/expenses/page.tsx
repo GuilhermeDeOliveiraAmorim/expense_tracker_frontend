@@ -30,7 +30,7 @@ export default function Expenses() {
         </aside>
 
         <main className="flex flex-col bg-gray-100 p-6 gap-6 w-full">
-          <AddExpenseForm />
+          <AddExpenseForm user_id="" />
         </main>
       </div>
 
