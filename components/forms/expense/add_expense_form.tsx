@@ -172,10 +172,11 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
                 placeholder="Your amount here"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
+                aria-label="Amount"
               />
             </div>
             <Popover>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild aria-label="Expense Date">
                 <Button
                   variant={"outline"}
                   className={cn(
@@ -205,6 +206,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
                   key={categoryId}
                   onValueChange={(value) => setCategoryId(value)}
                   value={categoryId}
+                  aria-label="Category listing"
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a category" />
@@ -251,6 +253,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
                   placeholder="Select tags"
                   variant="inverted"
                   maxCount={3}
+                  aria-label="Tag listing"
                 />
               )}
 
@@ -261,8 +264,9 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
                 name="notes"
                 id="notes"
                 value={notes}
-                placeholder="Type your message here"
+                placeholder="Type your note here"
                 onChange={(e) => setNotes(e.target.value)}
+                aria-label="Notes"
               />
               <Button type="submit">
                 <Icons.save className="w-5" />

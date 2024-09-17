@@ -1,5 +1,12 @@
 import CommomHeader from "@/components/layout/common/header/commonheader";
 import Logo from "@/components/logo/logo";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Expense Insight",
+  description:
+    "Expense Insight é uma ferramenta simples e poderosa para ajudar você a organizar e visualizar suas despesas com gráficos interativos e insights personalizados para melhorar seu controle financeiro.",
+};
 
 export default function Home() {
   return (

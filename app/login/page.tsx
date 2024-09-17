@@ -1,4 +1,10 @@
 import LoginForm from "@/components/forms/auth/login_form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Expense Insight | Login",
+  description: "Login to your account on Expense Insight",
+};
 
 export default function Home() {
   return (

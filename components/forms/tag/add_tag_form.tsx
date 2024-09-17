@@ -14,11 +14,9 @@ import { AuthFormProps } from "@/props_types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTag } from "@/components/query_functions/qf.tag";
 
-export default function AddTagForm(props: AuthFormProps) {
+export default function AddTagForm({ user_id }: AuthFormProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-
-  const { user_id } = props;
 
   const [name, setName] = useState("");
   const [color, setColor] = useState("#1d1d1d");
@@ -83,6 +81,7 @@ export default function AddTagForm(props: AuthFormProps) {
                 placeholder="Your tag name here"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                aria-label="Tag name"
               />
             </div>
           </div>
@@ -94,6 +93,7 @@ export default function AddTagForm(props: AuthFormProps) {
                   type="color"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
+                  aria-label="Tag color"
                 ></Input>
                 <Button type="submit">
                   <Icons.save className="w-5" />

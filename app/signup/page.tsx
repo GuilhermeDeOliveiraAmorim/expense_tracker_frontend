@@ -1,5 +1,10 @@
 import SignupForm from "@/components/forms/auth/signup_form";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Expense Insight | Sign Up",
+  description: "Sign up for a new account on Expense Insight",
+};
 export default function Signup() {
   return (
     <div className="flex flex-col h-screen">

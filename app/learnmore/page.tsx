@@ -7,6 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CommomHeader from "@/components/layout/common/header/commonheader";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Expense Insight | Learn More",
+  description:
+    "Learn more about Expense Insight, our simple and powerful app that helps you track, organize, and visualize your expenses with interactive graphs and personalized insights for better financial control.",
+};
 
 export default function LearnMore() {
   return (

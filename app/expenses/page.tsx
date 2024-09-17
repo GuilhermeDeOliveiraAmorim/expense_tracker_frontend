@@ -1,5 +1,11 @@
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
 import DashboardHeader from "@/components/layout/common/header/dashboardheader";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Expense Insight | Expenses",
+  description: "Add and manage your expenses",
+};
 
 export default function Expenses() {
   return (
