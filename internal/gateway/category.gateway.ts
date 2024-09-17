@@ -16,21 +16,29 @@ export class CategoryGateway implements CategoryRepository {
   async createCategory(
     input: CreateCategoryInputDTO
   ): Promise<CreateCategoryOutputDTO> {
-    const output = await this.http.post<CreateCategoryOutputDTO>(
-      apiRoutes.createCategory,
-      input
-    );
+    try {
+      const output = await this.http.post<CreateCategoryOutputDTO>(
+        apiRoutes.createCategory,
+        input
+      );
 
-    return output.data;
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getCategories(
     input: GetCategoriesInputDTO
   ): Promise<GetCategoriesOutputDTO> {
-    const output = await this.http.get<GetCategoriesOutputDTO>(
-      `${apiRoutes.getCategories}?user_id=${input.user_id}`
-    );
+    try {
+      const output = await this.http.get<GetCategoriesOutputDTO>(
+        `${apiRoutes.getCategories}?user_id=${input.user_id}`
+      );
 
-    return output.data;
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
   }
 }

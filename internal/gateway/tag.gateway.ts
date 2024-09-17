@@ -8,19 +8,27 @@ export class TagGateway implements TagRepository {
   constructor(private http: AxiosInstance) {}
 
   async createTag(input: CreateTagInputDTO): Promise<CreateTagOutputDTO> {
-    const output = await this.http.post<CreateTagOutputDTO>(
-      apiRoutes.createTag,
-      input
-    );
+    try {
+      const output = await this.http.post<CreateTagOutputDTO>(
+        apiRoutes.createTag,
+        input
+      );
 
-    return output.data;
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getTags(input: GetTagsInputDTO): Promise<GetTagsOutputDTO> {
-    const output = await this.http.get<GetTagsOutputDTO>(
-      `${apiRoutes.getTags}?user_id=${input.user_id}`
-    );
+    try {
+      const output = await this.http.get<GetTagsOutputDTO>(
+        `${apiRoutes.getTags}?user_id=${input.user_id}`
+      );
 
-    return output.data;
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
   }
 }

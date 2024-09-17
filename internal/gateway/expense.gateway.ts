@@ -16,19 +16,27 @@ export class ExpenseGateway implements ExpenseRepository {
   async createExpense(
     input: CreateExpenseInputDTO
   ): Promise<CreateExpenseOutputDTO> {
-    const output = await this.http.post<CreateExpenseOutputDTO>(
-      apiRoutes.createExpense,
-      input
-    );
+    try {
+      const output = await this.http.post<CreateExpenseOutputDTO>(
+        apiRoutes.createExpense,
+        input
+      );
 
-    return output.data;
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getExpenses(input: GetExpensesInputDTO): Promise<GetExpensesOutputDTO> {
-    const output = await this.http.get<GetExpensesOutputDTO>(
-      `${apiRoutes.getExpenses}?user_id=${input.user_id}`
-    );
+    try {
+      const output = await this.http.get<GetExpensesOutputDTO>(
+        `${apiRoutes.getExpenses}?user_id=${input.user_id}`
+      );
 
-    return output.data;
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
   }
 }

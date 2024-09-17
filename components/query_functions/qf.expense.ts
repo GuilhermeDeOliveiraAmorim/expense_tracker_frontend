@@ -7,7 +7,14 @@ import {
 export const createExpense = async (
   input: CreateExpenseInputDTO
 ): Promise<CreateExpenseOutputDTO> => {
-  const expenseFactory = new ExpenseFactory();
-  const createExpenseUseCase = expenseFactory.createExpenseUseCase();
-  return createExpenseUseCase.execute(input);
+  try {
+    const expenseFactory = new ExpenseFactory();
+    const createExpenseUseCase = expenseFactory.createExpenseUseCase();
+
+    const response = await createExpenseUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };

@@ -6,24 +6,32 @@ import {
 import { LoginInputDTO, LoginOutputDTO } from "@/internal/usecases/login";
 
 export const login = async (input: LoginInputDTO): Promise<LoginOutputDTO> => {
-  const userFactory = new UserFactory();
-  const loginUseCase = userFactory.loginUseCase();
-  const response = loginUseCase.execute(input);
+  try {
+    const userFactory = new UserFactory();
+    const loginUseCase = userFactory.loginUseCase();
+    const response = await loginUseCase.execute(input);
 
-  sessionStorage.setItem("user_id", (await response).user_id);
-  sessionStorage.setItem("access_token", (await response).access_token);
+    sessionStorage.setItem("user_id", response.user_id);
+    sessionStorage.setItem("access_token", response.access_token);
 
-  return response;
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const signup = async (
   input: CreateUserInputDTO
 ): Promise<CreateUserOutputDTO> => {
-  const userFactory = new UserFactory();
-  const createUserUseCase = userFactory.createUserUseCase();
-  const response = createUserUseCase.execute(input);
+  try {
+    const userFactory = new UserFactory();
+    const createUserUseCase = userFactory.createUserUseCase();
+    const response = await createUserUseCase.execute(input);
 
-  sessionStorage.setItem("user_id", (await response).user_id);
+    sessionStorage.setItem("user_id", response.user_id);
 
-  return response;
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
