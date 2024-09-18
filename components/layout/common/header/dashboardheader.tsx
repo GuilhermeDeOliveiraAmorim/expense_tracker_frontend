@@ -1,9 +1,22 @@
+"use client";
+
 import Logo from "@/components/logo/logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DashboardMenu } from "../../menu/dashboard/dashboardmenu";
+import { Icons } from "@/components/ui/icons";
+import { useRouter } from "next/navigation";
 
 export default function DashboardHeader() {
+  const router = useRouter();
+
+  const logout = () => {
+    sessionStorage.setItem("user_id", "");
+    sessionStorage.setItem("access_token", "");
+
+    router.push("/login");
+  };
+
   return (
     <header className="bg-white">
       <div className="mx-auto flex justify-between items-center py-4 px-6">
@@ -19,7 +32,9 @@ export default function DashboardHeader() {
         <div className="flex space-x-4">
           <DashboardMenu />
           <Link href={"/login"}>
-            <Button>Logout</Button>
+            <Button onClick={logout} variant="destructive">
+              <Icons.power className="w-5" />
+            </Button>
           </Link>
         </div>
       </div>

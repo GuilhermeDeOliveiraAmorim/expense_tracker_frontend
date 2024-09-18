@@ -25,6 +25,8 @@ import {
   X,
   AlertTriangleIcon,
   Save,
+  CirclePower,
+  Power,
 } from "lucide-react";
 
 export const Icons = {
@@ -51,6 +53,8 @@ export const Icons = {
   laptop: Laptop,
   alert: AlertTriangleIcon,
   save: Save,
+  circlePower: CirclePower,
+  power: Power,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

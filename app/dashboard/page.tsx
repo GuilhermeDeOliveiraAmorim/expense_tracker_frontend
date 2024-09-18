@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "View your expense insights",
 };
 
-export default function Home() {
+export default function DashboardContainer() {
   return <Dashboard />;
 }

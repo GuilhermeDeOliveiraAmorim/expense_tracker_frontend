@@ -8,14 +8,28 @@ import Head from "next/head";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const router = useRouter();
+
   const [userId, setUserId] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const id = sessionStorage.getItem("user_id");
+    const user_id = sessionStorage.getItem("user_id");
+    const access_token = sessionStorage.getItem("access_token");
 
-    if (id === null || id === undefined) {
+    if (
+      access_token === null ||
+      access_token === undefined ||
+      user_id === null ||
+      user_id === undefined ||
+      access_token === "" ||
+      access_token === "" ||
+      user_id === "" ||
+      user_id === ""
+    ) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -23,11 +37,23 @@ export default function Dashboard() {
         action: <Icons.alert className="mr-2 h-4 w-4" />,
         duration: 2500,
       });
+
+      router.push("/login");
+
       return;
     }
 
-    setUserId(id);
-  }, [userId]);
+    setUserId(user_id);
+    setIsLoading(false);
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Icons.spinner className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div>
