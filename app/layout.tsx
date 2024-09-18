@@ -6,6 +6,7 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -23,6 +24,7 @@ export default function RootLayout({
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
