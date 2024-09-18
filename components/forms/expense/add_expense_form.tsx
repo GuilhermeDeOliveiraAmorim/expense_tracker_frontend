@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { MultiSelect } from "@/components/ui/multipleselector";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";

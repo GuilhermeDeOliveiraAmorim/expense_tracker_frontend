@@ -8,6 +8,7 @@ type DisplayNotificationProps = {
   durationToast: number;
   variantToast: "default" | "destructive" | null | undefined;
   outputType: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     success?: any;
     error?: Error;
   };

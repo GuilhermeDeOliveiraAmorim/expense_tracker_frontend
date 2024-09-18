@@ -69,7 +69,11 @@ export default function Dashboard() {
         </div>
 
         <footer className="bg-blue-600 text-white p-4 text-center">
-          <p>&copy; 2024 Meu Site. Todos os direitos reservados.</p>
+          <p>
+            &copy;
+            {new Date().getFullYear()}
+            Meu Site. Todos os direitos reservados.
+          </p>
         </footer>
       </div>
     </div>
