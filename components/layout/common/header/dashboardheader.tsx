@@ -1,6 +1,7 @@
 import Logo from "@/components/logo/logo";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { DashboardMenu } from "../../menu/dashboard/dashboardmenu";
 
 export default function DashboardHeader() {
   return (
@@ -16,11 +17,9 @@ export default function DashboardHeader() {
         </div>
 
         <div className="flex space-x-4">
-          <Link href={"/signup"}>
-            <Button>Cadastrar</Button>
-          </Link>
+          <DashboardMenu />
           <Link href={"/login"}>
-            <Button>Login</Button>
+            <Button>Logout</Button>
           </Link>
         </div>
       </div>
