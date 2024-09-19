@@ -3,6 +3,10 @@ import {
   CreateExpenseInputDTO,
   CreateExpenseOutputDTO,
 } from "@/internal/usecases/create_expense";
+import {
+  GetExpensesInputDTO,
+  GetExpensesOutputDTO,
+} from "@/internal/usecases/get_expenses";
 
 export const createExpense = async (
   input: CreateExpenseInputDTO
@@ -12,6 +16,21 @@ export const createExpense = async (
     const createExpenseUseCase = expenseFactory.createExpenseUseCase();
 
     const response = await createExpenseUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getExpenses = async (
+  input: GetExpensesInputDTO
+): Promise<GetExpensesOutputDTO> => {
+  try {
+    const expenseFactory = new ExpenseFactory();
+    const getExpensesUseCase = expenseFactory.getExpensesUseCase();
+
+    const response = await getExpensesUseCase.execute(input);
 
     return response;
   } catch (error) {

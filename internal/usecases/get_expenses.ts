@@ -7,7 +7,7 @@ export type GetExpensesInputDTO = {
 };
 
 export type GetExpensesOutputDTO = {
-  categories: Expense[];
+  expenses: Expense[];
 };
 
 export class GetExpensesUseCase {

@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { MultiSelect } from "@/components/ui/multipleselector";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,6 +43,7 @@ import AddTagForm from "../tag/add_tag_form";
 import FormDialog from "@/components/ui/formdialog";
 
 export default function AddExpenseForm({ user_id }: AuthFormProps) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -66,6 +67,11 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
         durationToast: 2500,
         styleToast: {
           backgroundColor: "#4ade80",
+        },
+        queryClient: queryClient,
+        queryKey: {
+          query: "expenses",
+          key: user_id,
         },
       }),
     onError: (error: Error) =>
