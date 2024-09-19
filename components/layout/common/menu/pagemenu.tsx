@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function PageMenu() {
   return (
-    <div className="mx-auto flex justify-between items-center gap-4">
+    <div className="mx-auto flex justify-between items-center gap-3">
       <Link href={"/dashboard"}>
         <Button>Dashboard</Button>
       </Link>

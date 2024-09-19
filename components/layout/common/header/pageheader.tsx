@@ -32,7 +32,7 @@ export default function PageHeader({ menu }: DashboardHeaderProps) {
           </Link>
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex gap-6">
           {menu ? menu : ""}
           <Link href={"/login"}>
             <Button onClick={logout} variant="destructive">
