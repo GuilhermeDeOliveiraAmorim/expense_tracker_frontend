@@ -3,11 +3,14 @@
 import Logo from "@/components/logo/logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { DashboardMenu } from "../../menu/dashboard/dashboardmenu";
 import { Icons } from "@/components/ui/icons";
 import { useRouter } from "next/navigation";
 
-export default function DashboardHeader() {
+type DashboardHeaderProps = {
+  menu?: JSX.Element;
+};
+
+export default function PageHeader({ menu }: DashboardHeaderProps) {
   const router = useRouter();
 
   const logout = () => {
@@ -30,7 +33,7 @@ export default function DashboardHeader() {
         </div>
 
         <div className="flex space-x-4">
-          <DashboardMenu />
+          {menu ? menu : ""}
           <Link href={"/login"}>
             <Button onClick={logout} variant="destructive">
               <Icons.power className="w-5" />

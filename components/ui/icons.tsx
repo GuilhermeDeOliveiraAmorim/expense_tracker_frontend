@@ -27,6 +27,7 @@ import {
   Save,
   CirclePower,
   Power,
+  SlidersHorizontal,
 } from "lucide-react";
 
 export const Icons = {
@@ -55,6 +56,7 @@ export const Icons = {
   save: Save,
   circlePower: CirclePower,
   power: Power,
+  slidersHorizontal: SlidersHorizontal,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
