@@ -65,29 +65,7 @@ export default function Dashboard() {
         <DashboardHeader />
 
         <div className="flex flex-1">
-          <aside className="bg-gray-800 text-white w-64 p-4">
-            <nav>
-              <ul>
-                <li className="mb-4">
-                  <a href="#" className="block text-lg hover:text-gray-300">
-                    Menu 1
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="block text-lg hover:text-gray-300">
-                    Menu 2
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="block text-lg hover:text-gray-300">
-                    Menu 3
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </aside>
-
-          <main className="flex flex-col bg-gray-100 p-6 gap-6 w-full">
+          <main className="flex bg-gray-100 p-6 gap-6 w-full">
             <AddCategoryForm user_id={userId} />
             <AddTagForm user_id={userId} />
             <AddExpenseForm user_id={userId} />
