@@ -3,15 +3,13 @@
 import AddCategoryForm from "@/components/forms/category/add_category_form";
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
 import AddTagForm from "@/components/forms/tag/add_tag_form";
-import Head from "next/head";
-import PageHeader from "@/components/layout/common/header/pageheader";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PageMenu } from "../layout/common/menu/pagemenu";
+import { PageContentProps } from "@/props_types/auth";
 
-export default function Dashboard() {
+export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
 
   const [userId, setUserId] = useState("");
@@ -57,30 +55,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
-      <Head>
-        <title>Expense Insight | Dashboard</title>
-        <meta name="description" content="Learn more about us on this page." />
-      </Head>
-      <div className="flex flex-col h-screen">
-        <PageHeader menu={<PageMenu />} />
+    <>
+      {header ? header : ""}
 
-        <div className="flex flex-1">
-          <main className="flex bg-gray-100 p-6 gap-6 w-full">
-            <AddCategoryForm user_id={userId} />
-            <AddTagForm user_id={userId} />
-            <AddExpenseForm user_id={userId} />
-          </main>
-        </div>
+      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
+        <AddCategoryForm user_id={userId} />
+        <AddTagForm user_id={userId} />
+        <AddExpenseForm user_id={userId} />
+      </main>
 
-        <footer className="bg-blue-600 text-white p-4 text-center">
-          <p>
-            &copy;
-            {new Date().getFullYear()}
-            Meu Site. Todos os direitos reservados.
-          </p>
-        </footer>
-      </div>
-    </div>
+      {footer ? footer : ""}
+    </>
   );
 }

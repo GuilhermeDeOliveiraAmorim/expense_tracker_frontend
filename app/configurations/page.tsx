@@ -1,4 +1,7 @@
-import Dashboard from "@/components/dashboard/dashboard";
+import ConfigurationsContent from "@/components/configurations/configurationscontent";
+import PageHeader from "@/components/layout/common/header/pageheader";
+import Footer from "@/components/layout/footer/footer";
+import { PageMenu } from "@/components/layout/common/menu/pagemenu";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,6 +9,13 @@ export const metadata: Metadata = {
   description: "View your expense insights",
 };
 
-export default function ConfigContainer() {
-  return <Dashboard />;
+export default function ConfigurationsContainer() {
+  return (
+    <div className="flex flex-col h-screen">
+      <ConfigurationsContent
+        header={<PageHeader menu={<PageMenu />} />}
+        footer={<Footer />}
+      />
+    </div>
+  );
 }
