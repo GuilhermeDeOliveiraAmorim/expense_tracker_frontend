@@ -2,27 +2,166 @@
 
 import AddTagForm from "../forms/tag/add_tag_form";
 import AddCategoryForm from "../forms/category/add_category_form";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import DeleteExpense from "../forms/expense/delete_expense_form";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/auth";
-import { Card, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Category } from "@/internal/domain/category";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "../query_functions/qf.categoy";
 import { getTags } from "../query_functions/qf.tag";
 import { Tag } from "@/internal/domain/tag";
 import { Skeleton } from "../ui/skeleton";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "../ui/button";
+import { ArrowUpDown } from "lucide-react";
+import { DataTable } from "../tables/expense/expensetable";
 import { Badge } from "../ui/badge";
+
+export const columnsCategories: ColumnDef<Category>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+  },
+  {
+    accessorKey: "color",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Color
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        style={{ backgroundColor: row.getValue("color") }}
+      >
+        {row.getValue("color")}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "created_at",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">
+        {new Date(row.getValue("created_at")).toLocaleDateString()}
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      return (
+        <DeleteExpense
+          user_id={row.original.user_id}
+          expense_id={row.original.id}
+        />
+      );
+    },
+  },
+];
+
+export const columnsTags: ColumnDef<Tag>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+  },
+  {
+    accessorKey: "color",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Color
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        style={{ backgroundColor: row.getValue("color") }}
+      >
+        {row.getValue("color")}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "created_at",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">
+        {new Date(row.getValue("created_at")).toLocaleDateString()}
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      return (
+        <DeleteExpense
+          user_id={row.original.user_id}
+          expense_id={row.original.id}
+        />
+      );
+    },
+  },
+];
 
 export default function ConfigurationsContent({
   header,
@@ -123,8 +262,8 @@ export default function ConfigurationsContent({
 
       <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
         <div className="flex flex-col gap-6">
-          <AddTagForm user_id={userId} />
           <AddCategoryForm user_id={userId} />
+          <AddTagForm user_id={userId} />
         </div>
         <div className="flex gap-6 w-full">
           <div className="w-1/2">
@@ -132,43 +271,13 @@ export default function ConfigurationsContent({
               <CardHeader>
                 <CardTitle>Categories</CardTitle>
               </CardHeader>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">Name</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                    <TableHead className="text-right">Color</TableHead>
-                    <TableHead className="text-right">Created</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {categoriesLoading ? (
-                    <Skeleton className="w-full h-[20px] rounded-full" />
-                  ) : (
-                    categories.map((category) => (
-                      <TableRow key={category.id}>
-                        <TableCell className="font-medium w-full">
-                          {category.name}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {category.active ? "Atctive" : "Inactive"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Badge
-                            variant="outline"
-                            style={{ backgroundColor: category.color }}
-                          >
-                            {category.color}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {String(category.created_at)}
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+              <CardContent>
+                {categoriesLoading ? (
+                  <Skeleton className="w-full h-[20px] rounded-full" />
+                ) : (
+                  <DataTable data={categories} columns={columnsCategories} />
+                )}
+              </CardContent>
             </Card>
           </div>
           <div className="w-1/2">
@@ -176,43 +285,13 @@ export default function ConfigurationsContent({
               <CardHeader>
                 <CardTitle>Tags</CardTitle>
               </CardHeader>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">Name</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                    <TableHead className="text-right">Color</TableHead>
-                    <TableHead className="text-right">Created</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {tagsLoading ? (
-                    <Skeleton className="w-full h-[20px] rounded-full" />
-                  ) : (
-                    tags.map((tag) => (
-                      <TableRow key={tag.id}>
-                        <TableCell className="font-medium w-full">
-                          {tag.name}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {tag.active ? "Atctive" : "Inactive"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Badge
-                            variant="outline"
-                            style={{ backgroundColor: tag.color }}
-                          >
-                            {tag.color}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {String(tag.created_at)}
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+              <CardContent>
+                {tagsLoading ? (
+                  <Skeleton className="w-full h-[20px] rounded-full" />
+                ) : (
+                  <DataTable data={tags} columns={columnsTags} />
+                )}
+              </CardContent>
             </Card>
           </div>
         </div>

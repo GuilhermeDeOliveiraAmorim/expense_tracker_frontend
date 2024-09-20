@@ -4,6 +4,7 @@ export class Tag {
   created_at: Date;
   updated_at: Date;
   deactivated_at: Date;
+  user_id: string;
   name: string;
   color: string;
 
@@ -13,6 +14,7 @@ export class Tag {
     created_at: Date,
     updated_at: Date,
     deactivated_at: Date,
+    user_id: string,
     name: string,
     color: string
   ) {
@@ -21,6 +23,7 @@ export class Tag {
     this.created_at = created_at;
     this.updated_at = updated_at;
     this.deactivated_at = deactivated_at;
+    this.user_id = user_id;
     this.name = name;
     this.color = color;
   }
