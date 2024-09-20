@@ -9,6 +9,10 @@ import {
   CreateExpenseInputDTO,
   CreateExpenseOutputDTO,
 } from "../usecases/create_expense";
+import {
+  DeleteExpenseInputDTO,
+  DeleteExpenseOutputDTO,
+} from "../usecases/delete_expense";
 
 export class ExpenseGateway implements ExpenseRepository {
   constructor(private http: AxiosInstance) {}
@@ -32,6 +36,20 @@ export class ExpenseGateway implements ExpenseRepository {
     try {
       const output = await this.http.get<GetExpensesOutputDTO>(
         `${apiRoutes.getExpenses}?user_id=${input.user_id}`
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteExpenses(
+    input: DeleteExpenseInputDTO
+  ): Promise<DeleteExpenseOutputDTO> {
+    try {
+      const output = await this.http.delete<DeleteExpenseOutputDTO>(
+        `${apiRoutes.deleteExpense}?user_id=${input.user_id}&expense_id=${input.expense_id}`
       );
 
       return output.data;

@@ -1,5 +1,6 @@
 import { ExpenseGateway } from "../gateway/expense.gateway";
 import { CreateExpenseUseCase } from "../usecases/create_expense";
+import { DeleteExpensesUseCase } from "../usecases/delete_expense";
 import { GetExpensesUseCase } from "../usecases/get_expenses";
 import { http } from "../util/http";
 
@@ -12,5 +13,9 @@ export class ExpenseFactory {
 
   getExpensesUseCase() {
     return new GetExpensesUseCase(this.expenseGateway);
+  }
+
+  deleteExpenseUseCase() {
+    return new DeleteExpensesUseCase(this.expenseGateway);
   }
 }
