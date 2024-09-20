@@ -1,33 +1,32 @@
 "use client";
 
-import { deleteExpense } from "@/components/query_functions/qf.expense";
 import { Icons } from "@/components/ui/icons";
 import { displayNotification } from "@/components/util/notification.handler";
-import {
-  DeleteExpenseInputDTO,
-  DeleteExpenseOutputDTO,
-} from "@/internal/usecases/delete_expense";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type DeleteExpenseProps = {
+type MutationProps<InputDTO, OutputDTO> = {
   user_id: string;
-  expense_id: string;
+  entity_id: string;
+  entityIdKey: keyof InputDTO;
+  mutationKey: string;
+  queryName: string;
+  mutationFn: (input: InputDTO) => Promise<OutputDTO>;
 };
 
-export default function DeleteExpense({
+export default function Delete<InputDTO, OutputDTO>({
   user_id,
-  expense_id,
-}: DeleteExpenseProps) {
+  entity_id,
+  entityIdKey,
+  mutationKey,
+  queryName,
+  mutationFn,
+}: MutationProps<InputDTO, OutputDTO>) {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<
-    DeleteExpenseOutputDTO,
-    Error,
-    DeleteExpenseInputDTO
-  >({
-    mutationKey: ["delete-expense"],
-    mutationFn: deleteExpense,
-    onSuccess: (output: DeleteExpenseOutputDTO) =>
+  const mutation = useMutation<OutputDTO, Error, InputDTO>({
+    mutationKey: [mutationKey],
+    mutationFn: mutationFn,
+    onSuccess: (output: OutputDTO) =>
       displayNotification({
         outputType: {
           success: output,
@@ -39,7 +38,7 @@ export default function DeleteExpense({
         },
         queryClient: queryClient,
         queryKey: {
-          query: "expenses",
+          query: queryName,
           key: user_id,
         },
       }),
@@ -53,13 +52,18 @@ export default function DeleteExpense({
       }),
   });
 
-  const deleteExpenseHandler = async () => {
-    mutation.mutateAsync({ user_id, expense_id });
+  const handleMutation = async () => {
+    const input = {
+      user_id,
+      [entityIdKey]: entity_id,
+    } as InputDTO;
+
+    await mutation.mutateAsync(input);
   };
 
   return (
     <Icons.trash
-      onClick={deleteExpenseHandler}
+      onClick={handleMutation}
       className="w-4 text-red-600 cursor-pointer"
     />
   );
