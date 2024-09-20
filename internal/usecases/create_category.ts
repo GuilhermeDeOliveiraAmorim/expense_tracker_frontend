@@ -2,7 +2,6 @@ import axios from "axios";
 import { CategoryRepository } from "../repository/category.repository";
 
 export type CreateCategoryInputDTO = {
-  user_id: string;
   name: string;
   color: string;
 };

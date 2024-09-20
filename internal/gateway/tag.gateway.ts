@@ -21,10 +21,11 @@ export class TagGateway implements TagRepository {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getTags(input: GetTagsInputDTO): Promise<GetTagsOutputDTO> {
     try {
       const output = await this.http.get<GetTagsOutputDTO>(
-        `${apiRoutes.getTags}?user_id=${input.user_id}`
+        `${apiRoutes.getTags}`
       );
 
       return output.data;
@@ -36,7 +37,7 @@ export class TagGateway implements TagRepository {
   async deleteTag(input: DeleteTagInputDTO): Promise<DeleteTagOutputDTO> {
     try {
       const output = await this.http.delete<DeleteTagOutputDTO>(
-        `${apiRoutes.deleteTag}?user_id=${input.user_id}&tag_id=${input.tag_id}`
+        `${apiRoutes.deleteTag}?tag_id=${input.tag_id}`
       );
 
       return output.data;

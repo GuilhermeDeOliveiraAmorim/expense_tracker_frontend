@@ -2,9 +2,8 @@ import axios from "axios";
 import { ExpenseRepository } from "../repository/expense.repository";
 import { Expense } from "../domain/expense";
 
-export type GetExpensesInputDTO = {
-  user_id: string;
-};
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type GetExpensesInputDTO = {};
 
 export type GetExpensesOutputDTO = {
   expenses: Expense[];

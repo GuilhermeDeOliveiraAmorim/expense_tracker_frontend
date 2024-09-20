@@ -2,7 +2,6 @@ import axios from "axios";
 import { TagRepository } from "../repository/tag.repository";
 
 export type DeleteTagInputDTO = {
-  user_id: string;
   tag_id: string;
 };
 

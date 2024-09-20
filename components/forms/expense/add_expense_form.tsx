@@ -156,7 +156,6 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
       expense_date,
       notes,
       tags,
-      user_id,
     });
 
     setAmount("");

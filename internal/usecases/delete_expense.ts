@@ -2,7 +2,6 @@ import axios from "axios";
 import { ExpenseRepository } from "../repository/expense.repository";
 
 export type DeleteExpenseInputDTO = {
-  user_id: string;
   expense_id: string;
 };
 

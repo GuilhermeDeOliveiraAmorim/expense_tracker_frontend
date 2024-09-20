@@ -33,11 +33,12 @@ export class CategoryGateway implements CategoryRepository {
   }
 
   async getCategories(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     input: GetCategoriesInputDTO
   ): Promise<GetCategoriesOutputDTO> {
     try {
       const output = await this.http.get<GetCategoriesOutputDTO>(
-        `${apiRoutes.getCategories}?user_id=${input.user_id}`
+        `${apiRoutes.getCategories}`
       );
 
       return output.data;
@@ -51,7 +52,7 @@ export class CategoryGateway implements CategoryRepository {
   ): Promise<DeleteCategoryOutputDTO> {
     try {
       const output = await this.http.delete<DeleteCategoryOutputDTO>(
-        `${apiRoutes.deleteCategory}?user_id=${input.user_id}&category_id=${input.category_id}`
+        `${apiRoutes.deleteCategory}?category_id=${input.category_id}`
       );
 
       return output.data;

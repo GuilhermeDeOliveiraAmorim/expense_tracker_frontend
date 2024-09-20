@@ -2,9 +2,8 @@ import axios from "axios";
 import { TagRepository } from "../repository/tag.repository";
 import { Tag } from "../domain/tag";
 
-export type GetTagsInputDTO = {
-  user_id: string;
-};
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type GetTagsInputDTO = {};
 
 export type GetTagsOutputDTO = {
   tags: Tag[];

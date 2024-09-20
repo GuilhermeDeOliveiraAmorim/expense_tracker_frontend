@@ -32,10 +32,11 @@ export class ExpenseGateway implements ExpenseRepository {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getExpenses(input: GetExpensesInputDTO): Promise<GetExpensesOutputDTO> {
     try {
       const output = await this.http.get<GetExpensesOutputDTO>(
-        `${apiRoutes.getExpenses}?user_id=${input.user_id}`
+        `${apiRoutes.getExpenses}`
       );
 
       return output.data;
@@ -49,7 +50,7 @@ export class ExpenseGateway implements ExpenseRepository {
   ): Promise<DeleteExpenseOutputDTO> {
     try {
       const output = await this.http.delete<DeleteExpenseOutputDTO>(
-        `${apiRoutes.deleteExpense}?user_id=${input.user_id}&expense_id=${input.expense_id}`
+        `${apiRoutes.deleteExpense}?expense_id=${input.expense_id}`
       );
 
       return output.data;

@@ -2,7 +2,6 @@ import axios from "axios";
 import { TagRepository } from "../repository/tag.repository";
 
 export type CreateTagInputDTO = {
-  user_id: string;
   name: string;
   color: string;
 };

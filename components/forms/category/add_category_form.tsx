@@ -67,7 +67,7 @@ export default function AddCategoryForm({ user_id }: AuthFormProps) {
       return;
     }
 
-    mutation.mutate({ user_id, name, color });
+    mutation.mutate({ name, color });
 
     setName("");
     setColor("#1d1d1d");

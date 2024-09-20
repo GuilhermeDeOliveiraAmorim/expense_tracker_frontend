@@ -2,7 +2,6 @@ import axios from "axios";
 import { ExpenseRepository } from "../repository/expense.repository";
 
 export type CreateExpenseInputDTO = {
-  user_id: string;
   amount: string;
   expense_date: string;
   category_id: string;

@@ -2,7 +2,6 @@ import axios from "axios";
 import { CategoryRepository } from "../repository/category.repository";
 
 export type DeleteCategoryInputDTO = {
-  user_id: string;
   category_id: string;
 };
 

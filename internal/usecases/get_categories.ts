@@ -2,9 +2,8 @@ import axios from "axios";
 import { CategoryRepository } from "../repository/category.repository";
 import { Category } from "../domain/category";
 
-export type GetCategoriesInputDTO = {
-  user_id: string;
-};
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type GetCategoriesInputDTO = {};
 
 export type GetCategoriesOutputDTO = {
   categories: Category[];
