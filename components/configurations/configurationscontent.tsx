@@ -2,7 +2,7 @@
 
 import AddTagForm from "../forms/tag/add_tag_form";
 import AddCategoryForm from "../forms/category/add_category_form";
-import DeleteExpense from "../forms/expense/delete_expense_form";
+import Delete from "../actions/delete";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -11,8 +11,8 @@ import { PageContentProps } from "@/props_types/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Category } from "@/internal/domain/category";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "../query_functions/qf.categoy";
-import { getTags } from "../query_functions/qf.tag";
+import { deleteCategory, getCategories } from "../query_functions/qf.categoy";
+import { deleteTag, getTags } from "../query_functions/qf.tag";
 import { Tag } from "@/internal/domain/tag";
 import { Skeleton } from "../ui/skeleton";
 import { ColumnDef } from "@tanstack/react-table";
@@ -20,6 +20,7 @@ import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { DataTable } from "../tables/expense/expensetable";
 import { Badge } from "../ui/badge";
+import { isDarkColor } from "../util/color.handler";
 
 export const columnsCategories: ColumnDef<Category>[] = [
   {
@@ -35,27 +36,15 @@ export const columnsCategories: ColumnDef<Category>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "color",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Color
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
     cell: ({ row }) => (
       <Badge
         variant="outline"
-        style={{ backgroundColor: row.getValue("color") }}
+        style={{
+          backgroundColor: row.original.color,
+          color: isDarkColor(row.original.color) ? "#ffffff" : "#000000",
+        }}
       >
-        {row.getValue("color")}
+        {row.getValue("name")}
       </Badge>
     ),
   },
@@ -83,9 +72,13 @@ export const columnsCategories: ColumnDef<Category>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <DeleteExpense
+        <Delete
           user_id={row.original.user_id}
-          expense_id={row.original.id}
+          entity_id={row.original.id}
+          mutationKey={"delete-category"}
+          mutationFn={deleteCategory}
+          queryName="categories"
+          entityIdKey="category_id"
         />
       );
     },
@@ -106,27 +99,15 @@ export const columnsTags: ColumnDef<Tag>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "color",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Color
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
     cell: ({ row }) => (
       <Badge
         variant="outline"
-        style={{ backgroundColor: row.getValue("color") }}
+        style={{
+          backgroundColor: row.original.color,
+          color: isDarkColor(row.original.color) ? "#ffffff" : "#000000",
+        }}
       >
-        {row.getValue("color")}
+        {row.getValue("name")}
       </Badge>
     ),
   },
@@ -154,9 +135,13 @@ export const columnsTags: ColumnDef<Tag>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <DeleteExpense
+        <Delete
           user_id={row.original.user_id}
-          expense_id={row.original.id}
+          entity_id={row.original.id}
+          mutationKey={"delete-tag"}
+          mutationFn={deleteTag}
+          queryName="tags"
+          entityIdKey="tag_id"
         />
       );
     },
@@ -275,7 +260,12 @@ export default function ConfigurationsContent({
                 {categoriesLoading ? (
                   <Skeleton className="w-full h-[20px] rounded-full" />
                 ) : (
-                  <DataTable data={categories} columns={columnsCategories} />
+                  <DataTable
+                    data={categories}
+                    columns={columnsCategories}
+                    filterColumnName="name"
+                    filterPlaceholder="Filter by name"
+                  />
                 )}
               </CardContent>
             </Card>
@@ -289,7 +279,12 @@ export default function ConfigurationsContent({
                 {tagsLoading ? (
                   <Skeleton className="w-full h-[20px] rounded-full" />
                 ) : (
-                  <DataTable data={tags} columns={columnsTags} />
+                  <DataTable
+                    data={tags}
+                    columns={columnsTags}
+                    filterColumnName="name"
+                    filterPlaceholder="Filter by name"
+                  />
                 )}
               </CardContent>
             </Card>

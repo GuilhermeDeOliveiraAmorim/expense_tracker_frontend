@@ -33,12 +33,14 @@ import { useState } from "react";
 
 type DataTableProps<T> = {
   data: T[];
+  filterColumnName: string;
   columns: ColumnDef<T>[];
   filterPlaceholder?: string; // Placeholder customizável para o campo de filtro
 };
 
 export function DataTable<T>({
   data,
+  filterColumnName,
   columns,
   filterPlaceholder,
 }: DataTableProps<T>) {
@@ -71,9 +73,14 @@ export function DataTable<T>({
       <div className="flex items-center py-4">
         <Input
           placeholder={filterPlaceholder || "Filter..."}
-          value={(table.getColumn("notes")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn(filterColumnName)?.getFilterValue() as string) ??
+            ""
+          }
           onChange={(event) =>
-            table.getColumn("notes")?.setFilterValue(event.target.value)
+            table
+              .getColumn(filterColumnName)
+              ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

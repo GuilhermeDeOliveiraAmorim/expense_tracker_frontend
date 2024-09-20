@@ -1,13 +1,14 @@
 "use client";
 
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
+import Delete from "../actions/delete";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { getExpenses } from "../query_functions/qf.expense";
+import { deleteExpense, getExpenses } from "../query_functions/qf.expense";
 import { Skeleton } from "../ui/skeleton";
 import { Expense } from "@/internal/domain/expense";
 import { PageContentProps } from "@/props_types/auth";
@@ -15,7 +16,6 @@ import { DataTable } from "../tables/expense/expensetable";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
-import DeleteExpense from "../forms/expense/delete_expense_form";
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -79,9 +79,13 @@ export const columns: ColumnDef<Expense>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <DeleteExpense
+        <Delete
           user_id={row.original.user_id}
-          expense_id={row.original.id}
+          entity_id={row.original.id}
+          mutationKey={"delete-expense"}
+          mutationFn={deleteExpense}
+          queryName={"expenses"}
+          entityIdKey="expense_id"
         />
       );
     },
@@ -165,8 +169,6 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     expenses = expensesData?.expenses || [];
   }
 
-  console.log(expenses);
-
   return (
     <>
       {header ? header : ""}
@@ -185,7 +187,12 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
                 {expensesLoading ? (
                   <Skeleton className="w-full h-[20px] rounded-full" />
                 ) : (
-                  <DataTable data={expenses} columns={columns} />
+                  <DataTable
+                    data={expenses}
+                    columns={columns}
+                    filterColumnName="notes"
+                    filterPlaceholder="Filter by notes"
+                  />
                 )}
               </CardContent>
             </Card>
