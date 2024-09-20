@@ -14,7 +14,5 @@ import {
 export interface ExpenseRepository {
   createExpense(input: CreateExpenseInputDTO): Promise<CreateExpenseOutputDTO>;
   getExpenses(input: GetExpensesInputDTO): Promise<GetExpensesOutputDTO>;
-  deleteExpenses(
-    input: DeleteExpenseInputDTO
-  ): Promise<DeleteExpenseOutputDTO>;
+  deleteExpense(input: DeleteExpenseInputDTO): Promise<DeleteExpenseOutputDTO>;
 }

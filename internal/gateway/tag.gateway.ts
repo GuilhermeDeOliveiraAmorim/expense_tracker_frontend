@@ -3,6 +3,7 @@ import { TagRepository } from "../repository/tag.repository";
 import { apiRoutes } from "./api_routes";
 import { CreateTagInputDTO, CreateTagOutputDTO } from "../usecases/create_tag";
 import { GetTagsInputDTO, GetTagsOutputDTO } from "../usecases/get_tags";
+import { DeleteTagInputDTO, DeleteTagOutputDTO } from "../usecases/delete_tag";
 
 export class TagGateway implements TagRepository {
   constructor(private http: AxiosInstance) {}
@@ -24,6 +25,18 @@ export class TagGateway implements TagRepository {
     try {
       const output = await this.http.get<GetTagsOutputDTO>(
         `${apiRoutes.getTags}?user_id=${input.user_id}`
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteTag(input: DeleteTagInputDTO): Promise<DeleteTagOutputDTO> {
+    try {
+      const output = await this.http.delete<DeleteTagOutputDTO>(
+        `${apiRoutes.deleteTag}?user_id=${input.user_id}&tag_id=${input.tag_id}`
       );
 
       return output.data;

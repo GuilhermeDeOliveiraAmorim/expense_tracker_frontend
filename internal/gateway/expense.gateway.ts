@@ -44,7 +44,7 @@ export class ExpenseGateway implements ExpenseRepository {
     }
   }
 
-  async deleteExpenses(
+  async deleteExpense(
     input: DeleteExpenseInputDTO
   ): Promise<DeleteExpenseOutputDTO> {
     try {

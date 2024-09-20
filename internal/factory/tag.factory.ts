@@ -1,5 +1,6 @@
 import { TagGateway } from "../gateway/tag.gateway";
 import { CreateTagUseCase } from "../usecases/create_tag";
+import { DeleteTagsUseCase } from "../usecases/delete_tag";
 import { GetTagsUseCase } from "../usecases/get_tags";
 import { http } from "../util/http";
 
@@ -12,5 +13,9 @@ export class TagFactory {
 
   getTagsUseCase() {
     return new GetTagsUseCase(this.tagGateway);
+  }
+
+  deleteTagUseCase() {
+    return new DeleteTagsUseCase(this.tagGateway);
   }
 }

@@ -4,6 +4,10 @@ import {
   CreateCategoryOutputDTO,
 } from "@/internal/usecases/create_category";
 import {
+  DeleteCategoryInputDTO,
+  DeleteCategoryOutputDTO,
+} from "@/internal/usecases/delete_category";
+import {
   GetCategoriesInputDTO,
   GetCategoriesOutputDTO,
 } from "@/internal/usecases/get_categories";
@@ -31,6 +35,21 @@ export const createCategory = async (
     const createCategoryUseCase = categoryFactory.createCategoryUseCase();
 
     const response = await createCategoryUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCategory = async (
+  input: DeleteCategoryInputDTO
+): Promise<DeleteCategoryOutputDTO> => {
+  try {
+    const expenseFactory = new CategoryFactory();
+    const deleteCategoryUseCase = expenseFactory.deleteCategoryUseCase();
+
+    const response = await deleteCategoryUseCase.execute(input);
 
     return response;
   } catch (error) {

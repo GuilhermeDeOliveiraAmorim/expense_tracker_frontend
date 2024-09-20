@@ -15,7 +15,7 @@ export class DeleteExpensesUseCase {
 
   async execute(input: DeleteExpenseInputDTO): Promise<DeleteExpenseOutputDTO> {
     try {
-      const output = await this.ExpenseGateway.deleteExpenses(input);
+      const output = await this.ExpenseGateway.deleteExpense(input);
       return output;
     } catch (error) {
       if (axios.isAxiosError(error)) {

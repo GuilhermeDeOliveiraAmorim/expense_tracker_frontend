@@ -8,4 +8,6 @@ export const apiRoutes = {
   getExpenses: "/expenses/all",
   getTags: "/tags/all",
   createTag: "/tags",
+  deleteTag: "/tags",
+  deleteCategory: "/categories",
 };
