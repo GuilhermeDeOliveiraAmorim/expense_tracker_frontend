@@ -1,24 +1,92 @@
 "use client";
 
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PageContentProps } from "@/props_types/auth";
-import { Card, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "../query_functions/qf.expense";
 import { Skeleton } from "../ui/skeleton";
 import { Expense } from "@/internal/domain/expense";
+import { PageContentProps } from "@/props_types/auth";
+import { DataTable } from "../tables/expense/expensetable";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "../ui/button";
+import { ArrowUpDown } from "lucide-react";
+import DeleteExpense from "../forms/expense/delete_expense_form";
+
+export const columns: ColumnDef<Expense>[] = [
+  {
+    accessorKey: "amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amount
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const amount = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(row.getValue("amount"));
+
+      return <div className="font-medium">{amount}</div>;
+    },
+  },
+  {
+    accessorKey: "notes",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Notes
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("notes")}</div>,
+  },
+  {
+    accessorKey: "expense_date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">
+        {new Date(row.getValue("expense_date")).toLocaleDateString()}
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      return (
+        <DeleteExpense
+          user_id={row.original.user_id}
+          expense_id={row.original.id}
+        />
+      );
+    },
+  },
+];
 
 export default function ExpensesContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -97,6 +165,8 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     expenses = expensesData?.expenses || [];
   }
 
+  console.log(expenses);
+
   return (
     <>
       {header ? header : ""}
@@ -106,39 +176,18 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
           <AddExpenseForm user_id={userId} />
         </div>
         <div className="flex gap-6 w-full">
-          <div className="w-1/2">
+          <div className="w-full">
             <Card>
               <CardHeader>
                 <CardTitle>Expenses</CardTitle>
               </CardHeader>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">Name</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                    <TableHead className="text-right">Color</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {expensesLoading ? (
-                    <Skeleton className="w-full h-[20px] rounded-full" />
-                  ) : (
-                    expenses.map((expense) => (
-                      <TableRow key={expense.id}>
-                        <TableCell className="font-medium w-full">
-                          {expense.amount}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {expense.active ? "Atctive" : "Inactive"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {expense.notes}
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+              <CardContent>
+                {expensesLoading ? (
+                  <Skeleton className="w-full h-[20px] rounded-full" />
+                ) : (
+                  <DataTable data={expenses} columns={columns} />
+                )}
+              </CardContent>
             </Card>
           </div>
         </div>
