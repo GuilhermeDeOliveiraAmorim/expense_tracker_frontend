@@ -30,6 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { Icons } from "@/components/ui/icons";
 
 type DataTableProps<T> = {
   data: T[];
@@ -149,9 +150,11 @@ export function DataTable<T>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-[#e5e7eb]"
                 >
-                  No results.
+                  <div className="flex justify-center w-full">
+                    <Icons.fileX2 />
+                  </div>
                 </TableCell>
               </TableRow>
             )}
