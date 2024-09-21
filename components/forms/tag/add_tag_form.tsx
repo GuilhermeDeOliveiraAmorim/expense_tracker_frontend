@@ -23,6 +23,7 @@ export default function AddTagForm({ user_id }: AuthFormProps) {
   const [color, setColor] = useState("#1d1d1d");
 
   const mutation = useMutation<CreateTagOutputDTO, Error, CreateTagInputDTO>({
+    mutationKey: ["add-tag"],
     mutationFn: createTag,
     onSuccess: (output: CreateTagOutputDTO) =>
       displayNotification({
@@ -42,11 +43,11 @@ export default function AddTagForm({ user_id }: AuthFormProps) {
       }),
     onError: (error: Error) =>
       displayNotification({
+        durationToast: 2500,
+        variantToast: "destructive",
         outputType: {
           error: error,
         },
-        durationToast: 2500,
-        variantToast: "destructive",
       }),
   });
 

@@ -27,6 +27,7 @@ export default function AddCategoryForm({ user_id }: AuthFormProps) {
     Error,
     CreateCategoryInputDTO
   >({
+    mutationKey: ["add-category"],
     mutationFn: createCategory,
     onSuccess: (output: CreateCategoryOutputDTO) =>
       displayNotification({
@@ -47,10 +48,10 @@ export default function AddCategoryForm({ user_id }: AuthFormProps) {
     onError: (error: Error) =>
       displayNotification({
         durationToast: 2500,
+        variantToast: "destructive",
         outputType: {
           error: error,
         },
-        variantToast: "destructive",
       }),
   });
 

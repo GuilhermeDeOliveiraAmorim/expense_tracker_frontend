@@ -57,6 +57,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
     Error,
     CreateExpenseInputDTO
   >({
+    mutationKey: ["add-expense"],
     mutationFn: createExpense,
     onSuccess: (output: CreateExpenseOutputDTO) =>
       displayNotification({
