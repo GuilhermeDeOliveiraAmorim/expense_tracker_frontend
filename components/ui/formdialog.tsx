@@ -30,7 +30,10 @@ export default function FormDialog({ ariaDescribedby, form }: FormDialogProps) {
           Back
         </AlertDialogCancel>
       </AlertDialogContent>
-      <AlertDialogDescription aria-describedby={ariaDescribedby} />
+      <AlertDialogDescription
+        aria-describedby={ariaDescribedby}
+        className="hidden"
+      />
     </AlertDialog>
   );
 }

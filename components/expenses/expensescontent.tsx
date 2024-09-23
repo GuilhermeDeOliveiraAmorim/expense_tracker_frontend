@@ -74,8 +74,6 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     return;
   }
 
-  console.log("3", expenses);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">

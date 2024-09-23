@@ -1,3 +1,6 @@
+import { Category } from "./category";
+import { Tag } from "./tag";
+
 export class Expense {
   id: string;
   active: boolean;
@@ -8,6 +11,8 @@ export class Expense {
   expense_date: Date;
   category_id: string;
   notes: string;
+  category: Category;
+  tags: Tag[];
 
   constructor(
     id: string,
@@ -18,7 +23,9 @@ export class Expense {
     amount: number,
     expense_date: Date,
     category_id: string,
-    notes: string
+    notes: string,
+    category: Category,
+    tags: Tag[]
   ) {
     this.id = id;
     this.active = active;
@@ -29,5 +36,7 @@ export class Expense {
     this.expense_date = expense_date;
     this.category_id = category_id;
     this.notes = notes;
+    this.category = category;
+    this.tags = tags;
   }
 }

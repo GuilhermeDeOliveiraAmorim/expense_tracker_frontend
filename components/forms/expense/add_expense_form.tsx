@@ -71,8 +71,6 @@ export default function AddExpenseForm() {
     queryFn: () => getTags({}),
   });
 
-  console.log("1", categoriesData, tagsData);
-
   useEffect(() => {
     if (!categoriesLoading && !tagsLoading) {
       if (
@@ -97,8 +95,6 @@ export default function AddExpenseForm() {
     tagsData?.tags,
     tagsLoading,
   ]);
-
-  console.log("2", categories, tags);
 
   const mutation = useMutation<
     CreateExpenseOutputDTO,

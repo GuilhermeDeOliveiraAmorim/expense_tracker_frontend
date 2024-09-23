@@ -159,6 +159,64 @@ export const columnsExpenses: ColumnDef<Expense>[] = [
     },
   },
   {
+    accessorKey: "category_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <Badge
+        variant="outline"
+        style={{
+          backgroundColor: row.original.category.color,
+          color: isDarkColor(row.original.category.color)
+            ? "#ffffff"
+            : "#000000",
+        }}
+      >
+        {row.original.category.name}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "tag_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tags
+          <ArrowUpDown className="ml-2 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) =>
+      !row.original.tags
+        ? ""
+        : row.original.tags.map((tag) => {
+            return (
+              <Badge
+                key={tag.id}
+                variant="outline"
+                style={{
+                  backgroundColor: tag.color,
+                  color: isDarkColor(tag.color) ? "#ffffff" : "#000000",
+                }}
+              >
+                {tag.name}
+              </Badge>
+            );
+          }),
+  },
+  {
     accessorKey: "notes",
     header: ({ column }) => {
       return (
