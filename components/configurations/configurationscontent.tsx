@@ -11,11 +11,11 @@ import { Category } from "@/internal/domain/category";
 import { useQuery } from "@tanstack/react-query";
 import { Tag } from "@/internal/domain/tag";
 import { Skeleton } from "../ui/skeleton";
-import { DataTable } from "../tables/expense/expensetable";
+import { DataTable } from "../ui/datatable";
 import { PageContentProps } from "@/props_types/props.types";
 import { getCategories } from "../query_functions/qf.categoy";
 import { getTags } from "../query_functions/qf.tag";
-import { columnsCategories, columnsTags } from "../util/table.handler";
+import { columnsCategories, columnsTags } from "../ui/datacolumns";
 
 export default function ConfigurationsContent({
   header,

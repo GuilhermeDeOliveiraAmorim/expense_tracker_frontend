@@ -9,10 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
 import { Expense } from "@/internal/domain/expense";
-import { DataTable } from "../tables/expense/expensetable";
+import { DataTable } from "../ui/datatable";
 import { PageContentProps } from "@/props_types/props.types";
 import { getExpenses } from "../query_functions/qf.expense";
-import { columnsExpenses } from "../util/table.handler";
+import { columnsExpenses } from "../ui/datacolumns";
 
 export default function ExpensesContent({ header, footer }: PageContentProps) {
   const router = useRouter();

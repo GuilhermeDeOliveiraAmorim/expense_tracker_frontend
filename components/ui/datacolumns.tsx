@@ -4,12 +4,13 @@ import { deleteCategory } from "../query_functions/qf.categoy";
 import { deleteTag } from "../query_functions/qf.tag";
 import { Tag } from "@/internal/domain/tag";
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "../ui/button";
+import { Button } from "./button";
 import { ArrowUpDown } from "lucide-react";
-import { Badge } from "../ui/badge";
-import { isDarkColor } from "./color.handler";
+import { Badge } from "./badge";
+import { isDarkColor } from "../util/color.handler";
 import { Expense } from "@/internal/domain/expense";
 import { deleteExpense } from "../query_functions/qf.expense";
+import Update from "../actions/update";
 
 export const columnsCategories: ColumnDef<Category>[] = [
   {
@@ -61,13 +62,22 @@ export const columnsCategories: ColumnDef<Category>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <Delete
-          entity_id={row.original.id}
-          mutationKey={"delete-category"}
-          mutationFn={deleteCategory}
-          queryName="get-categories"
-          entityIdKey="category_id"
-        />
+        <div className="flex gap-2">
+          <Delete
+            entity_id={row.original.id}
+            mutationKey={"delete-category"}
+            mutationFn={deleteCategory}
+            queryName="get-categories"
+            entityIdKey="category_id"
+          />
+          <Update
+            entity_id={row.original.id}
+            mutationKey={"delete-category"}
+            mutationFn={deleteCategory}
+            queryName="get-categories"
+            entityIdKey="category_id"
+          />
+        </div>
       );
     },
   },
