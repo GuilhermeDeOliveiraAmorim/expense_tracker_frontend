@@ -2,7 +2,6 @@
 
 import AddTagForm from "../forms/tag/add_tag_form";
 import AddCategoryForm from "../forms/category/add_category_form";
-import Delete from "../actions/delete";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -10,141 +9,13 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Category } from "@/internal/domain/category";
 import { useQuery } from "@tanstack/react-query";
-import { deleteCategory, getCategories } from "../query_functions/qf.categoy";
-import { deleteTag, getTags } from "../query_functions/qf.tag";
 import { Tag } from "@/internal/domain/tag";
 import { Skeleton } from "../ui/skeleton";
-import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "../ui/button";
-import { ArrowUpDown } from "lucide-react";
 import { DataTable } from "../tables/expense/expensetable";
-import { Badge } from "../ui/badge";
-import { isDarkColor } from "../util/color.handler";
 import { PageContentProps } from "@/props_types/props.types";
-
-export const columnsCategories: ColumnDef<Category>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <Badge
-        variant="outline"
-        style={{
-          backgroundColor: row.original.color,
-          color: isDarkColor(row.original.color) ? "#ffffff" : "#000000",
-        }}
-      >
-        {row.getValue("name")}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Created At
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">
-        {new Date(row.getValue("created_at")).toLocaleDateString()}
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <Delete
-          entity_id={row.original.id}
-          mutationKey={"delete-category"}
-          mutationFn={deleteCategory}
-          queryName="get-categories"
-          entityIdKey="category_id"
-        />
-      );
-    },
-  },
-];
-
-export const columnsTags: ColumnDef<Tag>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <Badge
-        variant="outline"
-        style={{
-          backgroundColor: row.original.color,
-          color: isDarkColor(row.original.color) ? "#ffffff" : "#000000",
-        }}
-      >
-        {row.getValue("name")}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Created At
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">
-        {new Date(row.getValue("created_at")).toLocaleDateString()}
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <Delete
-          entity_id={row.original.id}
-          mutationKey={"delete-tag"}
-          mutationFn={deleteTag}
-          queryName="get-tags"
-          entityIdKey="tag_id"
-        />
-      );
-    },
-  },
-];
+import { getCategories } from "../query_functions/qf.categoy";
+import { getTags } from "../query_functions/qf.tag";
+import { columnsCategories, columnsTags } from "../util/table.handler";
 
 export default function ConfigurationsContent({
   header,
@@ -153,6 +24,8 @@ export default function ConfigurationsContent({
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [categories, setCategory] = useState<Category[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const {
     data: categoriesData,
@@ -197,18 +70,24 @@ export default function ConfigurationsContent({
     setIsLoading(false);
   }, [router]);
 
-  let categories: Category[] = [];
-  let tags: Tag[] = [];
-
-  if (!categoriesLoading && !tagsLoading) {
-    if (tagsData?.tags === null || categoriesData?.categories === null) {
-      categories = [];
-      tags = [];
-    } else {
-      categories = categoriesData?.categories || [];
-      tags = tagsData?.tags || [];
+  useEffect(() => {
+    if (!categoriesLoading && !tagsLoading) {
+      if (categoriesData != undefined && tagsData != undefined) {
+        setCategory(categoriesData?.categories);
+        setTags(tagsData?.tags);
+      } else {
+        setCategory([]);
+        setTags([]);
+      }
     }
-  }
+  }, [
+    categoriesData,
+    categoriesData?.categories,
+    categoriesLoading,
+    tagsData,
+    tagsData?.tags,
+    tagsLoading,
+  ]);
 
   if (categoriesError || tagsError) {
     toast({
@@ -248,7 +127,7 @@ export default function ConfigurationsContent({
                   <Skeleton className="w-full h-[20px] rounded-full" />
                 ) : (
                   <DataTable
-                    data={categories}
+                    data={categories || []}
                     columns={columnsCategories}
                     filterColumnName="name"
                     filterPlaceholder="Filter by name"
@@ -267,7 +146,7 @@ export default function ConfigurationsContent({
                   <Skeleton className="w-full h-[20px] rounded-full" />
                 ) : (
                   <DataTable
-                    data={tags}
+                    data={tags || []}
                     columns={columnsTags}
                     filterColumnName="name"
                     filterPlaceholder="Filter by name"

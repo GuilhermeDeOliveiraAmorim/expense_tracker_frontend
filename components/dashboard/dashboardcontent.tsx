@@ -1,8 +1,5 @@
 "use client";
 
-import AddCategoryForm from "@/components/forms/category/add_category_form";
-import AddExpenseForm from "@/components/forms/expense/add_expense_form";
-import AddTagForm from "@/components/forms/tag/add_tag_form";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -51,11 +48,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     <>
       {header ? header : ""}
 
-      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
-        <AddCategoryForm />
-        <AddTagForm />
-        <AddExpenseForm />
-      </main>
+      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full"></main>
 
       {footer ? footer : ""}
     </>

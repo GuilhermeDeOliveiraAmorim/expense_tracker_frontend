@@ -1,100 +1,24 @@
 "use client";
 
 import AddExpenseForm from "@/components/forms/expense/add_expense_form";
-import Delete from "../actions/delete";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { deleteExpense, getExpenses } from "../query_functions/qf.expense";
 import { Skeleton } from "../ui/skeleton";
 import { Expense } from "@/internal/domain/expense";
 import { DataTable } from "../tables/expense/expensetable";
-import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "../ui/button";
-import { ArrowUpDown } from "lucide-react";
 import { PageContentProps } from "@/props_types/props.types";
-
-export const columns: ColumnDef<Expense>[] = [
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const amount = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(row.getValue("amount"));
-
-      return <div className="font-medium">{amount}</div>;
-    },
-  },
-  {
-    accessorKey: "notes",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Notes
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("notes")}</div>,
-  },
-  {
-    accessorKey: "expense_date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">
-        {new Date(row.getValue("expense_date")).toLocaleDateString()}
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <Delete
-          entity_id={row.original.id}
-          mutationKey={"delete-expense"}
-          mutationFn={deleteExpense}
-          queryName={"get-expenses"}
-          entityIdKey="expense_id"
-        />
-      );
-    },
-  },
-];
+import { getExpenses } from "../query_functions/qf.expense";
+import { columnsExpenses } from "../util/table.handler";
 
 export default function ExpensesContent({ header, footer }: PageContentProps) {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const {
     data: expensesData,
@@ -130,13 +54,15 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     setIsLoading(false);
   }, [router]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Icons.spinner className="mr-2 h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!expensesLoading) {
+      if (expensesData != undefined) {
+        setExpenses(expensesData?.expenses);
+      } else {
+        setExpenses([]);
+      }
+    }
+  }, [expensesData, expensesLoading]);
 
   if (expensesError) {
     toast({
@@ -148,12 +74,14 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     return;
   }
 
-  let expenses: Expense[] = [];
+  console.log("3", expenses);
 
-  if (expensesData?.expenses === null) {
-    expenses = [];
-  } else {
-    expenses = expensesData?.expenses || [];
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Icons.spinner className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -175,8 +103,8 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
                   <Skeleton className="w-full h-[20px] rounded-full" />
                 ) : (
                   <DataTable
-                    data={expenses}
-                    columns={columns}
+                    data={expenses || []}
+                    columns={columnsExpenses}
                     filterColumnName="notes"
                     filterPlaceholder="Filter by notes"
                   />

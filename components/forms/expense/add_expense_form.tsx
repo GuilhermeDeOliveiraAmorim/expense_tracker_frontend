@@ -33,7 +33,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { MultiSelect } from "@/components/ui/multipleselector";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getCategories } from "@/components/query_functions/qf.categoy";
@@ -50,6 +50,8 @@ export default function AddExpenseForm() {
   const [date, setDate] = useState<Date>();
   const [notes, setNotes] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategory] = useState<Category[]>([]);
+  const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
   const {
     data: categoriesData,
@@ -68,6 +70,35 @@ export default function AddExpenseForm() {
     queryKey: ["get-tags", "get-tags"],
     queryFn: () => getTags({}),
   });
+
+  console.log("1", categoriesData, tagsData);
+
+  useEffect(() => {
+    if (!categoriesLoading && !tagsLoading) {
+      if (
+        categoriesData != undefined &&
+        tagsData != undefined &&
+        tagsData.tags !== null
+      ) {
+        setCategory(categoriesData?.categories);
+        setTags(
+          tagsData?.tags.map((tag) => ({ label: tag.name, value: tag.id }))
+        );
+      } else {
+        setCategory([]);
+        setTags([]);
+      }
+    }
+  }, [
+    categoriesData,
+    categoriesData?.categories,
+    categoriesLoading,
+    tagsData,
+    tagsData?.tags,
+    tagsLoading,
+  ]);
+
+  console.log("2", categories, tags);
 
   const mutation = useMutation<
     CreateExpenseOutputDTO,
@@ -110,20 +141,6 @@ export default function AddExpenseForm() {
       duration: 2500,
     });
     return;
-  }
-
-  let categories: Category[] = [];
-  let tags: { label: string; value: string }[] = [];
-
-  if (!categoriesLoading && !tagsLoading) {
-    if (tagsData?.tags === null || categoriesData?.categories === null) {
-      categories = [];
-      tags = [];
-    } else {
-      categories = categoriesData?.categories || [];
-      tags =
-        tagsData?.tags.map((tag) => ({ label: tag.name, value: tag.id })) || [];
-    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -242,7 +259,10 @@ export default function AddExpenseForm() {
                 </Select>
               )}
 
-              <FormDialog form={<AddCategoryForm />} />
+              <FormDialog
+                ariaDescribedby="add-category"
+                form={<AddCategoryForm />}
+              />
             </div>
             <div className="flex gap-4">
               {tagsLoading ? (
@@ -261,7 +281,7 @@ export default function AddExpenseForm() {
                 />
               )}
 
-              <FormDialog form={<AddTagForm />} />
+              <FormDialog ariaDescribedby="add-tag" form={<AddTagForm />} />
             </div>
             <div className="flex gap-4 items-end">
               <Textarea
