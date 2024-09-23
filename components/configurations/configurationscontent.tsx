@@ -7,7 +7,6 @@ import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PageContentProps } from "@/props_types/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Category } from "@/internal/domain/category";
 import { useQuery } from "@tanstack/react-query";
@@ -21,6 +20,7 @@ import { ArrowUpDown } from "lucide-react";
 import { DataTable } from "../tables/expense/expensetable";
 import { Badge } from "../ui/badge";
 import { isDarkColor } from "../util/color.handler";
+import { PageContentProps } from "@/props_types/props.types";
 
 export const columnsCategories: ColumnDef<Category>[] = [
   {
@@ -73,11 +73,10 @@ export const columnsCategories: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <Delete
-          user_id={row.original.user_id}
           entity_id={row.original.id}
           mutationKey={"delete-category"}
           mutationFn={deleteCategory}
-          queryName="categories"
+          queryName="get-categories"
           entityIdKey="category_id"
         />
       );
@@ -136,11 +135,10 @@ export const columnsTags: ColumnDef<Tag>[] = [
     cell: ({ row }) => {
       return (
         <Delete
-          user_id={row.original.user_id}
           entity_id={row.original.id}
           mutationKey={"delete-tag"}
           mutationFn={deleteTag}
-          queryName="tags"
+          queryName="get-tags"
           entityIdKey="tag_id"
         />
       );
@@ -154,7 +152,6 @@ export default function ConfigurationsContent({
 }: PageContentProps) {
   const router = useRouter();
 
-  const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const {
@@ -162,9 +159,8 @@ export default function ConfigurationsContent({
     error: categoriesError,
     isLoading: categoriesLoading,
   } = useQuery({
-    queryKey: ["categories", userId],
-    queryFn: () => getCategories(input),
-    enabled: !!userId,
+    queryKey: ["get-categories", "get-categories"],
+    queryFn: () => getCategories({}),
   });
 
   const {
@@ -172,24 +168,18 @@ export default function ConfigurationsContent({
     error: tagsError,
     isLoading: tagsLoading,
   } = useQuery({
-    queryKey: ["tags", userId],
-    queryFn: () => getTags(input),
-    enabled: !!userId,
+    queryKey: ["get-tags", "get-tags"],
+    queryFn: () => getTags({}),
   });
 
   useEffect(() => {
-    const user_id = sessionStorage.getItem("user_id");
     const access_token = sessionStorage.getItem("access_token");
 
     if (
       access_token === null ||
       access_token === undefined ||
-      user_id === null ||
-      user_id === undefined ||
       access_token === "" ||
-      access_token === "" ||
-      user_id === "" ||
-      user_id === ""
+      access_token === ""
     ) {
       toast({
         variant: "destructive",
@@ -204,20 +194,20 @@ export default function ConfigurationsContent({
       return;
     }
 
-    setUserId(user_id);
     setIsLoading(false);
   }, [router]);
 
-  const input: { user_id: string } = {
-    user_id: userId,
-  };
+  let categories: Category[] = [];
+  let tags: Tag[] = [];
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Icons.spinner className="mr-2 h-8 w-8 animate-spin" />
-      </div>
-    );
+  if (!categoriesLoading && !tagsLoading) {
+    if (tagsData?.tags === null || categoriesData?.categories === null) {
+      categories = [];
+      tags = [];
+    } else {
+      categories = categoriesData?.categories || [];
+      tags = tagsData?.tags || [];
+    }
   }
 
   if (categoriesError || tagsError) {
@@ -230,15 +220,12 @@ export default function ConfigurationsContent({
     return;
   }
 
-  let categories: Category[] = [];
-  let tags: Tag[] = [];
-
-  if (tagsData?.tags === null || categoriesData?.categories === null) {
-    categories = [];
-    tags = [];
-  } else {
-    categories = categoriesData?.categories || [];
-    tags = tagsData?.tags || [];
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Icons.spinner className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -247,8 +234,8 @@ export default function ConfigurationsContent({
 
       <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
         <div className="flex flex-col gap-6">
-          <AddCategoryForm user_id={userId} />
-          <AddTagForm user_id={userId} />
+          <AddCategoryForm />
+          <AddTagForm />
         </div>
         <div className="flex gap-6 w-full">
           <div className="w-1/2">

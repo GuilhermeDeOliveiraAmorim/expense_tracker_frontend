@@ -8,7 +8,6 @@ export type LoginInputDTO = {
 
 export type LoginOutputDTO = {
   name: string;
-  user_id: string;
   access_token: string;
   success_message: string;
   content_message: string;

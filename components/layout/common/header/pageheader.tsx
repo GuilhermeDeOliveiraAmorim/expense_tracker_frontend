@@ -14,7 +14,6 @@ export default function PageHeader({ menu }: DashboardHeaderProps) {
   const router = useRouter();
 
   const logout = () => {
-    sessionStorage.setItem("user_id", "");
     sessionStorage.setItem("access_token", "");
 
     router.push("/login");

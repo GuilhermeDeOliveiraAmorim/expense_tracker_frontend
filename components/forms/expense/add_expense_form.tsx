@@ -1,5 +1,8 @@
 "use client";
 
+import AddCategoryForm from "../category/add_category_form";
+import AddTagForm from "../tag/add_tag_form";
+import FormDialog from "@/components/ui/formdialog";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,14 +38,10 @@ import { Category } from "@/internal/domain/category";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getCategories } from "@/components/query_functions/qf.categoy";
 import { getTags } from "@/components/query_functions/qf.tag";
-import { AuthFormProps } from "@/props_types/auth";
 import { createExpense } from "@/components/query_functions/qf.expense";
 import { displayNotification } from "@/components/util/notification.handler";
-import AddCategoryForm from "../category/add_category_form";
-import AddTagForm from "../tag/add_tag_form";
-import FormDialog from "@/components/ui/formdialog";
 
-export default function AddExpenseForm({ user_id }: AuthFormProps) {
+export default function AddExpenseForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -51,6 +50,24 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
   const [date, setDate] = useState<Date>();
   const [notes, setNotes] = useState("");
   const [categoryId, setCategoryId] = useState("");
+
+  const {
+    data: categoriesData,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useQuery({
+    queryKey: ["get-categories", "get-categories"],
+    queryFn: () => getCategories({}),
+  });
+
+  const {
+    data: tagsData,
+    error: tagsError,
+    isLoading: tagsLoading,
+  } = useQuery({
+    queryKey: ["get-tags", "get-tags"],
+    queryFn: () => getTags({}),
+  });
 
   const mutation = useMutation<
     CreateExpenseOutputDTO,
@@ -71,8 +88,8 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
         },
         queryClient: queryClient,
         queryKey: {
-          query: "expenses",
-          key: user_id,
+          query: "get-expenses",
+          key: "get-expenses",
         },
       }),
     onError: (error: Error) =>
@@ -83,30 +100,6 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
         durationToast: 2500,
         variantToast: "destructive",
       }),
-  });
-
-  const input: { user_id: string } = {
-    user_id: user_id,
-  };
-
-  const {
-    data: categoriesData,
-    error: categoriesError,
-    isLoading: categoriesLoading,
-  } = useQuery({
-    queryKey: ["categories", user_id],
-    queryFn: () => getCategories(input),
-    enabled: !!user_id,
-  });
-
-  const {
-    data: tagsData,
-    error: tagsError,
-    isLoading: tagsLoading,
-  } = useQuery({
-    queryKey: ["tags", user_id],
-    queryFn: () => getTags(input),
-    enabled: !!user_id,
   });
 
   if (categoriesError || tagsError) {
@@ -122,13 +115,15 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
   let categories: Category[] = [];
   let tags: { label: string; value: string }[] = [];
 
-  if (tagsData?.tags === null || categoriesData?.categories === null) {
-    categories = [];
-    tags = [];
-  } else {
-    categories = categoriesData?.categories || [];
-    tags =
-      tagsData?.tags.map((tag) => ({ label: tag.name, value: tag.id })) || [];
+  if (!categoriesLoading && !tagsLoading) {
+    if (tagsData?.tags === null || categoriesData?.categories === null) {
+      categories = [];
+      tags = [];
+    } else {
+      categories = categoriesData?.categories || [];
+      tags =
+        tagsData?.tags.map((tag) => ({ label: tag.name, value: tag.id })) || [];
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -247,7 +242,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
                 </Select>
               )}
 
-              <FormDialog form={<AddCategoryForm user_id={user_id} />} />
+              <FormDialog form={<AddCategoryForm />} />
             </div>
             <div className="flex gap-4">
               {tagsLoading ? (
@@ -266,7 +261,7 @@ export default function AddExpenseForm({ user_id }: AuthFormProps) {
                 />
               )}
 
-              <FormDialog form={<AddTagForm user_id={user_id} />} />
+              <FormDialog form={<AddTagForm />} />
             </div>
             <div className="flex gap-4 items-end">
               <Textarea

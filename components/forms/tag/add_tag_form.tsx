@@ -10,12 +10,11 @@ import {
   CreateTagInputDTO,
   CreateTagOutputDTO,
 } from "@/internal/usecases/create_tag";
-import { AuthFormProps } from "@/props_types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTag } from "@/components/query_functions/qf.tag";
 import { displayNotification } from "@/components/util/notification.handler";
 
-export default function AddTagForm({ user_id }: AuthFormProps) {
+export default function AddTagForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -37,8 +36,8 @@ export default function AddTagForm({ user_id }: AuthFormProps) {
         },
         queryClient: queryClient,
         queryKey: {
-          query: "tags",
-          key: user_id,
+          query: "get-tags",
+          key: "get-tags",
         },
       }),
     onError: (error: Error) =>

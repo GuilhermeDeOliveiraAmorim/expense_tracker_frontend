@@ -5,7 +5,6 @@ import { displayNotification } from "@/components/util/notification.handler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type MutationProps<InputDTO, OutputDTO> = {
-  user_id: string;
   entity_id: string;
   entityIdKey: keyof InputDTO;
   mutationKey: string;
@@ -14,7 +13,6 @@ type MutationProps<InputDTO, OutputDTO> = {
 };
 
 export default function Delete<InputDTO, OutputDTO>({
-  user_id,
   entity_id,
   entityIdKey,
   mutationKey,
@@ -39,7 +37,7 @@ export default function Delete<InputDTO, OutputDTO>({
         queryClient: queryClient,
         queryKey: {
           query: queryName,
-          key: user_id,
+          key: queryName,
         },
       }),
     onError: (error: Error) =>
@@ -54,7 +52,6 @@ export default function Delete<InputDTO, OutputDTO>({
 
   const handleMutation = async () => {
     const input = {
-      user_id,
       [entityIdKey]: entity_id,
     } as InputDTO;
 

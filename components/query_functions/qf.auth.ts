@@ -7,14 +7,12 @@ import { LoginInputDTO, LoginOutputDTO } from "@/internal/usecases/login";
 
 export const login = async (input: LoginInputDTO): Promise<LoginOutputDTO> => {
   try {
-    sessionStorage.setItem("user_id", "");
     sessionStorage.setItem("access_token", "");
 
     const userFactory = new UserFactory();
     const loginUseCase = userFactory.loginUseCase();
     const response = await loginUseCase.execute(input);
 
-    sessionStorage.setItem("user_id", response.user_id);
     sessionStorage.setItem("access_token", response.access_token);
 
     return response;

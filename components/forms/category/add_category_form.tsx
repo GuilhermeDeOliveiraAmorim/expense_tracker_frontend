@@ -12,10 +12,9 @@ import {
 } from "@/internal/usecases/create_category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCategory } from "@/components/query_functions/qf.categoy";
-import { AuthFormProps } from "@/props_types/auth";
 import { displayNotification } from "@/components/util/notification.handler";
 
-export default function AddCategoryForm({ user_id }: AuthFormProps) {
+export default function AddCategoryForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -41,8 +40,8 @@ export default function AddCategoryForm({ user_id }: AuthFormProps) {
         },
         queryClient: queryClient,
         queryKey: {
-          query: "categories",
-          key: user_id,
+          query: "get-categories",
+          key: "get-categories",
         },
       }),
     onError: (error: Error) =>

@@ -11,11 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import { deleteExpense, getExpenses } from "../query_functions/qf.expense";
 import { Skeleton } from "../ui/skeleton";
 import { Expense } from "@/internal/domain/expense";
-import { PageContentProps } from "@/props_types/auth";
 import { DataTable } from "../tables/expense/expensetable";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
+import { PageContentProps } from "@/props_types/props.types";
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -80,11 +80,10 @@ export const columns: ColumnDef<Expense>[] = [
     cell: ({ row }) => {
       return (
         <Delete
-          user_id={row.original.user_id}
           entity_id={row.original.id}
           mutationKey={"delete-expense"}
           mutationFn={deleteExpense}
-          queryName={"expenses"}
+          queryName={"get-expenses"}
           entityIdKey="expense_id"
         />
       );
@@ -95,7 +94,6 @@ export const columns: ColumnDef<Expense>[] = [
 export default function ExpensesContent({ header, footer }: PageContentProps) {
   const router = useRouter();
 
-  const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const {
@@ -103,24 +101,18 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     error: expensesError,
     isLoading: expensesLoading,
   } = useQuery({
-    queryKey: ["expenses", userId],
-    queryFn: () => getExpenses(input),
-    enabled: !!userId,
+    queryKey: ["get-expenses", "get-expenses"],
+    queryFn: () => getExpenses({}),
   });
 
   useEffect(() => {
-    const user_id = sessionStorage.getItem("user_id");
     const access_token = sessionStorage.getItem("access_token");
 
     if (
       access_token === null ||
       access_token === undefined ||
-      user_id === null ||
-      user_id === undefined ||
       access_token === "" ||
-      access_token === "" ||
-      user_id === "" ||
-      user_id === ""
+      access_token === ""
     ) {
       toast({
         variant: "destructive",
@@ -135,13 +127,8 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
       return;
     }
 
-    setUserId(user_id);
     setIsLoading(false);
   }, [router]);
-
-  const input: { user_id: string } = {
-    user_id: userId,
-  };
 
   if (isLoading) {
     return (
@@ -175,7 +162,7 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
 
       <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
         <div className="flex flex-col gap-6">
-          <AddExpenseForm user_id={userId} />
+          <AddExpenseForm />
         </div>
         <div className="flex gap-6 w-full">
           <div className="w-full">

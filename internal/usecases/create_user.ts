@@ -9,7 +9,6 @@ export type CreateUserInputDTO = {
 
 export type CreateUserOutputDTO = {
   name: string;
-  user_id: string;
   success_message: string;
   content_message: string;
 };
