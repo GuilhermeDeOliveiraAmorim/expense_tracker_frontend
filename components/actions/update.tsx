@@ -1,64 +1,19 @@
 "use client";
 
+import FormDialog from "../ui/formdialog";
 import { Icons } from "@/components/ui/icons";
-import { displayNotification } from "@/components/util/notification.handler";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type MutationProps<InputDTO, OutputDTO> = {
-  entity_id: string;
-  entityIdKey: keyof InputDTO;
-  mutationKey: string;
-  queryName: string;
-  mutationFn: (input: InputDTO) => Promise<OutputDTO>;
+type UpdateProps = {
+  ariaDescribedby: string;
+  form: JSX.Element;
 };
 
-export default function Update<InputDTO, OutputDTO>({
-  entity_id,
-  entityIdKey,
-  mutationKey,
-  queryName,
-  mutationFn,
-}: MutationProps<InputDTO, OutputDTO>) {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation<OutputDTO, Error, InputDTO>({
-    mutationKey: [mutationKey],
-    mutationFn: mutationFn,
-    onSuccess: (output: OutputDTO) =>
-      displayNotification({
-        outputType: {
-          success: output,
-        },
-        variantToast: "default",
-        durationToast: 2500,
-        styleToast: {
-          backgroundColor: "#4ade80",
-        },
-        queryClient: queryClient,
-        queryKey: {
-          query: queryName,
-          key: queryName,
-        },
-      }),
-    onError: (error: Error) =>
-      displayNotification({
-        outputType: {
-          error: error,
-        },
-        durationToast: 2500,
-        variantToast: "destructive",
-      }),
-  });
-
-  const handleMutation = async () => {
-    const input = {
-      [entityIdKey]: entity_id,
-    } as InputDTO;
-
-    await mutation.mutateAsync(input);
-  };
-
+export default function Update({ ariaDescribedby, form }: UpdateProps) {
   return (
-    <Icons.settings onClick={handleMutation} className="w-4 cursor-pointer" />
+    <FormDialog
+      icon={<Icons.settings className="w-4 cursor-pointer" />}
+      ariaDescribedby={ariaDescribedby}
+      form={form}
+    />
   );
 }

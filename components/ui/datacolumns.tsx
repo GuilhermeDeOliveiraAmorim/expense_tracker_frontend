@@ -1,4 +1,8 @@
 import Delete from "../actions/delete";
+import Update from "../actions/update";
+import UpdateCategoryForm from "../forms/category/update_category_form";
+import UpdateTagForm from "../forms/tag/update_tag_form";
+import UpdateExpenseForm from "../forms/expense/update_expense_form";
 import { Category } from "@/internal/domain/category";
 import { deleteCategory } from "../query_functions/qf.categoy";
 import { deleteTag } from "../query_functions/qf.tag";
@@ -10,7 +14,6 @@ import { Badge } from "./badge";
 import { isDarkColor } from "../util/color.handler";
 import { Expense } from "@/internal/domain/expense";
 import { deleteExpense } from "../query_functions/qf.expense";
-import Update from "../actions/update";
 
 export const columnsCategories: ColumnDef<Category>[] = [
   {
@@ -71,11 +74,8 @@ export const columnsCategories: ColumnDef<Category>[] = [
             entityIdKey="category_id"
           />
           <Update
-            entity_id={row.original.id}
-            mutationKey={"delete-category"}
-            mutationFn={deleteCategory}
-            queryName="get-categories"
-            entityIdKey="category_id"
+            ariaDescribedby="update-expense"
+            form={<UpdateCategoryForm />}
           />
         </div>
       );
@@ -133,13 +133,16 @@ export const columnsTags: ColumnDef<Tag>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <Delete
-          entity_id={row.original.id}
-          mutationKey={"delete-tag"}
-          mutationFn={deleteTag}
-          queryName="get-tags"
-          entityIdKey="tag_id"
-        />
+        <div className="flex gap-2">
+          <Delete
+            entity_id={row.original.id}
+            mutationKey={"delete-tag"}
+            mutationFn={deleteTag}
+            queryName="get-tags"
+            entityIdKey="tag_id"
+          />
+          <Update ariaDescribedby="update-expense" form={<UpdateTagForm />} />
+        </div>
       );
     },
   },
@@ -265,13 +268,19 @@ export const columnsExpenses: ColumnDef<Expense>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <Delete
-          entity_id={row.original.id}
-          mutationKey={"delete-expense"}
-          mutationFn={deleteExpense}
-          queryName={"get-expenses"}
-          entityIdKey="expense_id"
-        />
+        <div className="flex gap-2">
+          <Delete
+            entity_id={row.original.id}
+            mutationKey={"delete-expense"}
+            mutationFn={deleteExpense}
+            queryName={"get-expenses"}
+            entityIdKey="expense_id"
+          />
+          <Update
+            ariaDescribedby="update-expense"
+            form={<UpdateExpenseForm />}
+          />
+        </div>
       );
     },
   },
