@@ -75,7 +75,7 @@ export const columnsCategories: ColumnDef<Category>[] = [
           />
           <Update
             ariaDescribedby="update-expense"
-            form={<UpdateCategoryForm />}
+            form={<UpdateCategoryForm category={row.original} />}
           />
         </div>
       );

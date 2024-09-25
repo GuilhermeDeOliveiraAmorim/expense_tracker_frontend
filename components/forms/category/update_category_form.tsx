@@ -6,29 +6,36 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Icons } from "@/components/ui/icons";
-import {
-  CreateCategoryInputDTO,
-  CreateCategoryOutputDTO,
-} from "@/internal/usecases/create_category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCategory } from "@/components/query_functions/qf.categoy";
+import { updateCategory } from "@/components/query_functions/qf.categoy";
 import { displayNotification } from "@/components/util/notification.handler";
+import {
+  UpdateCategoryOutputDTO,
+  UpdateCategoryInputDTO,
+} from "@/internal/usecases/update_category";
+import { Category } from "@/internal/domain/category";
 
-export default function UpdateCategoryForm() {
+type UpdateCategoryFormProps = {
+  category: Category;
+};
+
+export default function UpdateCategoryForm({
+  category,
+}: UpdateCategoryFormProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("#1d1d1d");
+  const [categoryName, setName] = useState(category.name);
+  const [categoryColor, setColor] = useState(category.color);
 
   const mutation = useMutation<
-    CreateCategoryOutputDTO,
+    UpdateCategoryOutputDTO,
     Error,
-    CreateCategoryInputDTO
+    UpdateCategoryInputDTO
   >({
-    mutationKey: ["add-category"],
-    mutationFn: createCategory,
-    onSuccess: (output: CreateCategoryOutputDTO) =>
+    mutationKey: ["update-category"],
+    mutationFn: updateCategory,
+    onSuccess: (output: UpdateCategoryOutputDTO) =>
       displayNotification({
         outputType: {
           success: output,
@@ -57,7 +64,7 @@ export default function UpdateCategoryForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !color) {
+    if (!categoryName || !categoryColor) {
       toast({
         variant: "destructive",
         title: "All fields are required",
@@ -67,7 +74,15 @@ export default function UpdateCategoryForm() {
       return;
     }
 
-    mutation.mutate({ name, color });
+    const category_id = category.id;
+    const name = categoryName;
+    const color = categoryColor;
+
+    mutation.mutate({
+      category_id,
+      name,
+      color,
+    });
 
     setName("");
     setColor("#1d1d1d");
@@ -77,7 +92,7 @@ export default function UpdateCategoryForm() {
     <form onSubmit={handleSubmit}>
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Add Category</CardTitle>
+          <CardTitle>Update Category</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4 mb-4">
@@ -86,7 +101,7 @@ export default function UpdateCategoryForm() {
                 id="name"
                 type="text"
                 placeholder="Your category name here"
-                value={name}
+                value={categoryName}
                 onChange={(e) => setName(e.target.value)}
                 aria-label="Category name"
               />
@@ -98,7 +113,7 @@ export default function UpdateCategoryForm() {
                 <Input
                   id="color"
                   type="color"
-                  value={color}
+                  value={categoryColor}
                   onChange={(e) => setColor(e.target.value)}
                   aria-label="Category color"
                 ></Input>
