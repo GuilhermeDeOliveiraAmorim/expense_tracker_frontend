@@ -11,6 +11,10 @@ import {
   GetTagsInputDTO,
   GetTagsOutputDTO,
 } from "@/internal/usecases/get_tags";
+import {
+  UpdateTagInputDTO,
+  UpdateTagOutputDTO,
+} from "@/internal/usecases/update_tag";
 
 export const getTags = async (
   input: GetTagsInputDTO
@@ -50,6 +54,21 @@ export const deleteTag = async (
     const deleteTagUseCase = expenseFactory.deleteTagUseCase();
 
     const response = await deleteTagUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateTag = async (
+  input: UpdateTagInputDTO
+): Promise<UpdateTagOutputDTO> => {
+  try {
+    const categoryFactory = new TagFactory();
+    const updateTagUseCase = categoryFactory.updateTagUseCase();
+
+    const response = await updateTagUseCase.execute(input);
 
     return response;
   } catch (error) {

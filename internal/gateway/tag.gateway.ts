@@ -45,4 +45,17 @@ export class TagGateway implements TagRepository {
       throw error;
     }
   }
+
+  async updateTag(input: CreateTagInputDTO): Promise<CreateTagOutputDTO> {
+    try {
+      const output = await this.http.patch<CreateTagOutputDTO>(
+        apiRoutes.updateTag,
+        input
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
