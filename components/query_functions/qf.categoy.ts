@@ -11,6 +11,10 @@ import {
   GetCategoriesInputDTO,
   GetCategoriesOutputDTO,
 } from "@/internal/usecases/get_categories";
+import {
+  UpdateCategoryInputDTO,
+  UpdateCategoryOutputDTO,
+} from "@/internal/usecases/update_category";
 
 export const getCategories = async (
   input: GetCategoriesInputDTO
@@ -50,6 +54,21 @@ export const deleteCategory = async (
     const deleteCategoryUseCase = expenseFactory.deleteCategoryUseCase();
 
     const response = await deleteCategoryUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateCategory = async (
+  input: UpdateCategoryInputDTO
+): Promise<UpdateCategoryOutputDTO> => {
+  try {
+    const categoryFactory = new CategoryFactory();
+    const updateCategoryUseCase = categoryFactory.updateCategoryUseCase();
+
+    const response = await updateCategoryUseCase.execute(input);
 
     return response;
   } catch (error) {

@@ -10,4 +10,7 @@ export const apiRoutes = {
   createTag: "/tags",
   deleteTag: "/tags",
   deleteCategory: "/categories",
+  updateCategory: "/categories",
+  updateExpense: "/expenses",
+  updateTag: "/tags",
 };

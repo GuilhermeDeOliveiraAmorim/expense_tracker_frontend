@@ -60,4 +60,19 @@ export class CategoryGateway implements CategoryRepository {
       throw error;
     }
   }
+
+  async updateCategory(
+    input: CreateCategoryInputDTO
+  ): Promise<CreateCategoryOutputDTO> {
+    try {
+      const output = await this.http.patch<CreateCategoryOutputDTO>(
+        apiRoutes.updateCategory,
+        input
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

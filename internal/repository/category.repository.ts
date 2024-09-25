@@ -10,6 +10,10 @@ import {
   GetCategoriesInputDTO,
   GetCategoriesOutputDTO,
 } from "../usecases/get_categories";
+import {
+  UpdateCategoryInputDTO,
+  UpdateCategoryOutputDTO,
+} from "../usecases/update_category";
 
 export interface CategoryRepository {
   createCategory(
@@ -19,4 +23,7 @@ export interface CategoryRepository {
   deleteCategory(
     input: DeleteCategoryInputDTO
   ): Promise<DeleteCategoryOutputDTO>;
+  updateCategory(
+    input: UpdateCategoryInputDTO
+  ): Promise<UpdateCategoryOutputDTO>;
 }
