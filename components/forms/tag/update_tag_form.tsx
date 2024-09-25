@@ -6,29 +6,30 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Icons } from "@/components/ui/icons";
-import {
-  CreateCategoryInputDTO,
-  CreateCategoryOutputDTO,
-} from "@/internal/usecases/create_category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCategory } from "@/components/query_functions/qf.categoy";
+import { updateTag } from "@/components/query_functions/qf.tag";
 import { displayNotification } from "@/components/util/notification.handler";
+import {
+  UpdateTagOutputDTO,
+  UpdateTagInputDTO,
+} from "@/internal/usecases/update_tag";
+import { Tag } from "@/internal/domain/tag";
 
-export default function UpdateTagForm() {
+type UpdateTagFormProps = {
+  tag: Tag;
+};
+
+export default function UpdateTagForm({ tag }: UpdateTagFormProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("#1d1d1d");
+  const [tagName, setName] = useState(tag.name);
+  const [tagColor, setColor] = useState(tag.color);
 
-  const mutation = useMutation<
-    CreateCategoryOutputDTO,
-    Error,
-    CreateCategoryInputDTO
-  >({
-    mutationKey: ["add-category"],
-    mutationFn: createCategory,
-    onSuccess: (output: CreateCategoryOutputDTO) =>
+  const mutation = useMutation<UpdateTagOutputDTO, Error, UpdateTagInputDTO>({
+    mutationKey: ["update-tag"],
+    mutationFn: updateTag,
+    onSuccess: (output: UpdateTagOutputDTO) =>
       displayNotification({
         outputType: {
           success: output,
@@ -40,8 +41,8 @@ export default function UpdateTagForm() {
         },
         queryClient: queryClient,
         queryKey: {
-          query: "get-categories",
-          key: "get-categories",
+          query: "get-tags",
+          key: "get-tags",
         },
       }),
     onError: (error: Error) =>
@@ -57,7 +58,7 @@ export default function UpdateTagForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !color) {
+    if (!tagName || !tagColor) {
       toast({
         variant: "destructive",
         title: "All fields are required",
@@ -67,7 +68,15 @@ export default function UpdateTagForm() {
       return;
     }
 
-    mutation.mutate({ name, color });
+    const tag_id = tag.id;
+    const name = tagName;
+    const color = tagColor;
+
+    mutation.mutate({
+      tag_id,
+      name,
+      color,
+    });
 
     setName("");
     setColor("#1d1d1d");
@@ -77,7 +86,7 @@ export default function UpdateTagForm() {
     <form onSubmit={handleSubmit}>
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Add Category</CardTitle>
+          <CardTitle>Update Tag</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4 mb-4">
@@ -85,10 +94,10 @@ export default function UpdateTagForm() {
               <Input
                 id="name"
                 type="text"
-                placeholder="Your category name here"
-                value={name}
+                placeholder="Your tag name here"
+                value={tagName}
                 onChange={(e) => setName(e.target.value)}
-                aria-label="Category name"
+                aria-label="Tag name"
               />
             </div>
           </div>
@@ -98,9 +107,9 @@ export default function UpdateTagForm() {
                 <Input
                   id="color"
                   type="color"
-                  value={color}
+                  value={tagColor}
                   onChange={(e) => setColor(e.target.value)}
-                  aria-label="Category color"
+                  aria-label="Tag color"
                 ></Input>
                 <Button type="submit">
                   <Icons.save className="w-5" />

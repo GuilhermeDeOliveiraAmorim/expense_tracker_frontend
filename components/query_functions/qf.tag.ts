@@ -35,8 +35,8 @@ export const createTag = async (
   input: CreateTagInputDTO
 ): Promise<CreateTagOutputDTO> => {
   try {
-    const categoryFactory = new TagFactory();
-    const createTagUseCase = categoryFactory.createTagUseCase();
+    const tagFactory = new TagFactory();
+    const createTagUseCase = tagFactory.createTagUseCase();
 
     const response = await createTagUseCase.execute(input);
 
@@ -50,8 +50,8 @@ export const deleteTag = async (
   input: DeleteTagInputDTO
 ): Promise<DeleteTagOutputDTO> => {
   try {
-    const expenseFactory = new TagFactory();
-    const deleteTagUseCase = expenseFactory.deleteTagUseCase();
+    const tagFactory = new TagFactory();
+    const deleteTagUseCase = tagFactory.deleteTagUseCase();
 
     const response = await deleteTagUseCase.execute(input);
 
@@ -65,8 +65,8 @@ export const updateTag = async (
   input: UpdateTagInputDTO
 ): Promise<UpdateTagOutputDTO> => {
   try {
-    const categoryFactory = new TagFactory();
-    const updateTagUseCase = categoryFactory.updateTagUseCase();
+    const tagFactory = new TagFactory();
+    const updateTagUseCase = tagFactory.updateTagUseCase();
 
     const response = await updateTagUseCase.execute(input);
 

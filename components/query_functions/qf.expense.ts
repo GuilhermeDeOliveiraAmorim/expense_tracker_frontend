@@ -65,8 +65,8 @@ export const updateExpense = async (
   input: UpdateExpenseInputDTO
 ): Promise<UpdateExpenseOutputDTO> => {
   try {
-    const categoryFactory = new ExpenseFactory();
-    const updateExpenseUseCase = categoryFactory.updateExpenseUseCase();
+    const expenseFactory = new ExpenseFactory();
+    const updateExpenseUseCase = expenseFactory.updateExpenseUseCase();
 
     const response = await updateExpenseUseCase.execute(input);
 

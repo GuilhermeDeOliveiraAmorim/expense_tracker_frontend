@@ -50,8 +50,8 @@ export const deleteCategory = async (
   input: DeleteCategoryInputDTO
 ): Promise<DeleteCategoryOutputDTO> => {
   try {
-    const expenseFactory = new CategoryFactory();
-    const deleteCategoryUseCase = expenseFactory.deleteCategoryUseCase();
+    const categoryFactory = new CategoryFactory();
+    const deleteCategoryUseCase = categoryFactory.deleteCategoryUseCase();
 
     const response = await deleteCategoryUseCase.execute(input);
 

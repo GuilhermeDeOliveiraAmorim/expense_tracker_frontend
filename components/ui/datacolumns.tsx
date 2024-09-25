@@ -2,7 +2,6 @@ import Delete from "../actions/delete";
 import Update from "../actions/update";
 import UpdateCategoryForm from "../forms/category/update_category_form";
 import UpdateTagForm from "../forms/tag/update_tag_form";
-import UpdateExpenseForm from "../forms/expense/update_expense_form";
 import { Category } from "@/internal/domain/category";
 import { deleteCategory } from "../query_functions/qf.categoy";
 import { deleteTag } from "../query_functions/qf.tag";
@@ -14,6 +13,7 @@ import { Badge } from "./badge";
 import { isDarkColor } from "../util/color.handler";
 import { Expense } from "@/internal/domain/expense";
 import { deleteExpense } from "../query_functions/qf.expense";
+import UpdateExpenseForm from "../forms/expense/update_expense_form";
 
 export const columnsCategories: ColumnDef<Category>[] = [
   {
@@ -141,7 +141,10 @@ export const columnsTags: ColumnDef<Tag>[] = [
             queryName="get-tags"
             entityIdKey="tag_id"
           />
-          <Update ariaDescribedby="update-expense" form={<UpdateTagForm />} />
+          <Update
+            ariaDescribedby="update-expense"
+            form={<UpdateTagForm tag={row.original} />}
+          />
         </div>
       );
     },
@@ -223,6 +226,7 @@ export const columnsExpenses: ColumnDef<Expense>[] = [
                   backgroundColor: tag.color,
                   color: isDarkColor(tag.color) ? "#ffffff" : "#000000",
                 }}
+                className="ml-1"
               >
                 {tag.name}
               </Badge>
@@ -278,7 +282,7 @@ export const columnsExpenses: ColumnDef<Expense>[] = [
           />
           <Update
             ariaDescribedby="update-expense"
-            form={<UpdateExpenseForm />}
+            form={<UpdateExpenseForm expense={row.original} />}
           />
         </div>
       );
