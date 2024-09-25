@@ -11,6 +11,10 @@ import {
   GetExpensesInputDTO,
   GetExpensesOutputDTO,
 } from "@/internal/usecases/get_expenses";
+import {
+  UpdateExpenseInputDTO,
+  UpdateExpenseOutputDTO,
+} from "@/internal/usecases/update_expense";
 
 export const createExpense = async (
   input: CreateExpenseInputDTO
@@ -50,6 +54,21 @@ export const deleteExpense = async (
     const deleteExpensesUseCase = expenseFactory.deleteExpenseUseCase();
 
     const response = await deleteExpensesUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateExpense = async (
+  input: UpdateExpenseInputDTO
+): Promise<UpdateExpenseOutputDTO> => {
+  try {
+    const categoryFactory = new ExpenseFactory();
+    const updateExpenseUseCase = categoryFactory.updateExpenseUseCase();
+
+    const response = await updateExpenseUseCase.execute(input);
 
     return response;
   } catch (error) {

@@ -13,6 +13,10 @@ import {
   DeleteExpenseInputDTO,
   DeleteExpenseOutputDTO,
 } from "../usecases/delete_expense";
+import {
+  UpdateExpenseInputDTO,
+  UpdateExpenseOutputDTO,
+} from "../usecases/update_expense";
 
 export class ExpenseGateway implements ExpenseRepository {
   constructor(private http: AxiosInstance) {}
@@ -51,6 +55,21 @@ export class ExpenseGateway implements ExpenseRepository {
     try {
       const output = await this.http.delete<DeleteExpenseOutputDTO>(
         `${apiRoutes.deleteExpense}?expense_id=${input.expense_id}`
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateExpense(
+    input: UpdateExpenseInputDTO
+  ): Promise<UpdateExpenseOutputDTO> {
+    try {
+      const output = await this.http.patch<UpdateExpenseOutputDTO>(
+        apiRoutes.updateExpense,
+        input
       );
 
       return output.data;
