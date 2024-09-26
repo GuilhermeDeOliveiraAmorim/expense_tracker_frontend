@@ -172,10 +172,7 @@ export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
 
     const expense_id = expense.id;
     const category_id = categoryId;
-    const expense_date = format(
-      date instanceof Date ? date : new Date(),
-      "ddMMyyyy"
-    );
+    const expense_date = format(date, "ddMMyyyy");
 
     mutation.mutate({
       expense_id,
