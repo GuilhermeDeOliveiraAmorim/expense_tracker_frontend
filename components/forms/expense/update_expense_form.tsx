@@ -1,8 +1,5 @@
 "use client";
 
-import AddCategoryForm from "../category/add_category_form";
-import AddTagForm from "../tag/add_tag_form";
-import FormDialog from "@/components/ui/formdialog";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,14 +44,30 @@ type UpdateExpenseFormProps = {
 };
 
 export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
+  const expenseTreated = {
+    amountTreated: Number(expense.amount).toFixed(2),
+    dateTreated: expense.expense_date,
+    notesTreated: expense.notes,
+    categoryIdTreated: expense.category_id,
+    tagsTreated:
+      expense.tags !== null && expense.tags.length > 0
+        ? expense.tags.map((tag) => tag.id)
+        : [],
+  };
+
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState<Date>();
-  const [notes, setNotes] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  const [amount, setAmount] = useState(expenseTreated.amountTreated);
+  const [date, setDate] = useState<Date>(expenseTreated.dateTreated);
+  const [notes, setNotes] = useState(expenseTreated.notesTreated);
+  const [categoryId, setCategoryId] = useState(
+    expenseTreated.categoryIdTreated
+  );
+  const [selectedTags, setSelectedTags] = useState<string[]>(
+    expenseTreated.tagsTreated
+  );
+
   const [categories, setCategory] = useState<Category[]>([]);
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
@@ -163,7 +176,6 @@ export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
       date instanceof Date ? date : new Date(),
       "ddMMyyyy"
     );
-    const tags = selectedTags;
 
     mutation.mutate({
       expense_id,
@@ -171,21 +183,21 @@ export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
       category_id,
       expense_date,
       notes,
-      tags,
+      tags: selectedTags,
     });
 
-    setAmount("");
-    setDate(undefined);
-    setNotes("");
-    setCategoryId("");
-    setSelectedTags([]);
+    setAmount(amount);
+    setNotes(notes);
+    setDate(date);
+    setCategoryId(category_id);
+    setSelectedTags(selectedTags);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Add Expense</CardTitle>
+          <CardTitle>Update Expense</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
@@ -216,7 +228,7 @@ export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
                 <Calendar
                   mode="single"
                   selected={date}
-                  onSelect={setDate}
+                  onSelect={(day) => day && setDate(day)}
                   initialFocus
                 />
               </PopoverContent>
@@ -261,11 +273,6 @@ export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
                   </SelectContent>
                 </Select>
               )}
-
-              <FormDialog
-                ariaDescribedby="add-category"
-                form={<AddCategoryForm />}
-              />
             </div>
             <div className="flex gap-4">
               {tagsLoading ? (
@@ -283,8 +290,6 @@ export default function UpdateExpenseForm({ expense }: UpdateExpenseFormProps) {
                   aria-label="Tag listing"
                 />
               )}
-
-              <FormDialog ariaDescribedby="add-tag" form={<AddTagForm />} />
             </div>
             <div className="flex gap-4 items-end">
               <Textarea
