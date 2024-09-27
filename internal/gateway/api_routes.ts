@@ -14,4 +14,5 @@ export const apiRoutes = {
   updateExpense: "/expenses",
   updateTag: "/tags",
   getTotalExpensesForPeriod: "/expenses/total",
+  getExpensesByCategoryPeriod: "/expenses/categories",
 };
