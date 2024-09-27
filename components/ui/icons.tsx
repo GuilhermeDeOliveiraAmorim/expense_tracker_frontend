@@ -29,6 +29,7 @@ import {
   Power,
   SlidersHorizontal,
   FileX2,
+  DollarSign
 } from "lucide-react";
 
 export const Icons = {
@@ -59,6 +60,7 @@ export const Icons = {
   power: Power,
   slidersHorizontal: SlidersHorizontal,
   fileX2: FileX2,
+  dollarSign: DollarSign,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

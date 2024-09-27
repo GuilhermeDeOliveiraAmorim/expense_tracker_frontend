@@ -1,5 +1,6 @@
 "use client";
 
+import GetTotalExpensesForPeriodForm from "../forms/presenters/get_total_expenses_for_period_form";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -48,7 +49,9 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     <>
       {header ? header : ""}
 
-      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full"></main>
+      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
+        <GetTotalExpensesForPeriodForm />
+      </main>
 
       {footer ? footer : ""}
     </>

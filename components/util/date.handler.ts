@@ -13,3 +13,11 @@ export const formatDate = (date: Date): string => {
 
   return `${ddStr}/${mmStr}/${yyyy}`;
 };
+
+export const formatDateDdMmYyyy = (date: string): string => {
+  const dia = date.substring(0, 2);
+  const mes = date.substring(2, 4);
+  const ano = date.substring(4, 8);
+
+  return `${dia}/${mes}/${ano}`;
+};
