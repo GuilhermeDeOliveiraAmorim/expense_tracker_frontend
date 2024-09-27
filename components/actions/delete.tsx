@@ -55,7 +55,7 @@ export default function Delete<InputDTO, OutputDTO>({
       [entityIdKey]: entity_id,
     } as InputDTO;
 
-    await mutation.mutateAsync(input);
+    mutation.mutate(input);
   };
 
   return (

@@ -68,18 +68,16 @@ export default function UpdateTagForm({ tag }: UpdateTagFormProps) {
       return;
     }
 
-    const tag_id = tag.id;
-    const name = tagName;
-    const color = tagColor;
+    const input: UpdateTagInputDTO = {
+      tag_id: tag.id,
+      name: tagName,
+      color: tagColor,
+    };
 
-    mutation.mutate({
-      tag_id,
-      name,
-      color,
-    });
+    mutation.mutate(input);
 
-    setName("");
-    setColor("#1d1d1d");
+    setName(tagName);
+    setColor(tagColor);
   };
 
   return (

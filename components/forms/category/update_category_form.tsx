@@ -74,18 +74,16 @@ export default function UpdateCategoryForm({
       return;
     }
 
-    const category_id = category.id;
-    const name = categoryName;
-    const color = categoryColor;
+    const input: UpdateCategoryInputDTO = {
+      category_id: category.id,
+      name: categoryName,
+      color: categoryColor,
+    };
 
-    mutation.mutate({
-      category_id,
-      name,
-      color,
-    });
+    mutation.mutate(input);
 
-    setName("");
-    setColor("#1d1d1d");
+    setName(categoryName);
+    setColor(categoryColor);
   };
 
   return (
