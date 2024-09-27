@@ -1,5 +1,9 @@
 import { PresentersFactory } from "@/internal/factory/presenters.factory";
 import {
+  GetExpensesByCategoryPeriodInputDTO,
+  GetExpensesByCategoryPeriodOutputDTO,
+} from "@/internal/presenters/get_expenses_by_category_period";
+import {
   GetTotalExpensesForPeriodInputDTO,
   GetTotalExpensesForPeriodOutputDTO,
 } from "@/internal/presenters/get_total_expenses_for_period";
@@ -13,6 +17,22 @@ export const getTotalExpensesForPeriod = async (
       presentersFactory.getTotalExpensesForPeriodUseCase();
 
     const response = await getTotalExpensesForPeriodUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getExpensesByCategoryPeriod = async (
+  input: GetExpensesByCategoryPeriodInputDTO
+): Promise<GetExpensesByCategoryPeriodOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getExpensesByCategoryPeriodUseCase =
+      presentersFactory.getExpensesByCategoryPeriodUseCase();
+
+    const response = await getExpensesByCategoryPeriodUseCase.execute(input);
 
     return response;
   } catch (error) {

@@ -6,6 +6,7 @@ import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/props.types";
+import GetExpensesByCategoryPeriodForm from "../forms/presenters/get_expenses_by_category_period_form";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -51,6 +52,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
 
       <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
         <GetTotalExpensesForPeriodForm />
+        <GetExpensesByCategoryPeriodForm />
       </main>
 
       {footer ? footer : ""}
