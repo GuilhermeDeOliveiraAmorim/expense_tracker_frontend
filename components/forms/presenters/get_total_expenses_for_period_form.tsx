@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icons } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { formatDateDdMmYyyy } from "@/components/util/date.handler";
+import { formatDateDdMmYyyy, rangerDate } from "@/components/util/date.handler";
 import { useToast } from "@/hooks/use-toast";
 import {
   GetTotalExpensesForPeriodInputDTO,
@@ -16,8 +16,16 @@ import { useEffect, useState } from "react";
 export default function GetTotalExpensesForPeriodForm() {
   const { toast } = useToast();
 
-  const [startDate, setStartDate] = useState("01012024");
-  const [endDate, setEndDate] = useState("27092024");
+  const [startDate, setStartDate] = useState(
+    rangerDate({
+      last90Days: true,
+    })
+  );
+  const [endDate, setEndDate] = useState(
+    rangerDate({
+      today: true,
+    })
+  );
   const [totalAmount, setTotalAmount] = useState(0);
   const [isLoadingAmount, setIsLoadingAmount] = useState(false);
 
@@ -95,86 +103,81 @@ export default function GetTotalExpensesForPeriodForm() {
   }
 
   return (
-    <div>
-      <Card className="w-[350px]">
-        <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
-          <CardTitle className="text-sm">Total Expenses</CardTitle>
-          <Icons.dollarSign className="w-4 h-4 text-gray-500" />
-        </CardHeader>
-        <CardContent className="flex flex-col justify-between w-full items-baseline">
-          {isLoadingAmount ? (
-            <div className="pt-[10px] pb-[10px]">
-              <Icons.spinner className="w-4 h-4 animate-spin" />
-            </div>
-          ) : (
-            <div className="flex flex-col w-full h-full text-3xl font-bold">
-              {new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }).format(totalAmount)}
-            </div>
-          )}
-
-          <div className="flex flex-row justify-between w-full items-baseline">
-            <p className="text-xs text-muted-foreground">
-              {formatDateDdMmYyyy(startDate) +
-                " - " +
-                formatDateDdMmYyyy(endDate)}
-            </p>
-
-            <ToggleGroup type="single">
-              <ToggleGroupItem
-                onClick={() =>
-                  handleChangeDates(
-                    format(
-                      new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-                      "ddMMyyyy"
-                    ),
-                    format(new Date(), "ddMMyyyy")
-                  )
-                }
-                value="07"
-                aria-label="07 days"
-                className="text-sm text-gray-500 w-3 h-6"
-              >
-                07
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                onClick={() =>
-                  handleChangeDates(
-                    format(
-                      new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-                      "ddMMyyyy"
-                    ),
-                    format(new Date(), "ddMMyyyy")
-                  )
-                }
-                value="30"
-                aria-label="30 days"
-                className="text-sm text-gray-500 w-3 h-6"
-              >
-                30
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                onClick={() =>
-                  handleChangeDates(
-                    format(
-                      new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
-                      "ddMMyyyy"
-                    ),
-                    format(new Date(), "ddMMyyyy")
-                  )
-                }
-                value="90"
-                aria-label="90 days"
-                className="text-sm text-gray-500 w-3 h-6"
-              >
-                90
-              </ToggleGroupItem>
-            </ToggleGroup>
+    <Card className="w-1/4">
+      <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
+        <CardTitle className="text-sm">Total Expenses</CardTitle>
+        <Icons.dollarSign className="w-4 h-4 text-gray-500" />
+      </CardHeader>
+      <CardContent className="flex flex-col justify-between w-full items-baseline">
+        {isLoadingAmount ? (
+          <div className="pt-[10px] pb-[10px]">
+            <Icons.spinner className="w-4 h-4 animate-spin" />
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        ) : (
+          <div className="flex flex-col w-full h-full text-3xl font-bold">
+            {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format(totalAmount)}
+          </div>
+        )}
+
+        <div className="flex flex-row justify-between w-full items-baseline">
+          <p className="text-xs text-muted-foreground">
+            {formatDateDdMmYyyy(startDate) +
+              " - " +
+              formatDateDdMmYyyy(endDate)}
+          </p>
+
+          <ToggleGroup type="single">
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  rangerDate({
+                    last7Days: true,
+                  }),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="07"
+              aria-label="07 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              07
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  rangerDate({
+                    last30Days: true,
+                  }),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="30"
+              aria-label="30 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              30
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  rangerDate({
+                    last90Days: true,
+                  }),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="90"
+              aria-label="90 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              90
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

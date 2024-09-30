@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const formatDate = (date: Date): string => {
   if (!(date instanceof Date) || isNaN(date.getTime())) {
     console.error("Invalid date:", date);
@@ -20,4 +22,39 @@ export const formatDateDdMmYyyy = (date: string): string => {
   const ano = date.substring(4, 8);
 
   return `${dia}/${mes}/${ano}`;
+};
+
+type RangerDateType = {
+  today?: boolean;
+  last7Days?: boolean;
+  last30Days?: boolean;
+  last90Days?: boolean;
+};
+
+export const rangerDate = ({
+  today,
+  last7Days,
+  last30Days,
+  last90Days,
+}: RangerDateType): string => {
+  if (today) {
+    return format(new Date(), "ddMMyyyy");
+  } else if (last7Days) {
+    return format(
+      new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+      "ddMMyyyy"
+    );
+  } else if (last30Days) {
+    return format(
+      new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+      "ddMMyyyy"
+    );
+  } else if (last90Days) {
+    return format(
+      new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
+      "ddMMyyyy"
+    );
+  }
+
+  return format(new Date(), "ddMMyyyy");
 };
