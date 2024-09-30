@@ -1,127 +1,222 @@
-import { getExpensesByCategoryPeriod } from "@/components/query_functions/qf.presenters";
+"use client";
+
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Icons } from "@/components/ui/icons";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/hooks/use-toast";
-import { CategoryExpense } from "@/internal/presenters/get_expenses_by_category_period";
-import { ApexOptions } from "apexcharts";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { useQuery } from "@tanstack/react-query";
-const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getExpensesByCategoryPeriod } from "@/components/query_functions/qf.presenters";
+import { toast } from "@/hooks/use-toast";
+import { formatDateDdMmYyyy, rangerDate } from "@/components/util/date.handler";
+import { format } from "date-fns";
+import {
+  GetExpensesByCategoryPeriodInputDTO,
+  GetExpensesByCategoryPeriodOutputDTO,
+} from "@/internal/presenters/get_expenses_by_category_period";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
+type ChartData = {
+  name: string;
+  total: number;
+  fill: string;
+};
+
+const chartConfig = {
+  total: {
+    label: "Total",
+  },
+} satisfies ChartConfig;
 
 export default function GetExpensesByCategoryPeriodForm() {
-  const { toast } = useToast();
-
-  const [startDate, setStartDate] = useState("01012024");
-  const [endDate, setEndDate] = useState("27092024");
-  const [expensesCategories, setExpensesCategories] = useState<
-    CategoryExpense[]
-  >([]);
-
-  const [chartOptions, setChartOptions] = useState<ApexOptions>({
-    series: [],
-    chart: {
-      type: "bar",
-      height: 350,
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        borderRadiusApplication: "end",
-        horizontal: true,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    xaxis: {
-      categories: [],
-    },
-    colors: ["#41B883"],
-  });
+  const [categories, setCategories] = useState<ChartData[]>([]);
+  const [startDate, setStartDate] = useState(
+    rangerDate({
+      last90Days: true,
+    })
+  );
+  const [endDate, setEndDate] = useState(
+    rangerDate({
+      today: true,
+    })
+  );
 
   const {
-    data: getExpensesByCategoryPeriodData,
-    error: getExpensesByCategoryPeriodError,
-    isLoading: getExpensesByCategoryPeriodLoading,
+    data: expensesByCategoryData,
+    error: expensesByCategoryError,
+    isLoading: expensesByCategoryLoading,
   } = useQuery({
-    queryKey: [
-      "get-total-expenses-for-period",
-      "get-total-expenses-for-period",
-    ],
+    queryKey: ["expenses-by-category", "expenses-by-category"],
     queryFn: () =>
-      getExpensesByCategoryPeriod({ startDate: startDate, endDate: endDate }),
+      getExpensesByCategoryPeriod({
+        startDate: startDate,
+        endDate: endDate,
+      }),
   });
 
   useEffect(() => {
-    if (!getExpensesByCategoryPeriodLoading) {
-      if (
-        getExpensesByCategoryPeriodData &&
-        getExpensesByCategoryPeriodData.expenses
-      ) {
-        setExpensesCategories(getExpensesByCategoryPeriodData.expenses);
-
-        const categories = getExpensesByCategoryPeriodData.expenses.map(
-          (expense) => expense.category_name
+    if (!expensesByCategoryLoading) {
+      if (expensesByCategoryData != undefined) {
+        setCategories(
+          expensesByCategoryData?.expenses.map((category) => {
+            return {
+              name: category.category_name,
+              total: category.total,
+              fill: category.category_color,
+            } as ChartData;
+          })
         );
-        const dataSeries = getExpensesByCategoryPeriodData.expenses.map(
-          (expense) => expense.total
-        );
-        const colors = getExpensesByCategoryPeriodData.expenses.map(
-          (expense) => expense.category_color
-        );
-
-        setChartOptions((prevChartOptions) => ({
-          ...prevChartOptions,
-          series: [{ data: dataSeries }],
-          xaxis: { categories },
-          colors,
-        }));
       } else {
-        setExpensesCategories([]);
+        setCategories([]);
       }
     }
-  }, [
-    chartOptions,
-    getExpensesByCategoryPeriodData,
-    getExpensesByCategoryPeriodLoading,
-  ]);
+  }, [expensesByCategoryData, expensesByCategoryLoading]);
 
-  if (getExpensesByCategoryPeriodError) {
+  const mutation = useMutation<
+    GetExpensesByCategoryPeriodOutputDTO,
+    Error,
+    GetExpensesByCategoryPeriodInputDTO
+  >({
+    mutationKey: ["update-category"],
+    mutationFn: getExpensesByCategoryPeriod,
+    onSuccess: (output: GetExpensesByCategoryPeriodOutputDTO) => {
+      setCategories(
+        output?.expenses.map((category) => {
+          return {
+            name: category.category_name,
+            total: category.total,
+            fill: category.category_color,
+          } as ChartData;
+        })
+      );
+    },
+    onError: () => setCategories([]),
+  });
+
+  const handleChangeDates = (startDate: string, endDate: string) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+
+    const input: GetExpensesByCategoryPeriodInputDTO = {
+      startDate: startDate,
+      endDate: endDate,
+    };
+
+    mutation.mutate(input);
+  };
+
+  if (expensesByCategoryError) {
     toast({
       variant: "destructive",
       title: "Error",
-      description: "Failed to fetch expenses by category and period",
+      description: "Failed to fetch expenses by category",
       duration: 2500,
     });
     return;
   }
 
-  if (getExpensesByCategoryPeriodLoading) {
-    return (
-      <div>
-        <Skeleton className="w-[350px] h-[200px] rounded-full" />
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <Card className="w-full">
-        <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
-          <CardTitle className="text-sm">Total Expenses</CardTitle>
-          <Icons.dollarSign className="w-4 h-4 text-gray-500" />
-        </CardHeader>
-        <CardContent className="flex flex-col justify-between w-full items-baseline">
-          <ApexChart
-            options={chartOptions}
-            series={chartOptions.series}
-            type="bar"
-            height={350}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="w-1/3">
+      <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
+        <CardTitle className="text-sm">Expenses by Category</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col justify-between w-full items-baseline">
+        <ChartContainer config={chartConfig} className="w-full">
+          <BarChart
+            accessibilityLayer
+            data={categories}
+            layout="vertical"
+            margin={{
+              right: 16,
+            }}
+          >
+            <CartesianGrid horizontal={false} />
+            <YAxis
+              dataKey="name"
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value}
+            />
+            <XAxis dataKey="total" type="number" hide />
+            <Bar dataKey="total" layout="vertical" radius={4}>
+              <LabelList
+                dataKey="total"
+                position="right"
+                offset={8}
+                fontSize={12}
+                fill="#9c9c9c"
+              />
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+
+        <div className="flex flex-row justify-between w-full items-baseline">
+          <p className="text-xs text-muted-foreground">
+            {formatDateDdMmYyyy(startDate) +
+              " - " +
+              formatDateDdMmYyyy(endDate)}
+          </p>
+
+          <ToggleGroup type="single">
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  format(
+                    new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+                    "ddMMyyyy"
+                  ),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="07"
+              aria-label="07 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              07
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  format(
+                    new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+                    "ddMMyyyy"
+                  ),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="30"
+              aria-label="30 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              30
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  format(
+                    new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
+                    "ddMMyyyy"
+                  ),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="90"
+              aria-label="90 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              90
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

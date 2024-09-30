@@ -50,7 +50,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     <>
       {header ? header : ""}
 
-      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
+      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
         <GetTotalExpensesForPeriodForm />
         <GetExpensesByCategoryPeriodForm />
       </main>
