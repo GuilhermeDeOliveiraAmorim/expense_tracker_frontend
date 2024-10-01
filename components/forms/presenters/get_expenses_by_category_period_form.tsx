@@ -62,7 +62,7 @@ export default function GetExpensesByCategoryPeriodForm() {
 
   useEffect(() => {
     if (!expensesByCategoryLoading) {
-      if (expensesByCategoryData != undefined) {
+      if (expensesByCategoryData && expensesByCategoryData.expenses) {
         setCategories(
           expensesByCategoryData?.expenses.map((category) => {
             return {
@@ -127,95 +127,107 @@ export default function GetExpensesByCategoryPeriodForm() {
         <CardTitle className="text-sm">Expenses by Category</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col justify-between w-full items-baseline">
-        <ChartContainer config={chartConfig} className="w-full">
-          <BarChart
-            accessibilityLayer
-            data={categories}
-            layout="vertical"
-            margin={{
-              right: 16,
-            }}
-          >
-            <CartesianGrid horizontal={false} />
-            <YAxis
-              dataKey="name"
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value}
-            />
-            <XAxis dataKey="total" type="number" hide />
-            <Bar dataKey="total" layout="vertical" radius={4}>
-              <LabelList
-                dataKey="total"
-                position="right"
-                offset={8}
-                fontSize={12}
-                fill="#9c9c9c"
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+        {categories.length === 0 ? (
+          <div>No expenses found</div>
+        ) : (
+          <div className="w-full">
+            <ChartContainer config={chartConfig} className="w-full">
+              <BarChart
+                accessibilityLayer
+                data={categories}
+                layout="vertical"
+                margin={{
+                  right: 16,
+                }}
+              >
+                <CartesianGrid horizontal={false} />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => value}
+                />
+                <XAxis dataKey="total" type="number" hide />
+                <Bar dataKey="total" layout="vertical" radius={4}>
+                  <LabelList
+                    dataKey="total"
+                    position="right"
+                    offset={8}
+                    fontSize={12}
+                    fill="#9c9c9c"
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
 
-        <div className="flex flex-row justify-between w-full items-baseline">
-          <p className="text-xs text-muted-foreground">
-            {formatDateDdMmYyyy(startDate) +
-              " - " +
-              formatDateDdMmYyyy(endDate)}
-          </p>
+            <div className="flex flex-row justify-between w-full items-baseline">
+              <p className="text-xs text-muted-foreground">
+                {formatDateDdMmYyyy(startDate) +
+                  " - " +
+                  formatDateDdMmYyyy(endDate)}
+              </p>
 
-          <ToggleGroup type="single">
-            <ToggleGroupItem
-              onClick={() =>
-                handleChangeDates(
-                  format(
-                    new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-                    "ddMMyyyy"
-                  ),
-                  format(new Date(), "ddMMyyyy")
-                )
-              }
-              value="07"
-              aria-label="07 days"
-              className="text-sm text-gray-500 w-3 h-6"
-            >
-              07
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              onClick={() =>
-                handleChangeDates(
-                  format(
-                    new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-                    "ddMMyyyy"
-                  ),
-                  format(new Date(), "ddMMyyyy")
-                )
-              }
-              value="30"
-              aria-label="30 days"
-              className="text-sm text-gray-500 w-3 h-6"
-            >
-              30
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              onClick={() =>
-                handleChangeDates(
-                  format(
-                    new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
-                    "ddMMyyyy"
-                  ),
-                  format(new Date(), "ddMMyyyy")
-                )
-              }
-              value="90"
-              aria-label="90 days"
-              className="text-sm text-gray-500 w-3 h-6"
-            >
-              90
-            </ToggleGroupItem>
-          </ToggleGroup>
-        </div>
+              <ToggleGroup type="single">
+                <ToggleGroupItem
+                  onClick={() =>
+                    handleChangeDates(
+                      format(
+                        new Date(
+                          new Date().getTime() - 7 * 24 * 60 * 60 * 1000
+                        ),
+                        "ddMMyyyy"
+                      ),
+                      format(new Date(), "ddMMyyyy")
+                    )
+                  }
+                  value="07"
+                  aria-label="07 days"
+                  className="text-sm text-gray-500 w-3 h-6"
+                >
+                  07
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  onClick={() =>
+                    handleChangeDates(
+                      format(
+                        new Date(
+                          new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+                        ),
+                        "ddMMyyyy"
+                      ),
+                      format(new Date(), "ddMMyyyy")
+                    )
+                  }
+                  value="30"
+                  aria-label="30 days"
+                  className="text-sm text-gray-500 w-3 h-6"
+                >
+                  30
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  onClick={() =>
+                    handleChangeDates(
+                      format(
+                        new Date(
+                          new Date().getTime() - 90 * 24 * 60 * 60 * 1000
+                        ),
+                        "ddMMyyyy"
+                      ),
+                      format(new Date(), "ddMMyyyy")
+                    )
+                  }
+                  value="90"
+                  aria-label="90 days"
+                  className="text-sm text-gray-500 w-3 h-6"
+                >
+                  90
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

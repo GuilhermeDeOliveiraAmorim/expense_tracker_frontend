@@ -106,76 +106,83 @@ export default function GetTotalExpensesForPeriodForm() {
     <Card className="w-1/4">
       <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
         <CardTitle className="text-sm">Total Expenses</CardTitle>
-        <Icons.dollarSign className="w-4 h-4 text-gray-500" />
       </CardHeader>
-      <CardContent className="flex flex-col justify-between w-full items-baseline">
-        {isLoadingAmount ? (
-          <div className="pt-[10px] pb-[10px]">
-            <Icons.spinner className="w-4 h-4 animate-spin" />
-          </div>
-        ) : (
-          <div className="flex flex-col w-full h-full text-3xl font-bold">
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(totalAmount)}
-          </div>
-        )}
+      <CardContent>
+        <div className="flex flex-col justify-between w-full items-baseline">
+          {totalAmount == 0 ? (
+            <div>No expenses found</div>
+          ) : (
+            <div className="flex flex-col justify-between w-full items-baseline">
+              {isLoadingAmount ? (
+                <div className="pt-[10px] pb-[10px]">
+                  <Icons.spinner className="w-4 h-4 animate-spin" />
+                </div>
+              ) : (
+                <div className="flex flex-col w-full h-full text-3xl font-bold">
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(totalAmount)}
+                </div>
+              )}
 
-        <div className="flex flex-row justify-between w-full items-baseline">
-          <p className="text-xs text-muted-foreground">
-            {formatDateDdMmYyyy(startDate) +
-              " - " +
-              formatDateDdMmYyyy(endDate)}
-          </p>
+              <div className="flex flex-row justify-between w-full items-baseline">
+                <p className="text-xs text-muted-foreground">
+                  {formatDateDdMmYyyy(startDate) +
+                    " - " +
+                    formatDateDdMmYyyy(endDate)}
+                </p>
 
-          <ToggleGroup type="single">
-            <ToggleGroupItem
-              onClick={() =>
-                handleChangeDates(
-                  rangerDate({
-                    last7Days: true,
-                  }),
-                  format(new Date(), "ddMMyyyy")
-                )
-              }
-              value="07"
-              aria-label="07 days"
-              className="text-sm text-gray-500 w-3 h-6"
-            >
-              07
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              onClick={() =>
-                handleChangeDates(
-                  rangerDate({
-                    last30Days: true,
-                  }),
-                  format(new Date(), "ddMMyyyy")
-                )
-              }
-              value="30"
-              aria-label="30 days"
-              className="text-sm text-gray-500 w-3 h-6"
-            >
-              30
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              onClick={() =>
-                handleChangeDates(
-                  rangerDate({
-                    last90Days: true,
-                  }),
-                  format(new Date(), "ddMMyyyy")
-                )
-              }
-              value="90"
-              aria-label="90 days"
-              className="text-sm text-gray-500 w-3 h-6"
-            >
-              90
-            </ToggleGroupItem>
-          </ToggleGroup>
+                <ToggleGroup type="single">
+                  <ToggleGroupItem
+                    onClick={() =>
+                      handleChangeDates(
+                        rangerDate({
+                          last7Days: true,
+                        }),
+                        format(new Date(), "ddMMyyyy")
+                      )
+                    }
+                    value="07"
+                    aria-label="07 days"
+                    className="text-sm text-gray-500 w-3 h-6"
+                  >
+                    07
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    onClick={() =>
+                      handleChangeDates(
+                        rangerDate({
+                          last30Days: true,
+                        }),
+                        format(new Date(), "ddMMyyyy")
+                      )
+                    }
+                    value="30"
+                    aria-label="30 days"
+                    className="text-sm text-gray-500 w-3 h-6"
+                  >
+                    30
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    onClick={() =>
+                      handleChangeDates(
+                        rangerDate({
+                          last90Days: true,
+                        }),
+                        format(new Date(), "ddMMyyyy")
+                      )
+                    }
+                    value="90"
+                    aria-label="90 days"
+                    className="text-sm text-gray-500 w-3 h-6"
+                  >
+                    90
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
