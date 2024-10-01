@@ -1,7 +1,19 @@
 import { getMonthlyExpensesByCategoryPeriod } from "@/components/query_functions/qf.presenters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { formatDateDdMmYyyy, rangerDate } from "@/components/util/date.handler";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import {
   GetMonthlyExpensesByCategoryPeriodInputDTO,
@@ -9,21 +21,53 @@ import {
   MonthlyCategoryExpense,
 } from "@/internal/presenters/get_monthly_expenses_by_category_period";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import { Bar, BarChart, LabelList, XAxis } from "recharts";
+
+function transformApiResponse(data: MonthlyCategoryExpense[]) {
+  const chartData = [];
+  const chartConfig: Record<string, { label: string; color: string }> = {
+    expenses: {
+      label: "Expenses per month",
+      color: "#000000",
+    },
+  };
+
+  const monthToIndex = (month: string) => {
+    return new Date(`${month} 1, 2000`).getMonth() + 1;
+  };
+
+  for (const item of data) {
+    const { month, year, categories } = item;
+    const monthIndex = monthToIndex(month);
+    const dateStr = `${year}-${String(monthIndex).padStart(2, "0")}-15`;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dataPoint: any = { date: dateStr };
+
+    for (const category of categories) {
+      const { category_name, category_color, total } = category;
+
+      dataPoint[category_name.toLowerCase()] = total;
+
+      if (!chartConfig[category_name.toLowerCase()]) {
+        chartConfig[category_name.toLowerCase()] = {
+          label: category_name,
+          color: category_color,
+        };
+      }
+    }
+
+    chartData.push(dataPoint);
+  }
+
+  return { chartData, chartConfig };
+}
 
 export default function GetMonthlyExpensesByCategoryPeriodForm() {
   const [categories, setCategories] = useState<MonthlyCategoryExpense[]>([]);
-  const [startDate, setStartDate] = useState(
-    rangerDate({
-      last1Year: true,
-    })
-  );
-  const [endDate, setEndDate] = useState(
-    rangerDate({
-      today: true,
-    })
-  );
+  const [yearsList, setYearsList] = useState<number[]>([]);
+  const [year, setYear] = useState("2024");
 
   const {
     data: monthlyExpensesByCategoryData,
@@ -33,8 +77,7 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
     queryKey: ["monthly-expenses-by-category", "monthly-expenses-by-category"],
     queryFn: () =>
       getMonthlyExpensesByCategoryPeriod({
-        startDate: startDate,
-        endDate: endDate,
+        year: Number(year),
       }),
   });
 
@@ -45,8 +88,10 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
         monthlyExpensesByCategoryData.expenses
       ) {
         setCategories(monthlyExpensesByCategoryData?.expenses);
+        setYearsList(monthlyExpensesByCategoryData?.available_years);
       } else {
         setCategories([]);
+        setYearsList([]);
       }
     }
   }, [monthlyExpensesByCategoryData, monthlyExpensesByCategoryLoading]);
@@ -64,13 +109,11 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
     onError: () => setCategories([]),
   });
 
-  const handleChangeDates = (startDate: string, endDate: string) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
+  const handleChangeYear = (year: number) => {
+    setYear(year.toString());
 
     const input: GetMonthlyExpensesByCategoryPeriodInputDTO = {
-      startDate: startDate,
-      endDate: endDate,
+      year: year,
     };
 
     mutation.mutate(input);
@@ -86,74 +129,80 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
     return;
   }
 
-  console.log(categories);
+  const { chartData, chartConfig } = transformApiResponse(categories);
+
+  console.log("categories", categories);
 
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
         <CardTitle className="text-sm">Expenses by month</CardTitle>
+        <Select
+          name="year"
+          key={year}
+          onValueChange={(value) => handleChangeYear(Number(value))}
+          value={year.toString()}
+          aria-label="Years listing"
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a year" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Year</SelectLabel>
+              {yearsList?.map((year: number) => (
+                <SelectItem key={year} value={year.toString()}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {year}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </CardHeader>
       <CardContent className="flex flex-col justify-between w-full items-baseline">
-        {monthlyExpensesByCategoryData?.expenses.length === 0 ? (
+        {categories.length === 0 ? (
           <div>No expenses found</div>
         ) : (
           <div className="flex flex-row justify-between w-full items-baseline">
-            <p className="text-xs text-muted-foreground">
-              {formatDateDdMmYyyy(startDate) +
-                " - " +
-                formatDateDdMmYyyy(endDate)}
-            </p>
-
-            <ToggleGroup type="single">
-              <ToggleGroupItem
-                onClick={() =>
-                  handleChangeDates(
-                    format(
-                      new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-                      "ddMMyyyy"
-                    ),
-                    format(new Date(), "ddMMyyyy")
-                  )
-                }
-                value="07"
-                aria-label="07 days"
-                className="text-sm text-gray-500 w-3 h-6"
-              >
-                07
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                onClick={() =>
-                  handleChangeDates(
-                    format(
-                      new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-                      "ddMMyyyy"
-                    ),
-                    format(new Date(), "ddMMyyyy")
-                  )
-                }
-                value="30"
-                aria-label="30 days"
-                className="text-sm text-gray-500 w-3 h-6"
-              >
-                30
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                onClick={() =>
-                  handleChangeDates(
-                    format(
-                      new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
-                      "ddMMyyyy"
-                    ),
-                    format(new Date(), "ddMMyyyy")
-                  )
-                }
-                value="90"
-                aria-label="90 days"
-                className="text-sm text-gray-500 w-3 h-6"
-              >
-                90
-              </ToggleGroupItem>
-            </ToggleGroup>
+            <ChartContainer config={chartConfig} className="w-full">
+              <BarChart accessibilityLayer data={chartData}>
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => {
+                    return new Date(value).toLocaleDateString("en-US", {
+                      month: "short",
+                    });
+                  }}
+                />
+                {Object.entries(chartConfig).map(([key, config]) => (
+                  <Bar key={key} dataKey={key} stackId="a" fill={config.color}>
+                    <LabelList
+                      dataKey={key}
+                      position="center"
+                      offset={8}
+                      fill="#ffffff"
+                      fontSize={12}
+                    />
+                  </Bar>
+                ))}
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      labelKey="expenses"
+                      indicator="line"
+                      className="bg-white"
+                    />
+                  }
+                  cursor={false}
+                  defaultIndex={1}
+                />
+              </BarChart>
+            </ChartContainer>
           </div>
         )}
       </CardContent>

@@ -9,12 +9,12 @@ export type MonthlyCategoryExpense = {
 };
 
 export type GetMonthlyExpensesByCategoryPeriodInputDTO = {
-  startDate: string;
-  endDate: string;
+  year: number;
 };
 
 export type GetMonthlyExpensesByCategoryPeriodOutputDTO = {
   expenses: MonthlyCategoryExpense[];
+  available_years: number[];
 };
 
 export class GetMonthlyExpensesByCategoryPeriodUseCase {

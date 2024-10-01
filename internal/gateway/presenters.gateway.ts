@@ -51,7 +51,7 @@ export class PresentersGateway implements PresentersRepository {
     try {
       const output =
         await this.http.get<GetMonthlyExpensesByCategoryPeriodOutputDTO>(
-          `${apiRoutes.getMonthlyExpensesByCategoryPeriod}?start_date=${input.startDate}&end_date=${input.endDate}`
+          `${apiRoutes.getMonthlyExpensesByCategoryPeriod}?year=${input.year}`
         );
 
       return output.data;
