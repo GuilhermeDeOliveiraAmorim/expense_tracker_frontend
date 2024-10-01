@@ -15,4 +15,5 @@ export const apiRoutes = {
   updateTag: "/tags",
   getTotalExpensesForPeriod: "/expenses/total",
   getExpensesByCategoryPeriod: "/expenses/categories",
+  getMonthlyExpensesByCategoryPeriod: "/expenses/categories/monthly",
 };
