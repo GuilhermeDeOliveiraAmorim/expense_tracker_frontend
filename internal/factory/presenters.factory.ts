@@ -15,7 +15,7 @@ export class PresentersFactory {
     return new GetExpensesByCategoryPeriodUseCase(this.presentersGateway);
   }
 
-  GetMonthlyExpensesByCategoryPeriodUseCase() {
+  getMonthlyExpensesByCategoryPeriodUseCase() {
     return new GetMonthlyExpensesByCategoryPeriodUseCase(
       this.presentersGateway
     );
