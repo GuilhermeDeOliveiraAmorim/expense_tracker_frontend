@@ -29,6 +29,7 @@ type RangerDateType = {
   last7Days?: boolean;
   last30Days?: boolean;
   last90Days?: boolean;
+  last1Year?: boolean;
 };
 
 export const rangerDate = ({
@@ -36,6 +37,7 @@ export const rangerDate = ({
   last7Days,
   last30Days,
   last90Days,
+  last1Year,
 }: RangerDateType): string => {
   if (today) {
     return format(new Date(), "ddMMyyyy");
@@ -52,6 +54,11 @@ export const rangerDate = ({
   } else if (last90Days) {
     return format(
       new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
+      "ddMMyyyy"
+    );
+  } else if (last1Year) {
+    return format(
+      new Date(new Date().getTime() - 365 * 24 * 60 * 60 * 1000),
       "ddMMyyyy"
     );
   }

@@ -103,7 +103,7 @@ export default function GetTotalExpensesForPeriodForm() {
   }
 
   return (
-    <Card className="w-1/4">
+    <Card className="w-full">
       <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
         <CardTitle className="text-sm">Total Expenses</CardTitle>
       </CardHeader>

@@ -122,7 +122,7 @@ export default function GetExpensesByCategoryPeriodForm() {
   }
 
   return (
-    <Card className="w-1/3">
+    <Card className="w-full">
       <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
         <CardTitle className="text-sm">Expenses by Category</CardTitle>
       </CardHeader>
