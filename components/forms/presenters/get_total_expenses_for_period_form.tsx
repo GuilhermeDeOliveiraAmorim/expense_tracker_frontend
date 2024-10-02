@@ -125,64 +125,63 @@ export default function GetTotalExpensesForPeriodForm() {
                   }).format(totalAmount)}
                 </div>
               )}
-
-              <div className="flex flex-row justify-between w-full items-baseline">
-                <p className="text-xs text-muted-foreground">
-                  {formatDateDdMmYyyy(startDate) +
-                    " - " +
-                    formatDateDdMmYyyy(endDate)}
-                </p>
-
-                <ToggleGroup type="single">
-                  <ToggleGroupItem
-                    onClick={() =>
-                      handleChangeDates(
-                        rangerDate({
-                          last7Days: true,
-                        }),
-                        format(new Date(), "ddMMyyyy")
-                      )
-                    }
-                    value="07"
-                    aria-label="07 days"
-                    className="text-sm text-gray-500 w-3 h-6"
-                  >
-                    07
-                  </ToggleGroupItem>
-                  <ToggleGroupItem
-                    onClick={() =>
-                      handleChangeDates(
-                        rangerDate({
-                          last30Days: true,
-                        }),
-                        format(new Date(), "ddMMyyyy")
-                      )
-                    }
-                    value="30"
-                    aria-label="30 days"
-                    className="text-sm text-gray-500 w-3 h-6"
-                  >
-                    30
-                  </ToggleGroupItem>
-                  <ToggleGroupItem
-                    onClick={() =>
-                      handleChangeDates(
-                        rangerDate({
-                          last90Days: true,
-                        }),
-                        format(new Date(), "ddMMyyyy")
-                      )
-                    }
-                    value="90"
-                    aria-label="90 days"
-                    className="text-sm text-gray-500 w-3 h-6"
-                  >
-                    90
-                  </ToggleGroupItem>
-                </ToggleGroup>
-              </div>
             </div>
           )}
+          <div className="flex flex-row justify-between w-full items-baseline">
+            <p className="text-xs text-muted-foreground">
+              {formatDateDdMmYyyy(startDate) +
+                " - " +
+                formatDateDdMmYyyy(endDate)}
+            </p>
+
+            <ToggleGroup type="single">
+              <ToggleGroupItem
+                onClick={() =>
+                  handleChangeDates(
+                    rangerDate({
+                      last7Days: true,
+                    }),
+                    format(new Date(), "ddMMyyyy")
+                  )
+                }
+                value="07"
+                aria-label="07 days"
+                className="text-sm text-gray-500 w-3 h-6"
+              >
+                07
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                onClick={() =>
+                  handleChangeDates(
+                    rangerDate({
+                      last30Days: true,
+                    }),
+                    format(new Date(), "ddMMyyyy")
+                  )
+                }
+                value="30"
+                aria-label="30 days"
+                className="text-sm text-gray-500 w-3 h-6"
+              >
+                30
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                onClick={() =>
+                  handleChangeDates(
+                    rangerDate({
+                      last90Days: true,
+                    }),
+                    format(new Date(), "ddMMyyyy")
+                  )
+                }
+                value="90"
+                aria-label="90 days"
+                className="text-sm text-gray-500 w-3 h-6"
+              >
+                90
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
         </div>
       </CardContent>
     </Card>

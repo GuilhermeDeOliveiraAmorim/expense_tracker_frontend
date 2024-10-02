@@ -161,73 +161,66 @@ export default function GetExpensesByCategoryPeriodForm() {
                 </Bar>
               </BarChart>
             </ChartContainer>
-
-            <div className="flex flex-row justify-between w-full items-baseline">
-              <p className="text-xs text-muted-foreground">
-                {formatDateDdMmYyyy(startDate) +
-                  " - " +
-                  formatDateDdMmYyyy(endDate)}
-              </p>
-
-              <ToggleGroup type="single">
-                <ToggleGroupItem
-                  onClick={() =>
-                    handleChangeDates(
-                      format(
-                        new Date(
-                          new Date().getTime() - 7 * 24 * 60 * 60 * 1000
-                        ),
-                        "ddMMyyyy"
-                      ),
-                      format(new Date(), "ddMMyyyy")
-                    )
-                  }
-                  value="07"
-                  aria-label="07 days"
-                  className="text-sm text-gray-500 w-3 h-6"
-                >
-                  07
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  onClick={() =>
-                    handleChangeDates(
-                      format(
-                        new Date(
-                          new Date().getTime() - 30 * 24 * 60 * 60 * 1000
-                        ),
-                        "ddMMyyyy"
-                      ),
-                      format(new Date(), "ddMMyyyy")
-                    )
-                  }
-                  value="30"
-                  aria-label="30 days"
-                  className="text-sm text-gray-500 w-3 h-6"
-                >
-                  30
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  onClick={() =>
-                    handleChangeDates(
-                      format(
-                        new Date(
-                          new Date().getTime() - 90 * 24 * 60 * 60 * 1000
-                        ),
-                        "ddMMyyyy"
-                      ),
-                      format(new Date(), "ddMMyyyy")
-                    )
-                  }
-                  value="90"
-                  aria-label="90 days"
-                  className="text-sm text-gray-500 w-3 h-6"
-                >
-                  90
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </div>
           </div>
         )}
+        <div className="flex flex-row justify-between w-full items-baseline">
+          <p className="text-xs text-muted-foreground">
+            {formatDateDdMmYyyy(startDate) +
+              " - " +
+              formatDateDdMmYyyy(endDate)}
+          </p>
+
+          <ToggleGroup type="single">
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  format(
+                    new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+                    "ddMMyyyy"
+                  ),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="07"
+              aria-label="07 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              07
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  format(
+                    new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+                    "ddMMyyyy"
+                  ),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="30"
+              aria-label="30 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              30
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              onClick={() =>
+                handleChangeDates(
+                  format(
+                    new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000),
+                    "ddMMyyyy"
+                  ),
+                  format(new Date(), "ddMMyyyy")
+                )
+              }
+              value="90"
+              aria-label="90 days"
+              className="text-sm text-gray-500 w-3 h-6"
+            >
+              90
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
       </CardContent>
     </Card>
   );
