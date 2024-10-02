@@ -1,4 +1,7 @@
-import { getMonthlyExpensesByCategoryYear } from "@/components/query_functions/qf.presenters";
+import {
+  getMonthlyExpensesByCategoryYear,
+  getMonthlyExpensesByTagYear,
+} from "@/components/query_functions/qf.presenters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -20,11 +23,12 @@ import {
   GetMonthlyExpensesByCategoryYearOutputDTO,
   MonthlyCategoryExpense,
 } from "@/internal/presenters/get_monthly_expenses_by_category_year";
+import { MonthlyTagExpense } from "@/internal/presenters/get_monthly_expenses_by_tag_year";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, LabelList, XAxis } from "recharts";
 
-function transformApiResponse(data: MonthlyCategoryExpense[]) {
+function transformCategoriesResponse(data: MonthlyCategoryExpense[]) {
   const chartData = [];
   const chartConfig: Record<string, { label: string; color: string }> = {
     expenses: {
@@ -64,10 +68,42 @@ function transformApiResponse(data: MonthlyCategoryExpense[]) {
   return { chartData, chartConfig };
 }
 
+const transformTagsResponse = (data: MonthlyTagExpense[]) => {
+  const chartData = [];
+  const chartConfig: Record<string, { label: string; color: string }> = {};
+
+  for (const item of data) {
+    const { month, year, tags } = item;
+    const dateStr = `${year}-${String(month).padStart(2, "0")}-15`;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dataPoint: any = { date: dateStr };
+
+    for (const tag of tags) {
+      const { tag_name, tag_color, total } = tag;
+
+      dataPoint[tag_name.toLowerCase()] = total;
+
+      if (!chartConfig[tag_name.toLowerCase()]) {
+        chartConfig[tag_name.toLowerCase()] = {
+          label: tag_name,
+          color: tag_color,
+        };
+      }
+    }
+
+    chartData.push(dataPoint);
+  }
+
+  return { chartData, chartConfig };
+};
+
 export default function GetMonthlyExpensesByCategoryYearForm() {
   const [categories, setCategories] = useState<MonthlyCategoryExpense[]>([]);
+  const [tags, setTags] = useState<MonthlyTagExpense[]>([]);
   const [yearsList, setYearsList] = useState<number[]>([]);
   const [year, setYear] = useState("2024");
+  const [viewType, setViewType] = useState<"categories" | "tags">("categories");
 
   const {
     data: monthlyExpensesByCategoryData,
@@ -77,6 +113,18 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
     queryKey: ["monthly-expenses-by-category", "monthly-expenses-by-category"],
     queryFn: () =>
       getMonthlyExpensesByCategoryYear({
+        year: Number(year),
+      }),
+  });
+
+  const {
+    data: monthlyExpensesByTagData,
+    error: monthlyExpensesByTagError,
+    isLoading: monthlyExpensesByTagLoading,
+  } = useQuery({
+    queryKey: ["monthly-expenses-by-tag", "monthly-expenses-by-tag"],
+    queryFn: () =>
+      getMonthlyExpensesByTagYear({
         year: Number(year),
       }),
   });
@@ -95,6 +143,16 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
       }
     }
   }, [monthlyExpensesByCategoryData, monthlyExpensesByCategoryLoading]);
+
+  useEffect(() => {
+    if (!monthlyExpensesByTagLoading) {
+      if (monthlyExpensesByTagData && monthlyExpensesByTagData.expenses) {
+        setTags(monthlyExpensesByTagData?.expenses);
+      } else {
+        setTags([]);
+      }
+    }
+  }, [monthlyExpensesByTagData, monthlyExpensesByTagLoading]);
 
   const mutation = useMutation<
     GetMonthlyExpensesByCategoryYearOutputDTO,
@@ -129,14 +187,42 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
     return;
   }
 
-  const { chartData, chartConfig } = transformApiResponse(categories);
+  if (monthlyExpensesByTagError) {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Failed to fetch expenses by tag",
+      duration: 2500,
+    });
+    return;
+  }
 
-  console.log("categories", categories);
+  const { chartData, chartConfig } =
+    viewType === "categories"
+      ? transformCategoriesResponse(categories)
+      : transformTagsResponse(tags);
 
   return (
     <Card className="w-full">
-      <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2">
+      <CardHeader className="flex flex-row justify-between w-full items-center content-center pb-2 gap-4">
         <CardTitle className="text-sm">Expenses by month</CardTitle>
+        <Select
+          name="viewType"
+          onValueChange={(value) => setViewType(value as "categories" | "tags")}
+          value={viewType}
+          aria-label="View Type"
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select view" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>View Type</SelectLabel>
+              <SelectItem value="categories">Categories</SelectItem>
+              <SelectItem value="tags">Tags</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Select
           name="year"
           key={year}

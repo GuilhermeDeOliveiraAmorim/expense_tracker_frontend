@@ -10,7 +10,7 @@ export type TagExpense = {
 export type MonthlyTagExpense = {
   month: string;
   year: number;
-  categories: TagExpense[];
+  tags: TagExpense[];
   total: number;
 };
 
