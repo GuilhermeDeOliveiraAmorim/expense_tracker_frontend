@@ -1,6 +1,7 @@
 import { PresentersGateway } from "../gateway/presenters.gateway";
 import { GetExpensesByCategoryPeriodUseCase } from "../presenters/get_expenses_by_category_period";
-import { GetMonthlyExpensesByCategoryPeriodUseCase } from "../presenters/get_monthly_expenses_by_category_period";
+import { GetMonthlyExpensesByCategoryYearUseCase } from "../presenters/get_monthly_expenses_by_category_year";
+import { GetMonthlyExpensesByTagYearUseCase } from "../presenters/get_monthly_expenses_by_tag_year";
 import { GetTotalExpensesForPeriodUseCase } from "../presenters/get_total_expenses_for_period";
 import { http } from "../util/http";
 
@@ -15,9 +16,11 @@ export class PresentersFactory {
     return new GetExpensesByCategoryPeriodUseCase(this.presentersGateway);
   }
 
-  getMonthlyExpensesByCategoryPeriodUseCase() {
-    return new GetMonthlyExpensesByCategoryPeriodUseCase(
-      this.presentersGateway
-    );
+  getMonthlyExpensesByCategoryYearUseCase() {
+    return new GetMonthlyExpensesByCategoryYearUseCase(this.presentersGateway);
+  }
+
+  getMonthlyExpensesByTagYearUseCase() {
+    return new GetMonthlyExpensesByTagYearUseCase(this.presentersGateway);
   }
 }

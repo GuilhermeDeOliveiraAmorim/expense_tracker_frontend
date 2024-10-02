@@ -4,9 +4,13 @@ import {
   GetExpensesByCategoryPeriodOutputDTO,
 } from "@/internal/presenters/get_expenses_by_category_period";
 import {
-  GetMonthlyExpensesByCategoryPeriodInputDTO,
-  GetMonthlyExpensesByCategoryPeriodOutputDTO,
-} from "@/internal/presenters/get_monthly_expenses_by_category_period";
+  GetMonthlyExpensesByCategoryYearInputDTO,
+  GetMonthlyExpensesByCategoryYearOutputDTO,
+} from "@/internal/presenters/get_monthly_expenses_by_category_year";
+import {
+  GetMonthlyExpensesByTagYearInputDTO,
+  GetMonthlyExpensesByTagYearOutputDTO,
+} from "@/internal/presenters/get_monthly_expenses_by_tag_year";
 import {
   GetTotalExpensesForPeriodInputDTO,
   GetTotalExpensesForPeriodOutputDTO,
@@ -44,17 +48,33 @@ export const getExpensesByCategoryPeriod = async (
   }
 };
 
-export const getMonthlyExpensesByCategoryPeriod = async (
-  input: GetMonthlyExpensesByCategoryPeriodInputDTO
-): Promise<GetMonthlyExpensesByCategoryPeriodOutputDTO> => {
+export const getMonthlyExpensesByCategoryYear = async (
+  input: GetMonthlyExpensesByCategoryYearInputDTO
+): Promise<GetMonthlyExpensesByCategoryYearOutputDTO> => {
   try {
     const presentersFactory = new PresentersFactory();
-    const getMonthlyExpensesByCategoryPeriodUseCase =
-      presentersFactory.getMonthlyExpensesByCategoryPeriodUseCase();
+    const getMonthlyExpensesByCategoryYearUseCase =
+      presentersFactory.getMonthlyExpensesByCategoryYearUseCase();
 
-    const response = await getMonthlyExpensesByCategoryPeriodUseCase.execute(
+    const response = await getMonthlyExpensesByCategoryYearUseCase.execute(
       input
     );
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getMonthlyExpensesByTagYear = async (
+  input: GetMonthlyExpensesByTagYearInputDTO
+): Promise<GetMonthlyExpensesByTagYearOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getMonthlyExpensesByTagYearUseCase =
+      presentersFactory.getMonthlyExpensesByTagYearUseCase();
+
+    const response = await getMonthlyExpensesByTagYearUseCase.execute(input);
 
     return response;
   } catch (error) {

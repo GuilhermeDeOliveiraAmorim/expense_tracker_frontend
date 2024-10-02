@@ -1,4 +1,4 @@
-import { getMonthlyExpensesByCategoryPeriod } from "@/components/query_functions/qf.presenters";
+import { getMonthlyExpensesByCategoryYear } from "@/components/query_functions/qf.presenters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import {
-  GetMonthlyExpensesByCategoryPeriodInputDTO,
-  GetMonthlyExpensesByCategoryPeriodOutputDTO,
+  GetMonthlyExpensesByCategoryYearInputDTO,
+  GetMonthlyExpensesByCategoryYearOutputDTO,
   MonthlyCategoryExpense,
-} from "@/internal/presenters/get_monthly_expenses_by_category_period";
+} from "@/internal/presenters/get_monthly_expenses_by_category_year";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, LabelList, XAxis } from "recharts";
@@ -64,7 +64,7 @@ function transformApiResponse(data: MonthlyCategoryExpense[]) {
   return { chartData, chartConfig };
 }
 
-export default function GetMonthlyExpensesByCategoryPeriodForm() {
+export default function GetMonthlyExpensesByCategoryYearForm() {
   const [categories, setCategories] = useState<MonthlyCategoryExpense[]>([]);
   const [yearsList, setYearsList] = useState<number[]>([]);
   const [year, setYear] = useState("2024");
@@ -76,7 +76,7 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
   } = useQuery({
     queryKey: ["monthly-expenses-by-category", "monthly-expenses-by-category"],
     queryFn: () =>
-      getMonthlyExpensesByCategoryPeriod({
+      getMonthlyExpensesByCategoryYear({
         year: Number(year),
       }),
   });
@@ -97,13 +97,13 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
   }, [monthlyExpensesByCategoryData, monthlyExpensesByCategoryLoading]);
 
   const mutation = useMutation<
-    GetMonthlyExpensesByCategoryPeriodOutputDTO,
+    GetMonthlyExpensesByCategoryYearOutputDTO,
     Error,
-    GetMonthlyExpensesByCategoryPeriodInputDTO
+    GetMonthlyExpensesByCategoryYearInputDTO
   >({
     mutationKey: ["update-category"],
-    mutationFn: getMonthlyExpensesByCategoryPeriod,
-    onSuccess: (output: GetMonthlyExpensesByCategoryPeriodOutputDTO) => {
+    mutationFn: getMonthlyExpensesByCategoryYear,
+    onSuccess: (output: GetMonthlyExpensesByCategoryYearOutputDTO) => {
       setCategories(output?.expenses);
     },
     onError: () => setCategories([]),
@@ -112,7 +112,7 @@ export default function GetMonthlyExpensesByCategoryPeriodForm() {
   const handleChangeYear = (year: number) => {
     setYear(year.toString());
 
-    const input: GetMonthlyExpensesByCategoryPeriodInputDTO = {
+    const input: GetMonthlyExpensesByCategoryYearInputDTO = {
       year: year,
     };
 

@@ -3,9 +3,13 @@ import {
   GetExpensesByCategoryPeriodOutputDTO,
 } from "../presenters/get_expenses_by_category_period";
 import {
-  GetMonthlyExpensesByCategoryPeriodInputDTO,
-  GetMonthlyExpensesByCategoryPeriodOutputDTO,
-} from "../presenters/get_monthly_expenses_by_category_period";
+  GetMonthlyExpensesByCategoryYearInputDTO,
+  GetMonthlyExpensesByCategoryYearOutputDTO,
+} from "../presenters/get_monthly_expenses_by_category_year";
+import {
+  GetMonthlyExpensesByTagYearInputDTO,
+  GetMonthlyExpensesByTagYearOutputDTO,
+} from "../presenters/get_monthly_expenses_by_tag_year";
 import {
   GetTotalExpensesForPeriodInputDTO,
   GetTotalExpensesForPeriodOutputDTO,
@@ -20,7 +24,11 @@ export interface PresentersRepository {
     input: GetExpensesByCategoryPeriodInputDTO
   ): Promise<GetExpensesByCategoryPeriodOutputDTO>;
 
-  getMonthlyExpensesByCategoryPeriod(
-    input: GetMonthlyExpensesByCategoryPeriodInputDTO
-  ): Promise<GetMonthlyExpensesByCategoryPeriodOutputDTO>;
+  getMonthlyExpensesByCategoryYear(
+    input: GetMonthlyExpensesByCategoryYearInputDTO
+  ): Promise<GetMonthlyExpensesByCategoryYearOutputDTO>;
+
+  getMonthlyExpensesByTagYear(
+    input: GetMonthlyExpensesByTagYearInputDTO
+  ): Promise<GetMonthlyExpensesByTagYearOutputDTO>;
 }

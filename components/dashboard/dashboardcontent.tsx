@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/props.types";
 import GetExpensesByCategoryPeriodForm from "../forms/presenters/get_expenses_by_category_period_form";
-import GetMonthlyExpensesByCategoryPeriodForm from "../forms/presenters/get_monthly_expenses_by_category_period_form";
+import GetMonthlyExpensesByCategoryYearForm from "../forms/presenters/get_monthly_expenses_by_category_period_form";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -57,7 +57,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
           <GetExpensesByCategoryPeriodForm />
         </div>
 
-        <GetMonthlyExpensesByCategoryPeriodForm />
+        <GetMonthlyExpensesByCategoryYearForm />
       </main>
 
       {footer ? footer : ""}

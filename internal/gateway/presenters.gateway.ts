@@ -10,9 +10,13 @@ import {
   GetExpensesByCategoryPeriodOutputDTO,
 } from "../presenters/get_expenses_by_category_period";
 import {
-  GetMonthlyExpensesByCategoryPeriodInputDTO,
-  GetMonthlyExpensesByCategoryPeriodOutputDTO,
-} from "../presenters/get_monthly_expenses_by_category_period";
+  GetMonthlyExpensesByCategoryYearInputDTO,
+  GetMonthlyExpensesByCategoryYearOutputDTO,
+} from "../presenters/get_monthly_expenses_by_category_year";
+import {
+  GetMonthlyExpensesByTagYearInputDTO,
+  GetMonthlyExpensesByTagYearOutputDTO,
+} from "../presenters/get_monthly_expenses_by_tag_year";
 
 export class PresentersGateway implements PresentersRepository {
   constructor(private http: AxiosInstance) {}
@@ -45,14 +49,28 @@ export class PresentersGateway implements PresentersRepository {
     }
   }
 
-  async getMonthlyExpensesByCategoryPeriod(
-    input: GetMonthlyExpensesByCategoryPeriodInputDTO
-  ): Promise<GetMonthlyExpensesByCategoryPeriodOutputDTO> {
+  async getMonthlyExpensesByCategoryYear(
+    input: GetMonthlyExpensesByCategoryYearInputDTO
+  ): Promise<GetMonthlyExpensesByCategoryYearOutputDTO> {
     try {
       const output =
-        await this.http.get<GetMonthlyExpensesByCategoryPeriodOutputDTO>(
-          `${apiRoutes.getMonthlyExpensesByCategoryPeriod}?year=${input.year}`
+        await this.http.get<GetMonthlyExpensesByCategoryYearOutputDTO>(
+          `${apiRoutes.getMonthlyExpensesByCategoryYear}?year=${input.year}`
         );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getMonthlyExpensesByTagYear(
+    input: GetMonthlyExpensesByTagYearInputDTO
+  ): Promise<GetMonthlyExpensesByTagYearOutputDTO> {
+    try {
+      const output = await this.http.get<GetMonthlyExpensesByTagYearOutputDTO>(
+        `${apiRoutes.getMonthlyExpensesByTagYear}?year=${input.year}`
+      );
 
       return output.data;
     } catch (error) {

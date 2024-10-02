@@ -6,26 +6,27 @@ export type MonthlyCategoryExpense = {
   month: string;
   year: number;
   categories: CategoryExpense[];
+  total: number;
 };
 
-export type GetMonthlyExpensesByCategoryPeriodInputDTO = {
+export type GetMonthlyExpensesByCategoryYearInputDTO = {
   year: number;
 };
 
-export type GetMonthlyExpensesByCategoryPeriodOutputDTO = {
+export type GetMonthlyExpensesByCategoryYearOutputDTO = {
   expenses: MonthlyCategoryExpense[];
   available_years: number[];
 };
 
-export class GetMonthlyExpensesByCategoryPeriodUseCase {
+export class GetMonthlyExpensesByCategoryYearUseCase {
   constructor(private PresentersGateway: PresentersRepository) {}
 
   async execute(
-    input: GetMonthlyExpensesByCategoryPeriodInputDTO
-  ): Promise<GetMonthlyExpensesByCategoryPeriodOutputDTO> {
+    input: GetMonthlyExpensesByCategoryYearInputDTO
+  ): Promise<GetMonthlyExpensesByCategoryYearOutputDTO> {
     try {
       const output =
-        await this.PresentersGateway.getMonthlyExpensesByCategoryPeriod(input);
+        await this.PresentersGateway.getMonthlyExpensesByCategoryYear(input);
       return output;
     } catch (error) {
       if (axios.isAxiosError(error)) {
