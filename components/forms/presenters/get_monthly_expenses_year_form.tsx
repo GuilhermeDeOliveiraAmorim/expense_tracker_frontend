@@ -23,12 +23,16 @@ import {
   GetMonthlyExpensesByCategoryYearOutputDTO,
   MonthlyCategoryExpense,
 } from "@/internal/presenters/get_monthly_expenses_by_category_year";
-import { MonthlyTagExpense } from "@/internal/presenters/get_monthly_expenses_by_tag_year";
+import {
+  GetMonthlyExpensesByTagYearInputDTO,
+  GetMonthlyExpensesByTagYearOutputDTO,
+  MonthlyTagExpense,
+} from "@/internal/presenters/get_monthly_expenses_by_tag_year";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, LabelList, XAxis } from "recharts";
 
-function transformCategoriesResponse(data: MonthlyCategoryExpense[]) {
+const transformCategoriesResponse = (data: MonthlyCategoryExpense[]) => {
   const chartData = [];
   const chartConfig: Record<string, { label: string; color: string }> = {
     expenses: {
@@ -66,7 +70,7 @@ function transformCategoriesResponse(data: MonthlyCategoryExpense[]) {
   }
 
   return { chartData, chartConfig };
-}
+};
 
 const transformTagsResponse = (data: MonthlyTagExpense[]) => {
   const chartData = [];
@@ -102,7 +106,7 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
   const [categories, setCategories] = useState<MonthlyCategoryExpense[]>([]);
   const [tags, setTags] = useState<MonthlyTagExpense[]>([]);
   const [yearsList, setYearsList] = useState<number[]>([]);
-  const [year, setYear] = useState("2024");
+  const [selectedYear, setSelectedYear] = useState("2024");
   const [viewType, setViewType] = useState<"categories" | "tags">("categories");
 
   const {
@@ -113,7 +117,7 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
     queryKey: ["monthly-expenses-by-category", "monthly-expenses-by-category"],
     queryFn: () =>
       getMonthlyExpensesByCategoryYear({
-        year: Number(year),
+        year: Number(selectedYear),
       }),
   });
 
@@ -125,7 +129,7 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
     queryKey: ["monthly-expenses-by-tag", "monthly-expenses-by-tag"],
     queryFn: () =>
       getMonthlyExpensesByTagYear({
-        year: Number(year),
+        year: Number(selectedYear),
       }),
   });
 
@@ -154,7 +158,7 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
     }
   }, [monthlyExpensesByTagData, monthlyExpensesByTagLoading]);
 
-  const mutation = useMutation<
+  const mutationCategories = useMutation<
     GetMonthlyExpensesByCategoryYearOutputDTO,
     Error,
     GetMonthlyExpensesByCategoryYearInputDTO
@@ -167,14 +171,33 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
     onError: () => setCategories([]),
   });
 
+  const mutationTags = useMutation<
+    GetMonthlyExpensesByTagYearOutputDTO,
+    Error,
+    GetMonthlyExpensesByTagYearInputDTO
+  >({
+    mutationKey: ["update-category"],
+    mutationFn: getMonthlyExpensesByTagYear,
+    onSuccess: (output: GetMonthlyExpensesByTagYearOutputDTO) => {
+      setTags(output?.expenses);
+    },
+    onError: () => setTags([]),
+  });
+
   const handleChangeYear = (year: number) => {
-    setYear(year.toString());
+    if (viewType === "categories") {
+      setSelectedYear(year.toString());
 
-    const input: GetMonthlyExpensesByCategoryYearInputDTO = {
-      year: year,
-    };
+      mutationCategories.mutate({
+        year: year,
+      });
+    } else {
+      setSelectedYear(year.toString());
 
-    mutation.mutate(input);
+      mutationTags.mutate({
+        year: year,
+      });
+    }
   };
 
   if (monthlyExpensesByCategoryError) {
@@ -225,9 +248,9 @@ export default function GetMonthlyExpensesByCategoryYearForm() {
         </Select>
         <Select
           name="year"
-          key={year}
+          key={selectedYear}
           onValueChange={(value) => handleChangeYear(Number(value))}
-          value={year.toString()}
+          value={selectedYear.toString()}
           aria-label="Years listing"
         >
           <SelectTrigger>
