@@ -4,6 +4,10 @@ import {
   GetExpensesByCategoryPeriodOutputDTO,
 } from "@/internal/presenters/get_expenses_by_category_period";
 import {
+  GetExpensesByMonthYearInputDTO,
+  GetExpensesByMonthYearOutputDTO,
+} from "@/internal/presenters/get_expenses_by_month_year";
+import {
   GetMonthlyExpensesByCategoryYearInputDTO,
   GetMonthlyExpensesByCategoryYearOutputDTO,
 } from "@/internal/presenters/get_monthly_expenses_by_category_year";
@@ -75,6 +79,22 @@ export const getMonthlyExpensesByTagYear = async (
       presentersFactory.getMonthlyExpensesByTagYearUseCase();
 
     const response = await getMonthlyExpensesByTagYearUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getExpensesByMonthYear = async (
+  input: GetExpensesByMonthYearInputDTO
+): Promise<GetExpensesByMonthYearOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getExpensesByMonthYearUseCase =
+      presentersFactory.getExpensesByMonthYearUseCase();
+
+    const response = await getExpensesByMonthYearUseCase.execute(input);
 
     return response;
   } catch (error) {

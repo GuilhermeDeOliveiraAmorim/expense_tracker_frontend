@@ -17,6 +17,10 @@ import {
   GetMonthlyExpensesByTagYearInputDTO,
   GetMonthlyExpensesByTagYearOutputDTO,
 } from "../presenters/get_monthly_expenses_by_tag_year";
+import {
+  GetExpensesByMonthYearInputDTO,
+  GetExpensesByMonthYearOutputDTO,
+} from "../presenters/get_expenses_by_month_year";
 
 export class PresentersGateway implements PresentersRepository {
   constructor(private http: AxiosInstance) {}
@@ -70,6 +74,20 @@ export class PresentersGateway implements PresentersRepository {
     try {
       const output = await this.http.get<GetMonthlyExpensesByTagYearOutputDTO>(
         `${apiRoutes.getMonthlyExpensesByTagYear}?year=${input.year}`
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getExpensesByMonthYear(
+    input: GetExpensesByMonthYearInputDTO
+  ): Promise<GetExpensesByMonthYearOutputDTO> {
+    try {
+      const output = await this.http.get<GetExpensesByMonthYearOutputDTO>(
+        `${apiRoutes.getMonthlyExpensesByTagYear}?year=${input.year}&month=${input.month}`
       );
 
       return output.data;
