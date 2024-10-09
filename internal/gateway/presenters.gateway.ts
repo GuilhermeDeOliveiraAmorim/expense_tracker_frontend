@@ -87,7 +87,7 @@ export class PresentersGateway implements PresentersRepository {
   ): Promise<GetExpensesByMonthYearOutputDTO> {
     try {
       const output = await this.http.get<GetExpensesByMonthYearOutputDTO>(
-        `${apiRoutes.getMonthlyExpensesByTagYear}?year=${input.year}&month=${input.month}`
+        `${apiRoutes.getExpensesByMonthYear}?year=${input.year}&month=${input.month}`
       );
 
       return output.data;
