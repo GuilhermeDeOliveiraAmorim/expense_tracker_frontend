@@ -1,7 +1,5 @@
-import {
-  getExpensesByMonthYear,
-  getTotalExpensesForCurrentMonth,
-} from "@/components/query_functions/qf.presenters";
+import { getExpensesByMonthYear } from "@/components/query_functions/qf.presenters";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,49 +7,44 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Icons } from "@/components/ui/icons";
 import MonthlyExpensesCard from "@/components/ui/monthlyexpensecard";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { months } from "@/components/util/date.handler";
 import { toast } from "@/hooks/use-toast";
-import { useQuery } from "@tanstack/react-query";
+import {
+  GetExpensesByMonthYearInputDTO,
+  GetExpensesByMonthYearOutputDTO,
+  WeekExpenses,
+} from "@/internal/presenters/get_expenses_by_month_year";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-export type ExpenseTag = {
-  name: string;
-  color: string;
-  total: number;
-};
-
-export type DayExpense = {
-  day: string;
-  day_name: string;
-  total: number;
-  tags: ExpenseTag[];
-};
-
-export type WeekExpenses = {
-  week: number;
-  days: DayExpense[];
-};
-
-export type MonthExpenses = {
-  month: string;
-  year: number;
-  weeks: WeekExpenses[];
-};
-
-export type GetExpensesByMonthYearInputDTO = {
-  month: string;
-  year: number;
-};
-
-export type GetExpensesByMonthYearOutputDTO = {
-  expenses: MonthExpenses;
-};
-
 export default function GetExpensesByMonthYearForm() {
-  const [weeks, setWeeks] = useState<WeekExpenses[]>();
-  const [month, setMonth] = useState<string>();
-  const [year, setYear] = useState<number>();
+  const [weeks, setWeeks] = useState<WeekExpenses[]>([]);
+  const [month, setMonth] = useState<string>(
+    (new Date().getMonth() + 1).toString().padStart(2, "0")
+  );
+  const [year, setYear] = useState<number>(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    (new Date().getMonth() + 1).toString().padStart(2, "0")
+  );
+  const [selectedYear, setSelectedYear] = useState<number>(
+    new Date().getFullYear()
+  );
   const [totalAmount, setTotalAmount] = useState(0);
+  const [
+    isLoadingExpensesByMonthYearData,
+    setIsLoadingExpensesByMonthYearData,
+  ] = useState(false);
 
   const {
     data: expensesByMonthYearData,
@@ -61,21 +54,9 @@ export default function GetExpensesByMonthYearForm() {
     queryKey: ["expenses-by-month-year"],
     queryFn: () =>
       getExpensesByMonthYear({
-        month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
-        year: new Date().getFullYear(),
+        month: selectedMonth,
+        year: selectedYear,
       }),
-  });
-
-  const {
-    data: getTotalExpensesForCurrentMonthData,
-    error: getTotalExpensesForCurrentMonthError,
-    isLoading: getTotalExpensesForCurrentMonthLoading,
-  } = useQuery({
-    queryKey: [
-      "total-expenses-for-current-month",
-      "total-expenses-for-current-month",
-    ],
-    queryFn: () => getTotalExpensesForCurrentMonth({}),
   });
 
   useEffect(() => {
@@ -83,25 +64,45 @@ export default function GetExpensesByMonthYearForm() {
       setWeeks(expensesByMonthYearData.expenses.weeks);
       setMonth(expensesByMonthYearData.expenses.month);
       setYear(expensesByMonthYearData.expenses.year);
+      setTotalAmount(expensesByMonthYearData.expenses.total_expenses);
     } else {
-      setWeeks(undefined);
-      setMonth(undefined);
-      setYear(undefined);
+      setWeeks([]);
+      setMonth("");
+      setYear(0);
     }
   }, [expensesByMonthYearData, expensesByMonthYearLoading]);
 
-  useEffect(() => {
-    if (!getTotalExpensesForCurrentMonthLoading) {
-      if (getTotalExpensesForCurrentMonthData != undefined) {
-        setTotalAmount(getTotalExpensesForCurrentMonthData?.total_expenses);
-      } else {
-        setTotalAmount(0);
-      }
+  const mutation = useMutation<
+    GetExpensesByMonthYearOutputDTO,
+    Error,
+    GetExpensesByMonthYearInputDTO
+  >({
+    mutationKey: ["total-expenses-for-current-month"],
+    mutationFn: getExpensesByMonthYear,
+    onSuccess: (output: GetExpensesByMonthYearOutputDTO) => {
+      setWeeks(output.expenses.weeks);
+      setMonth(output.expenses.month);
+      setYear(output.expenses.year);
+      setTotalAmount(output.expenses.total_expenses);
+    },
+    onError: () => setWeeks([]),
+  });
+
+  const handleChangeDate = () => {
+    if (selectedMonth && selectedYear) {
+      setIsLoadingExpensesByMonthYearData(true);
+
+      const delay = setTimeout(() => {
+        mutation.mutate({
+          month: selectedMonth,
+          year: selectedYear,
+        });
+        setIsLoadingExpensesByMonthYearData(false);
+      }, 300);
+
+      return () => clearTimeout(delay);
     }
-  }, [
-    getTotalExpensesForCurrentMonthData,
-    getTotalExpensesForCurrentMonthLoading,
-  ]);
+  };
 
   if (expensesByMonthYearError) {
     toast({
@@ -113,26 +114,78 @@ export default function GetExpensesByMonthYearForm() {
     return;
   }
 
-  if (getTotalExpensesForCurrentMonthError) {
-    toast({
-      variant: "destructive",
-      title: "Error",
-      description: "Failed to fetch total amount",
-      duration: 2500,
-    });
-    return;
-  }
-
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-col w-full pb-4">
-        <CardTitle className="text-sm">Monthly Expenses</CardTitle>
-        <CardDescription className="text-xs text-muted-foreground">
-          {month}, {year}, R$ {totalAmount.toFixed(2).replace(".", ",")}
-        </CardDescription>
+        <div className="flex flex-row justify-between">
+          <div>
+            <CardTitle className="text-sm">Monthly Expenses</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground">
+              <div>
+                {month}, {year}, R$ {totalAmount.toFixed(2).replace(".", ",")}
+              </div>
+            </CardDescription>
+          </div>
+          <div className="flex flex-row gap-4">
+            <Select
+              name="month"
+              key={selectedMonth}
+              onValueChange={(value) => setSelectedMonth(value)}
+              value={selectedMonth}
+              aria-label="Months listing"
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a fruit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Months</SelectLabel>
+                  {months.map((month) => (
+                    <SelectItem key={month.value} value={month.value}>
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <Select
+              name="year"
+              key={selectedYear}
+              onValueChange={(value) => setSelectedYear(Number(value))}
+              value={selectedYear.toString()}
+              aria-label="Years listing"
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a fruit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Years</SelectLabel>
+                  <SelectItem value="2024">2024</SelectItem>
+                  <SelectItem value="2023">2023</SelectItem>
+                  <SelectItem value="2022">2022</SelectItem>
+                  <SelectItem value="2021">2021</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleChangeDate()}
+            >
+              <Icons.refreshCcw className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col w-full">
-        <MonthlyExpensesCard weeks={weeks} />
+        {!isLoadingExpensesByMonthYearData ? (
+          <MonthlyExpensesCard weeks={weeks} />
+        ) : (
+          <div className="pt-[10px] pb-[10px] w-full flex justify-center items-center">
+            <Icons.spinner className="w-4 h-4 animate-spin" />
+          </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -8,7 +8,7 @@ export default function MonthlyExpensesCard({
   weeks,
 }: MonthlyExpensesCardProps) {
   return (
-    <div className="grid grid-cols-7 gap-4 w-full">
+    <div className="grid grid-cols-6 gap-4 w-full">
       {weeks?.map((week) =>
         week.days.map((day) => (
           <div
@@ -38,7 +38,7 @@ export default function MonthlyExpensesCard({
               ))}
             </div>
 
-            <div className="text-center font-bold pt-1 pb-1 text-gray-900 w-full bg-gray-100 border-gray-300 border-t">
+            <div className="text-right font-bold p-2 text-gray-900 w-full bg-gray-100 border-gray-300 border-t">
               R$ {day.total.toFixed(2).replace(".", ",")}
             </div>
           </div>

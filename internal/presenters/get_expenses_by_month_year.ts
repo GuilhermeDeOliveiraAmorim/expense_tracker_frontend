@@ -22,12 +22,13 @@ export type WeekExpenses = {
 export type MonthExpenses = {
   month: string;
   year: number;
+  total_expenses: number;
   weeks: WeekExpenses[];
 };
 
 export type GetExpensesByMonthYearInputDTO = {
-    month: string;
-    year: number;
+  month: string;
+  year: number;
 };
 
 export type GetExpensesByMonthYearOutputDTO = {
