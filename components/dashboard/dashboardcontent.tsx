@@ -1,14 +1,13 @@
 "use client";
 
 import GetTotalExpensesForPeriodForm from "../forms/presenters/get_total_expenses_for_period_form";
+import GetExpensesByCategoryPeriodForm from "../forms/presenters/get_expenses_by_category_period_form";
+import GetExpensesByMonthYearForm from "../forms/presenters/get_expenses_by_month_year_form";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/props.types";
-import GetExpensesByCategoryPeriodForm from "../forms/presenters/get_expenses_by_category_period_form";
-import GetMonthlyExpensesByCategoryYearForm from "../forms/presenters/get_monthly_expenses_year_form";
-import GetExpensesByMonthYearForm from "../forms/presenters/get_expenses_by_month_year_form";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -54,12 +53,13 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
 
       <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
         <div className="flex flex-row gap-4 w-full">
-          <GetExpensesByMonthYearForm />
-        </div>
-        <div className="flex flex-row gap-4 w-full h-full">
-          <GetTotalExpensesForPeriodForm />
-          <GetExpensesByCategoryPeriodForm />
-          <GetMonthlyExpensesByCategoryYearForm />
+          <div className="flex flex-col gap-4 w-3/12">
+            <GetTotalExpensesForPeriodForm />
+            <GetExpensesByCategoryPeriodForm />
+          </div>
+          <div className="w-9/12 h-full">
+            <GetExpensesByMonthYearForm />
+          </div>
         </div>
       </main>
 
