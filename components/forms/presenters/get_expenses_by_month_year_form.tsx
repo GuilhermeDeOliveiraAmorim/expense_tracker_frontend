@@ -1,5 +1,4 @@
 import { getExpensesByMonthYear } from "@/components/query_functions/qf.presenters";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,17 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import DateSelector from "@/components/ui/dateselector";
 import { Icons } from "@/components/ui/icons";
 import MonthlyExpensesCard from "@/components/ui/monthlyexpensecard";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { months } from "@/components/util/date.handler";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -115,7 +106,7 @@ export default function GetExpensesByMonthYearForm() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full h-full">
       <CardHeader className="flex flex-col w-full pb-4">
         <div className="flex flex-row justify-between">
           <div>
@@ -126,56 +117,14 @@ export default function GetExpensesByMonthYearForm() {
               </div>
             </CardDescription>
           </div>
-          <div className="flex flex-row gap-4">
-            <Select
-              name="month"
-              key={selectedMonth}
-              onValueChange={(value) => setSelectedMonth(value)}
-              value={selectedMonth}
-              aria-label="Months listing"
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a fruit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Months</SelectLabel>
-                  {months.map((month) => (
-                    <SelectItem key={month.value} value={month.value}>
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select
-              name="year"
-              key={selectedYear}
-              onValueChange={(value) => setSelectedYear(Number(value))}
-              value={selectedYear.toString()}
-              aria-label="Years listing"
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a fruit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Years</SelectLabel>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
-                  <SelectItem value="2021">2021</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleChangeDate()}
-            >
-              <Icons.refreshCcw className="w-4 h-4" />
-            </Button>
-          </div>
+          <DateSelector
+            months={months}
+            selectedMonth={selectedMonth}
+            onMonthChange={(value) => setSelectedMonth(value)}
+            selectedYear={selectedYear}
+            onYearChange={(value) => setSelectedYear(Number(value))}
+            onRefresh={() => handleChangeDate()}
+          />
         </div>
       </CardHeader>
       <CardContent className="flex flex-col w-full">
