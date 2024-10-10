@@ -9,7 +9,7 @@ export type ExpenseTag = {
 
 export type DayExpense = {
   day: string;
-  dayName: string;
+  day_name: string;
   total: number;
   tags: ExpenseTag[];
 };
@@ -31,7 +31,7 @@ export type GetExpensesByMonthYearInputDTO = {
 };
 
 export type GetExpensesByMonthYearOutputDTO = {
-  expenses: MonthExpenses[];
+  expenses: MonthExpenses;
 };
 
 export class GetExpensesByMonthYearUseCase {
