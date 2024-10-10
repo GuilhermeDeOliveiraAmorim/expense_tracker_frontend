@@ -1,4 +1,7 @@
-import { getExpensesByMonthYear } from "@/components/query_functions/qf.presenters";
+import {
+  getExpensesByMonthYear,
+  getTotalExpensesForCurrentMonth,
+} from "@/components/query_functions/qf.presenters";
 import {
   Card,
   CardContent,
@@ -6,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import MonthlyExpensesCard from "@/components/ui/monthlyexpensecard";
 import { toast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -47,6 +51,7 @@ export default function GetExpensesByMonthYearForm() {
   const [weeks, setWeeks] = useState<WeekExpenses[]>();
   const [month, setMonth] = useState<string>();
   const [year, setYear] = useState<number>();
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const {
     data: expensesByMonthYearData,
@@ -56,9 +61,21 @@ export default function GetExpensesByMonthYearForm() {
     queryKey: ["expenses-by-month-year"],
     queryFn: () =>
       getExpensesByMonthYear({
-        month: "10",
-        year: 2024,
+        month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
+        year: new Date().getFullYear(),
       }),
+  });
+
+  const {
+    data: getTotalExpensesForCurrentMonthData,
+    error: getTotalExpensesForCurrentMonthError,
+    isLoading: getTotalExpensesForCurrentMonthLoading,
+  } = useQuery({
+    queryKey: [
+      "total-expenses-for-current-month",
+      "total-expenses-for-current-month",
+    ],
+    queryFn: () => getTotalExpensesForCurrentMonth({}),
   });
 
   useEffect(() => {
@@ -73,64 +90,49 @@ export default function GetExpensesByMonthYearForm() {
     }
   }, [expensesByMonthYearData, expensesByMonthYearLoading]);
 
+  useEffect(() => {
+    if (!getTotalExpensesForCurrentMonthLoading) {
+      if (getTotalExpensesForCurrentMonthData != undefined) {
+        setTotalAmount(getTotalExpensesForCurrentMonthData?.total_expenses);
+      } else {
+        setTotalAmount(0);
+      }
+    }
+  }, [
+    getTotalExpensesForCurrentMonthData,
+    getTotalExpensesForCurrentMonthLoading,
+  ]);
+
   if (expensesByMonthYearError) {
     toast({
       variant: "destructive",
       title: "Error",
-      description: "Failed to fetch expenses by category",
+      description: "Failed to fetch expenses by month",
       duration: 2500,
     });
     return;
   }
 
-  console.log(expensesByMonthYearData);
+  if (getTotalExpensesForCurrentMonthError) {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Failed to fetch total amount",
+      duration: 2500,
+    });
+    return;
+  }
 
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-col w-full pb-4">
         <CardTitle className="text-sm">Monthly Expenses</CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
-          {month}, {year}
+          {month}, {year}, R$ {totalAmount.toFixed(2).replace(".", ",")}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col w-full">
-        <div className="grid grid-cols-7 gap-4 w-full">
-          {weeks?.map((week) =>
-            week.days.map((day) => (
-              <div
-                key={day.day}
-                className="flex flex-col justify-between items-center w-full text-center text-xs font-bold text-gray-600 border border-gray-300 rounded-t-lg"
-              >
-                <div className="flex flex-col justify-between items-center w-full">
-                  <div className="flex flex-row justify-between items-center w-full border-gray-300 border-b p-2 bg-gray-100 rounded-t-lg">
-                    <span className="text-center text-xs font-semibold text-gray-500">
-                      {day.day}
-                    </span>
-                    <span className="text-center text-xs text-gray-500">
-                      {day.day_name}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap justify-center w-full p-[2px] gap-[2px] h-full">
-                  {day.tags.map((tag) => (
-                    <div
-                      key={tag.name}
-                      style={{ backgroundColor: tag.color }}
-                      className="w-full flex flex-col justify-center items-center pt-1 pb-1 text-white rounded-sm"
-                    >
-                      {tag.name} (R$ {tag.total.toFixed(2).replace(".", ",")})
-                    </div>
-                  ))}
-                </div>
-
-                <div className="text-center font-bold pt-1 pb-1 text-gray-900 w-full bg-gray-100 border-gray-300 border-t">
-                  R$ {day.total.toFixed(2).replace(".", ",")}
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        <MonthlyExpensesCard weeks={weeks} />
       </CardContent>
     </Card>
   );

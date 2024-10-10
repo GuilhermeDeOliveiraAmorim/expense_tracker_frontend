@@ -25,6 +25,7 @@ export const formatDateDdMmYyyy = (date: string): string => {
 };
 
 type RangerDateType = {
+  firstDayOfMonth?: boolean;
   today?: boolean;
   last7Days?: boolean;
   last30Days?: boolean;
@@ -33,13 +34,18 @@ type RangerDateType = {
 };
 
 export const rangerDate = ({
+  firstDayOfMonth,
   today,
   last7Days,
   last30Days,
   last90Days,
   last1Year,
 }: RangerDateType): string => {
-  if (today) {
+  if (firstDayOfMonth) {
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    return format(firstDay, "ddMMyyyy");
+  } else if (today) {
     return format(new Date(), "ddMMyyyy");
   } else if (last7Days) {
     return format(
