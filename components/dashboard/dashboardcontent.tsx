@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/props.types";
 import GetExpensesByCategoryPeriodForm from "../forms/presenters/get_expenses_by_category_period_form";
 import GetMonthlyExpensesByCategoryYearForm from "../forms/presenters/get_monthly_expenses_year_form";
+import GetExpensesByMonthYearForm from "../forms/presenters/get_expenses_by_month_year_form";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -51,13 +52,15 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     <>
       {header ? header : ""}
 
-      <main className="flex flex-row bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
-        <div className="flex flex-col gap-4 w-1/3 h-full">
+      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
+        <div className="flex flex-row gap-4 w-full">
+          <GetExpensesByMonthYearForm />
+        </div>
+        <div className="flex flex-row gap-4 w-full h-full">
           <GetTotalExpensesForPeriodForm />
           <GetExpensesByCategoryPeriodForm />
+          <GetMonthlyExpensesByCategoryYearForm />
         </div>
-
-        <GetMonthlyExpensesByCategoryYearForm />
       </main>
 
       {footer ? footer : ""}
