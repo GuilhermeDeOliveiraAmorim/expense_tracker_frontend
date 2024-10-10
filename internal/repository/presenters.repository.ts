@@ -15,6 +15,10 @@ import {
   GetMonthlyExpensesByTagYearOutputDTO,
 } from "../presenters/get_monthly_expenses_by_tag_year";
 import {
+  GetTotalExpensesForCurrentMonthInputDTO,
+  GetTotalExpensesForCurrentMonthOutputDTO,
+} from "../presenters/get_total_expenses_for_current_month";
+import {
   GetTotalExpensesForPeriodInputDTO,
   GetTotalExpensesForPeriodOutputDTO,
 } from "../presenters/get_total_expenses_for_period";
@@ -39,4 +43,8 @@ export interface PresentersRepository {
   getExpensesByMonthYear(
     input: GetExpensesByMonthYearInputDTO
   ): Promise<GetExpensesByMonthYearOutputDTO>;
+
+  getTotalExpensesForCurrentMonth(
+    input: GetTotalExpensesForCurrentMonthInputDTO
+  ): Promise<GetTotalExpensesForCurrentMonthOutputDTO>;
 }

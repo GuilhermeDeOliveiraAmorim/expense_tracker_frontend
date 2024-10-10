@@ -16,6 +16,10 @@ import {
   GetMonthlyExpensesByTagYearOutputDTO,
 } from "@/internal/presenters/get_monthly_expenses_by_tag_year";
 import {
+  GetTotalExpensesForCurrentMonthInputDTO,
+  GetTotalExpensesForCurrentMonthOutputDTO,
+} from "@/internal/presenters/get_total_expenses_for_current_month";
+import {
   GetTotalExpensesForPeriodInputDTO,
   GetTotalExpensesForPeriodOutputDTO,
 } from "@/internal/presenters/get_total_expenses_for_period";
@@ -95,6 +99,24 @@ export const getExpensesByMonthYear = async (
       presentersFactory.getExpensesByMonthYearUseCase();
 
     const response = await getExpensesByMonthYearUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTotalExpensesForCurrentMonth = async (
+  input: GetTotalExpensesForCurrentMonthInputDTO
+): Promise<GetTotalExpensesForCurrentMonthOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getTotalExpensesForCurrentMonthUseCase =
+      presentersFactory.getTotalExpensesForCurrentMonthUseCase();
+
+    const response = await getTotalExpensesForCurrentMonthUseCase.execute(
+      input
+    );
 
     return response;
   } catch (error) {

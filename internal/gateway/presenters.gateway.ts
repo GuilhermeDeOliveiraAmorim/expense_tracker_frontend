@@ -21,6 +21,10 @@ import {
   GetExpensesByMonthYearInputDTO,
   GetExpensesByMonthYearOutputDTO,
 } from "../presenters/get_expenses_by_month_year";
+import {
+  GetTotalExpensesForCurrentMonthInputDTO,
+  GetTotalExpensesForCurrentMonthOutputDTO,
+} from "../presenters/get_total_expenses_for_current_month";
 
 export class PresentersGateway implements PresentersRepository {
   constructor(private http: AxiosInstance) {}
@@ -89,6 +93,22 @@ export class PresentersGateway implements PresentersRepository {
       const output = await this.http.get<GetExpensesByMonthYearOutputDTO>(
         `${apiRoutes.getExpensesByMonthYear}?year=${input.year}&month=${input.month}`
       );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTotalExpensesForCurrentMonth(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    input: GetTotalExpensesForCurrentMonthInputDTO
+  ): Promise<GetTotalExpensesForCurrentMonthOutputDTO> {
+    try {
+      const output =
+        await this.http.get<GetTotalExpensesForCurrentMonthOutputDTO>(
+          `${apiRoutes.getTotalExpensesForCurrentMonth}`
+        );
 
       return output.data;
     } catch (error) {
