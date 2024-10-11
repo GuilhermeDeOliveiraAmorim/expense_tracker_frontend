@@ -12,66 +12,74 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "./icons";
 
 type DateSelectorProps = {
-  selectedMonth: string;
-  selectedYear: number;
-  months: { value: string; label: string }[];
-  onMonthChange: (value: string) => void;
-  onYearChange: (value: number) => void;
+  year?: {
+    selectedYear: number;
+    years: number[];
+    onYearChange: (value: number) => void;
+  };
+  month?: {
+    selectedMonth: string;
+    months: { value: string; label: string }[];
+    onMonthChange: (value: string) => void;
+  };
   onRefresh: () => void;
 };
 
 const DateSelector: React.FC<DateSelectorProps> = ({
-  selectedMonth,
-  selectedYear,
-  months,
-  onMonthChange,
-  onYearChange,
+  year,
+  month,
   onRefresh,
 }) => {
+  console.log(year, month);
   return (
     <div className="flex flex-row gap-4">
-      <Select
-        name="month"
-        key={selectedMonth}
-        onValueChange={(value) => onMonthChange(value)}
-        value={selectedMonth}
-        aria-label="Months listing"
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select a month" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Months</SelectLabel>
-            {months.map((month) => (
-              <SelectItem key={month.value} value={month.value}>
-                {month.label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      {month && (
+        <Select
+          name="month"
+          key={month.selectedMonth}
+          onValueChange={(value) => month.onMonthChange(value)}
+          value={month.selectedMonth}
+          aria-label="Months listing"
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a month" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Months</SelectLabel>
+              {month.months.map((month) => (
+                <SelectItem key={month.value} value={month.value}>
+                  {month.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
 
-      <Select
-        name="year"
-        key={selectedYear}
-        onValueChange={(value) => onYearChange(Number(value))}
-        value={selectedYear.toString()}
-        aria-label="Years listing"
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select a year" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Years</SelectLabel>
-            <SelectItem value="2024">2024</SelectItem>
-            <SelectItem value="2023">2023</SelectItem>
-            <SelectItem value="2022">2022</SelectItem>
-            <SelectItem value="2021">2021</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      {year && (
+        <Select
+          name="year"
+          key={year.selectedYear}
+          onValueChange={(value) => year.onYearChange(Number(value))}
+          value={year.selectedYear.toString()}
+          aria-label="Years listing"
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a year" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Years</SelectLabel>
+              {year.years.map((year) => (
+                <SelectItem key={year} value={year.toString()}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
 
       <Button type="button" variant="outline" onClick={onRefresh}>
         <Icons.refreshCcw className="w-4 h-4" />
