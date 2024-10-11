@@ -5,6 +5,7 @@ import { GetMonthlyExpensesByCategoryYearUseCase } from "../presenters/get_month
 import { GetMonthlyExpensesByTagYearUseCase } from "../presenters/get_monthly_expenses_by_tag_year";
 import { GetTotalExpensesForCurrentMonthUseCase } from "../presenters/get_total_expenses_for_current_month";
 import { GetTotalExpensesForPeriodUseCase } from "../presenters/get_total_expenses_for_period";
+import { GetTotalExpensesMonthCurrentYearUseCase } from "../presenters/get_total_expenses_month_current_year";
 import { http } from "../util/http";
 
 export class PresentersFactory {
@@ -32,5 +33,9 @@ export class PresentersFactory {
 
   getTotalExpensesForCurrentMonthUseCase() {
     return new GetTotalExpensesForCurrentMonthUseCase(this.presentersGateway);
+  }
+
+  getTotalExpensesMonthCurrentYearUseCase() {
+    return new GetTotalExpensesMonthCurrentYearUseCase(this.presentersGateway);
   }
 }

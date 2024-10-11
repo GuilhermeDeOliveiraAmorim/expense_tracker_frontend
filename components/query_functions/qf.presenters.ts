@@ -23,6 +23,10 @@ import {
   GetTotalExpensesForPeriodInputDTO,
   GetTotalExpensesForPeriodOutputDTO,
 } from "@/internal/presenters/get_total_expenses_for_period";
+import {
+  GetTotalExpensesMonthCurrentYearInputDTO,
+  GetTotalExpensesMonthCurrentYearOutputDTO,
+} from "@/internal/presenters/get_total_expenses_month_current_year";
 
 export const getTotalExpensesForPeriod = async (
   input: GetTotalExpensesForPeriodInputDTO
@@ -115,6 +119,24 @@ export const getTotalExpensesForCurrentMonth = async (
       presentersFactory.getTotalExpensesForCurrentMonthUseCase();
 
     const response = await getTotalExpensesForCurrentMonthUseCase.execute(
+      input
+    );
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTotalExpensesMonthCurrentYear = async (
+  input: GetTotalExpensesMonthCurrentYearInputDTO
+): Promise<GetTotalExpensesMonthCurrentYearOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getTotalExpensesMonthCurrentYearUseCase =
+      presentersFactory.getTotalExpensesMonthCurrentYearUseCase();
+
+    const response = await getTotalExpensesMonthCurrentYearUseCase.execute(
       input
     );
 

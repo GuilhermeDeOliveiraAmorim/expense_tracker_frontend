@@ -49,15 +49,15 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
   }
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
+      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
         <div className="flex flex-row gap-4 w-full">
           <div className="flex flex-col gap-4 w-4/12">
             <GetTotalExpensesForPeriodForm />
-            <GetExpensesByCategoryPeriodForm />
             <GetExpensesTagByMonthsForm />
+            <GetExpensesByCategoryPeriodForm />
           </div>
           <div className="w-8/12 h-full">
             <GetExpensesByMonthYearForm />
@@ -66,6 +66,6 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
       </main>
 
       {footer ? footer : ""}
-    </>
+    </div>
   );
 }
