@@ -24,6 +24,7 @@ export type MonthExpenses = {
   year: number;
   total_expenses: number;
   weeks: WeekExpenses[];
+  available_years: number[];
 };
 
 export type GetExpensesByMonthYearInputDTO = {

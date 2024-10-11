@@ -10,7 +10,7 @@ export type ExpensesMonthCurrentYear = {
   year: number;
   total: number;
   months: MonthCurrentYear[];
-  availableYears: number[];
+  available_years: number[];
 };
 
 export type GetTotalExpensesMonthCurrentYearInputDTO = {

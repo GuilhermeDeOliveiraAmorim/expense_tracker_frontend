@@ -20,6 +20,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export default function GetExpensesByMonthYearForm() {
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
   const [weeks, setWeeks] = useState<WeekExpenses[]>([]);
   const [month, setMonth] = useState<string>(
     (new Date().getMonth() + 1).toString().padStart(2, "0")
@@ -56,10 +57,13 @@ export default function GetExpensesByMonthYearForm() {
       setMonth(expensesByMonthYearData.expenses.month);
       setYear(expensesByMonthYearData.expenses.year);
       setTotalAmount(expensesByMonthYearData.expenses.total_expenses);
+      setAvailableYears(expensesByMonthYearData.expenses.available_years);
     } else {
       setWeeks([]);
       setMonth("");
       setYear(0);
+      setTotalAmount(0);
+      setAvailableYears([]);
     }
   }, [expensesByMonthYearData, expensesByMonthYearLoading]);
 
@@ -118,11 +122,16 @@ export default function GetExpensesByMonthYearForm() {
             </CardDescription>
           </div>
           <DateSelector
-            months={months}
-            selectedMonth={selectedMonth}
-            onMonthChange={(value) => setSelectedMonth(value)}
-            selectedYear={selectedYear}
-            onYearChange={(value) => setSelectedYear(Number(value))}
+            year={{
+              onYearChange: (value) => setSelectedYear(Number(value)),
+              selectedYear: selectedYear,
+              years: availableYears,
+            }}
+            month={{
+              onMonthChange: (value) => setSelectedMonth(value),
+              selectedMonth: selectedMonth,
+              months: months,
+            }}
             onRefresh={() => handleChangeDate()}
           />
         </div>
