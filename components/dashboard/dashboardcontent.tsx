@@ -8,7 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/props.types";
-import { GetExpensesTagByMonthsForm } from "../forms/presenters/get_expenses_tag_by_months_form";
+import { GetTotalExpensesMonthCurrentYearForm } from "../forms/presenters/get_total_expenses_month_current_year_form";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
         <div className="flex flex-row gap-4 w-full">
           <div className="flex flex-col gap-4 w-4/12">
             <GetTotalExpensesForPeriodForm />
-            <GetExpensesTagByMonthsForm />
+            <GetTotalExpensesMonthCurrentYearForm />
             <GetExpensesByCategoryPeriodForm />
           </div>
           <div className="w-8/12 h-full">
