@@ -122,9 +122,11 @@ export default function GetCategoryTagsTotalsByMonthYearForm() {
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-col w-full pb-4">
-        <div className="flex flex-col justify-between gap-4">
+        <div className="flex flex-row justify-between gap-4">
           <div>
-            <CardTitle className="text-sm">Expenses Per Month</CardTitle>
+            <CardTitle className="text-sm">
+              Total by tags and category
+            </CardTitle>
             <CardDescription className="text-xs text-muted-foreground">
               {month}, {year}, R$ {totalAmount.toFixed(2).replace(".", ",")}
             </CardDescription>
@@ -152,7 +154,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm() {
                 <AccordionTrigger className="flex justify-between gap-4">
                   <div className="w-full flex justify-between">
                     <span>{category.name}</span>
-                    <span>${category.total.toFixed(2)}</span>
+                    <span>R$ {category.total.toFixed(2)}</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -161,7 +163,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm() {
                       <li key={tag.name} className="flex justify-between">
                         <span className="text-gray-700">{tag.name}</span>
                         <span className="text-gray-600">
-                          ${tag.total.toFixed(2)}
+                          R$ {tag.total.toFixed(2)}
                         </span>
                       </li>
                     ))}

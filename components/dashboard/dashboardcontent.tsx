@@ -51,15 +51,13 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     <div className="flex flex-col h-screen justify-between">
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
-        <div className="flex flex-row gap-4 w-full">
-          <div className="flex flex-col gap-4 w-4/12">
-            <GetTotalExpensesMonthCurrentYearForm />
-            <GetCategoryTagsTotalsByMonthYearForm />
-          </div>
-          <div className="w-8/12">
-            <GetExpensesByMonthYearForm />
-          </div>
+      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-4 pb-4 gap-4 w-full h-full">
+        <div className="flex flex-row gap-4 w-12/12">
+          <GetTotalExpensesMonthCurrentYearForm />
+          <GetCategoryTagsTotalsByMonthYearForm />
+        </div>
+        <div className="w-12/12">
+          <GetExpensesByMonthYearForm />
         </div>
       </main>
 
