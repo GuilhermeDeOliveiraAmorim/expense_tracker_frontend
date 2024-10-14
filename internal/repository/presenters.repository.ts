@@ -1,3 +1,4 @@
+import { GetCategoryTagsTotalsByMonthYearInputDTO, GetCategoryTagsTotalsByMonthYearOutputDTO } from "../presenters/get_category_tags_totals_by_month_year";
 import {
   GetExpensesByCategoryPeriodInputDTO,
   GetExpensesByCategoryPeriodOutputDTO,
@@ -55,4 +56,8 @@ export interface PresentersRepository {
   getTotalExpensesMonthCurrentYear(
     input: GetTotalExpensesMonthCurrentYearInputDTO
   ): Promise<GetTotalExpensesMonthCurrentYearOutputDTO>;
+
+  getCategoryTagsTotalsByMonthYear(
+    input: GetCategoryTagsTotalsByMonthYearInputDTO
+  ): Promise<GetCategoryTagsTotalsByMonthYearOutputDTO>;
 }

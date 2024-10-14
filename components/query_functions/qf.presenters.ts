@@ -1,5 +1,9 @@
 import { PresentersFactory } from "@/internal/factory/presenters.factory";
 import {
+  GetCategoryTagsTotalsByMonthYearInputDTO,
+  GetCategoryTagsTotalsByMonthYearOutputDTO,
+} from "@/internal/presenters/get_category_tags_totals_by_month_year";
+import {
   GetExpensesByCategoryPeriodInputDTO,
   GetExpensesByCategoryPeriodOutputDTO,
 } from "@/internal/presenters/get_expenses_by_category_period";
@@ -137,6 +141,24 @@ export const getTotalExpensesMonthCurrentYear = async (
       presentersFactory.getTotalExpensesMonthCurrentYearUseCase();
 
     const response = await getTotalExpensesMonthCurrentYearUseCase.execute(
+      input
+    );
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCategoryTagsTotalsByMonthYear = async (
+  input: GetCategoryTagsTotalsByMonthYearInputDTO
+): Promise<GetCategoryTagsTotalsByMonthYearOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getCategoryTagsTotalsByMonthYearUseCase =
+      presentersFactory.getCategoryTagsTotalsByMonthYearUseCase();
+
+    const response = await getCategoryTagsTotalsByMonthYearUseCase.execute(
       input
     );
 

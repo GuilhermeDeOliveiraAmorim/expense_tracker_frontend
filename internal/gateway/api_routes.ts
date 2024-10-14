@@ -20,4 +20,5 @@ export const apiRoutes = {
   getExpensesByMonthYear: "/expenses/monthly/year",
   getTotalExpensesForCurrentMonth: "/expenses/monthly/total",
   getTotalExpensesMonthCurrentYear: "/expenses/total/monthly/year",
+  getCategoryTagsTotalsByMonthYear: "/expenses/tags/monthly/total",
 };

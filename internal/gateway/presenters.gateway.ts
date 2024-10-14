@@ -29,6 +29,10 @@ import {
   GetTotalExpensesMonthCurrentYearInputDTO,
   GetTotalExpensesMonthCurrentYearOutputDTO,
 } from "../presenters/get_total_expenses_month_current_year";
+import {
+  GetCategoryTagsTotalsByMonthYearInputDTO,
+  GetCategoryTagsTotalsByMonthYearOutputDTO,
+} from "../presenters/get_category_tags_totals_by_month_year";
 
 export class PresentersGateway implements PresentersRepository {
   constructor(private http: AxiosInstance) {}
@@ -127,6 +131,21 @@ export class PresentersGateway implements PresentersRepository {
       const output =
         await this.http.get<GetTotalExpensesMonthCurrentYearOutputDTO>(
           `${apiRoutes.getTotalExpensesMonthCurrentYear}?year=${input.year}`
+        );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCategoryTagsTotalsByMonthYear(
+    input: GetCategoryTagsTotalsByMonthYearInputDTO
+  ): Promise<GetCategoryTagsTotalsByMonthYearOutputDTO> {
+    try {
+      const output =
+        await this.http.get<GetCategoryTagsTotalsByMonthYearOutputDTO>(
+          `${apiRoutes.getCategoryTagsTotalsByMonthYear}?year=${input.year}&month=${input.month}`
         );
 
       return output.data;
