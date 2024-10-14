@@ -1,8 +1,7 @@
 "use client";
 
-import GetTotalExpensesForPeriodForm from "../forms/presenters/get_total_expenses_for_period_form";
-import GetExpensesByCategoryPeriodForm from "../forms/presenters/get_expenses_by_category_period_form";
 import GetExpensesByMonthYearForm from "../forms/presenters/get_expenses_by_month_year_form";
+import GetCategoryTagsTotalsByMonthYearForm from "../forms/presenters/get_category_tags_totals_by_month_year_form";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -49,17 +48,16 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen justify-between">
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
+      <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full h-full">
         <div className="flex flex-row gap-4 w-full">
           <div className="flex flex-col gap-4 w-4/12">
-            <GetTotalExpensesForPeriodForm />
             <GetTotalExpensesMonthCurrentYearForm />
-            <GetExpensesByCategoryPeriodForm />
+            <GetCategoryTagsTotalsByMonthYearForm />
           </div>
-          <div className="w-8/12 h-full">
+          <div className="w-8/12">
             <GetExpensesByMonthYearForm />
           </div>
         </div>

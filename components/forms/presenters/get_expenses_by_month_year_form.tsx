@@ -110,7 +110,7 @@ export default function GetExpensesByMonthYearForm() {
   }
 
   return (
-    <Card className="w-full h-full">
+    <Card className="w-full">
       <CardHeader className="flex flex-col w-full pb-4">
         <div className="flex flex-row justify-between">
           <div>

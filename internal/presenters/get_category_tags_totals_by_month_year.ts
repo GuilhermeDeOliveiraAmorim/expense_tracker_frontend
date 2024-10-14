@@ -1,29 +1,29 @@
 import axios from "axios";
 import { PresentersRepository } from "../repository/presenters.repository";
 
-type CategoryTagTotal = {
+export type CategoryTagTotal = {
   name: string;
   total: number;
 };
 
-type CategoryWithTags = {
+export type CategoryWithTags = {
   name: string;
   total: number;
   tags: CategoryTagTotal[];
 };
 
-type MonthOption = {
+export type MonthOption = {
   label: string;
   value: string;
 };
 
-type CategoryTagsTotals = {
+export type CategoryTagsTotals = {
   month: string;
   year: number;
   total: number;
   categories: CategoryWithTags[];
-  availableYears: number[];
-  availableMonths: MonthOption[];
+  available_years: number[];
+  available_months: MonthOption[];
 };
 
 export type GetCategoryTagsTotalsByMonthYearInputDTO = {

@@ -32,7 +32,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
 }) => {
   console.log(year, month);
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-4 justify-between">
       {month && (
         <Select
           name="month"
