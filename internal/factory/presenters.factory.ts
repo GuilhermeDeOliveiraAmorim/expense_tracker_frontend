@@ -1,4 +1,5 @@
 import { PresentersGateway } from "../gateway/presenters.gateway";
+import { GetAvailableMonthsYearsUseCase } from "../presenters/get_available_months_years";
 import { GetCategoryTagsTotalsByMonthYearUseCase } from "../presenters/get_category_tags_totals_by_month_year";
 import { GetExpensesByCategoryPeriodUseCase } from "../presenters/get_expenses_by_category_period";
 import { GetExpensesByMonthYearUseCase } from "../presenters/get_expenses_by_month_year";
@@ -42,5 +43,9 @@ export class PresentersFactory {
 
   getCategoryTagsTotalsByMonthYearUseCase() {
     return new GetCategoryTagsTotalsByMonthYearUseCase(this.presentersGateway);
+  }
+
+  getAvailableMonthsYearsUseCase() {
+    return new GetAvailableMonthsYearsUseCase(this.presentersGateway);
   }
 }

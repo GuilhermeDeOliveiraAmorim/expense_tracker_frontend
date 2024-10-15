@@ -1,5 +1,9 @@
 import { PresentersFactory } from "@/internal/factory/presenters.factory";
 import {
+  GetAvailableMonthsYearsInputDTO,
+  GetAvailableMonthsYearsOutputDTO,
+} from "@/internal/presenters/get_available_months_years";
+import {
   GetCategoryTagsTotalsByMonthYearInputDTO,
   GetCategoryTagsTotalsByMonthYearOutputDTO,
 } from "@/internal/presenters/get_category_tags_totals_by_month_year";
@@ -161,6 +165,22 @@ export const getCategoryTagsTotalsByMonthYear = async (
     const response = await getCategoryTagsTotalsByMonthYearUseCase.execute(
       input
     );
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAvailableMonthsYears = async (
+  input: GetAvailableMonthsYearsInputDTO
+): Promise<GetAvailableMonthsYearsOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getAvailableMonthsYearsUseCase =
+      presentersFactory.getAvailableMonthsYearsUseCase();
+
+    const response = await getAvailableMonthsYearsUseCase.execute(input);
 
     return response;
   } catch (error) {

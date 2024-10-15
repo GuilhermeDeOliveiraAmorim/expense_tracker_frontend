@@ -33,6 +33,10 @@ import {
   GetCategoryTagsTotalsByMonthYearInputDTO,
   GetCategoryTagsTotalsByMonthYearOutputDTO,
 } from "../presenters/get_category_tags_totals_by_month_year";
+import {
+  GetAvailableMonthsYearsInputDTO,
+  GetAvailableMonthsYearsOutputDTO,
+} from "../presenters/get_available_months_years";
 
 export class PresentersGateway implements PresentersRepository {
   constructor(private http: AxiosInstance) {}
@@ -147,6 +151,21 @@ export class PresentersGateway implements PresentersRepository {
         await this.http.get<GetCategoryTagsTotalsByMonthYearOutputDTO>(
           `${apiRoutes.getCategoryTagsTotalsByMonthYear}?year=${input.year}&month=${input.month}`
         );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAvailableMonthsYears(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    input: GetAvailableMonthsYearsInputDTO
+  ): Promise<GetAvailableMonthsYearsOutputDTO> {
+    try {
+      const output = await this.http.get<GetAvailableMonthsYearsOutputDTO>(
+        `${apiRoutes.getAvailableMonthsYears}`
+      );
 
       return output.data;
     } catch (error) {
