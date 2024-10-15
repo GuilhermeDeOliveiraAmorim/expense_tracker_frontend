@@ -48,7 +48,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
   }
 
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col justify-between h-full">
       {header ? header : ""}
 
       <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-4 pb-4 gap-4 w-full h-full">

@@ -73,7 +73,13 @@ export default function SignupForm() {
       return;
     }
 
-    mutation.mutate({ email, name, password });
+    const input: CreateUserInputDTO = {
+      email,
+      name,
+      password,
+    };
+
+    mutation.mutate(input);
   };
 
   const goToLoginPage = () => {

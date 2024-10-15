@@ -1,3 +1,4 @@
+import MonthlyExpensesCard from "@/components/ui/monthlyexpensecard";
 import { getExpensesByMonthYear } from "@/components/query_functions/qf.presenters";
 import {
   Card,
@@ -8,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import DateSelector from "@/components/ui/dateselector";
 import { Icons } from "@/components/ui/icons";
-import MonthlyExpensesCard from "@/components/ui/monthlyexpensecard";
 import { months } from "@/components/util/date.handler";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -137,11 +137,17 @@ export default function GetExpensesByMonthYearForm() {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col w-full">
-        {!isLoadingExpensesByMonthYearData ? (
-          <MonthlyExpensesCard weeks={weeks} />
+        {availableYears.length > 0 ? (
+          !isLoadingExpensesByMonthYearData ? (
+            <MonthlyExpensesCard weeks={weeks} />
+          ) : (
+            <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center">
+              <Icons.spinner className="w-4 h-4 animate-spin" />
+            </div>
+          )
         ) : (
-          <div className="pt-[10px] pb-[10px] w-full flex justify-center items-center">
-            <Icons.spinner className="w-4 h-4 animate-spin" />
+          <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center text-[#e5e7eb]">
+            <Icons.fileX2 />
           </div>
         )}
       </CardContent>

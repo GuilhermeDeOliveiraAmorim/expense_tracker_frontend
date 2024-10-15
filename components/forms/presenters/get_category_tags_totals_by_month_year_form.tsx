@@ -148,32 +148,39 @@ export default function GetCategoryTagsTotalsByMonthYearForm() {
       </CardHeader>
       <CardContent>
         {!isLoadingcategoryTagsTotalsData ? (
-          <Accordion type="single" collapsible className="w-full">
-            {categoryTagsTotals?.categories.map((category, index) => (
-              <AccordionItem key={category.name} value={`item-${index}`}>
-                <AccordionTrigger className="flex justify-between gap-4">
-                  <div className="w-full flex justify-between">
-                    <span>{category.name}</span>
-                    <span>R$ {category.total.toFixed(2)}</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="mt-2 space-y-1">
-                    {category.tags.map((tag) => (
-                      <li key={tag.name} className="flex justify-between">
-                        <span className="text-gray-700">{tag.name}</span>
-                        <span className="text-gray-600">
-                          R$ {tag.total.toFixed(2)}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          categoryTagsTotals?.categories &&
+          categoryTagsTotals.categories.length > 0 ? (
+            <Accordion type="single" collapsible className="w-full">
+              {categoryTagsTotals.categories.map((category, index) => (
+                <AccordionItem key={category.name} value={`item-${index}`}>
+                  <AccordionTrigger className="flex justify-between gap-4">
+                    <div className="w-full flex justify-between">
+                      <span>{category.name}</span>
+                      <span>R$ {category.total.toFixed(2)}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="mt-2 space-y-1">
+                      {category.tags.map((tag) => (
+                        <li key={tag.name} className="flex justify-between">
+                          <span className="text-gray-700">{tag.name}</span>
+                          <span className="text-gray-600">
+                            R$ {tag.total.toFixed(2)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : (
+            <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center text-[#e5e7eb]">
+              <Icons.fileX2 />
+            </div>
+          )
         ) : (
-          <div className="pt-[10px] pb-[10px] w-full flex justify-center items-center">
+          <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center">
             <Icons.spinner className="w-4 h-4 animate-spin" />
           </div>
         )}

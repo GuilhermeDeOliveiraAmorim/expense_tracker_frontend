@@ -30,7 +30,6 @@ const DateSelector: React.FC<DateSelectorProps> = ({
   month,
   onRefresh,
 }) => {
-  console.log(year, month);
   return (
     <div className="flex flex-row gap-4 justify-between">
       {month && (
@@ -47,11 +46,17 @@ const DateSelector: React.FC<DateSelectorProps> = ({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Months</SelectLabel>
-              {month.months.map((month) => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
+              {month.months?.length > 0 ? (
+                month.months.map((month) => (
+                  <SelectItem key={month.value} value={month.value}>
+                    {month.label}
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem key="no-available" disabled value="no-available">
+                  No months available
                 </SelectItem>
-              ))}
+              )}
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -71,11 +76,17 @@ const DateSelector: React.FC<DateSelectorProps> = ({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Years</SelectLabel>
-              {year.years.map((year) => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
+              {year.years?.length > 0 ? (
+                year.years.map((year) => (
+                  <SelectItem key={year} value={year.toString()}>
+                    {year}
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem key="no-available" disabled value="no-available">
+                  No years available
                 </SelectItem>
-              ))}
+              )}
             </SelectGroup>
           </SelectContent>
         </Select>
