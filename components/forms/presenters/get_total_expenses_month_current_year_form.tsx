@@ -32,11 +32,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function GetTotalExpensesMonthCurrentYearForm() {
+type GetTotalExpensesMonthCurrentYearFormProps = {
+  availableYears: number[];
+};
+
+export function GetTotalExpensesMonthCurrentYearForm({
+  availableYears,
+}: GetTotalExpensesMonthCurrentYearFormProps) {
   const [monthsCurrentYear, setMonthsCurrentYear] = useState<
     MonthCurrentYear[]
   >([]);
-  const [availableYears, setAvailableYears] = useState<number[]>([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [selectedYear, setSelectedYear] = useState<number>(
@@ -64,17 +69,13 @@ export function GetTotalExpensesMonthCurrentYearForm() {
         setMonthsCurrentYear(
           totalExpensesMonthCurrentYearData?.expenses_month_current_year.months
         );
-        setAvailableYears(
-          totalExpensesMonthCurrentYearData?.expenses_month_current_year
-            .available_years
-        );
         setYear(
           totalExpensesMonthCurrentYearData?.expenses_month_current_year.year
         );
       } else {
         setTotalAmount(0);
         setMonthsCurrentYear([]);
-        setAvailableYears([]);
+        setYear(new Date().getFullYear());
       }
     }
   }, [totalExpensesMonthCurrentYearData, totalExpensesMonthCurrentYearLoading]);
@@ -89,7 +90,6 @@ export function GetTotalExpensesMonthCurrentYearForm() {
     onSuccess: (output: GetTotalExpensesMonthCurrentYearOutputDTO) => {
       setTotalAmount(output?.expenses_month_current_year.total);
       setMonthsCurrentYear(output?.expenses_month_current_year.months);
-      setAvailableYears(output?.expenses_month_current_year.available_years);
       setYear(output?.expenses_month_current_year.year);
     },
     onError: () => setTotalAmount(0),

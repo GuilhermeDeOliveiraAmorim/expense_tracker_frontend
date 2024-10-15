@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/card";
 import DateSelector from "@/components/ui/dateselector";
 import { Icons } from "@/components/ui/icons";
-import { months } from "@/components/util/date.handler";
-import { toast } from "@/hooks/use-toast";
 import {
   GetExpensesByMonthYearInputDTO,
   GetExpensesByMonthYearOutputDTO,
@@ -18,9 +16,18 @@ import {
 } from "@/internal/presenters/get_expenses_by_month_year";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { MonthOption } from "@/internal/presenters/get_available_months_years";
+import { toast } from "@/hooks/use-toast";
 
-export default function GetExpensesByMonthYearForm() {
-  const [availableYears, setAvailableYears] = useState<number[]>([]);
+type GetExpensesByMonthYearFormProps = {
+  availableYears: number[];
+  availableMonths: MonthOption[];
+};
+
+export default function GetExpensesByMonthYearForm({
+  availableMonths,
+  availableYears,
+}: GetExpensesByMonthYearFormProps) {
   const [weeks, setWeeks] = useState<WeekExpenses[]>([]);
   const [month, setMonth] = useState<string>(
     (new Date().getMonth() + 1).toString().padStart(2, "0")
@@ -57,13 +64,11 @@ export default function GetExpensesByMonthYearForm() {
       setMonth(expensesByMonthYearData.expenses.month);
       setYear(expensesByMonthYearData.expenses.year);
       setTotalAmount(expensesByMonthYearData.expenses.total_expenses);
-      setAvailableYears(expensesByMonthYearData.expenses.available_years);
     } else {
       setWeeks([]);
       setMonth("");
       setYear(0);
       setTotalAmount(0);
-      setAvailableYears([]);
     }
   }, [expensesByMonthYearData, expensesByMonthYearLoading]);
 
@@ -130,7 +135,7 @@ export default function GetExpensesByMonthYearForm() {
             month={{
               onMonthChange: (value) => setSelectedMonth(value),
               selectedMonth: selectedMonth,
-              months: months,
+              months: availableMonths,
             }}
             onRefresh={() => handleChangeDate()}
           />

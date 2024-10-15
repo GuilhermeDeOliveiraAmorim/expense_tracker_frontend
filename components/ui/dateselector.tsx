@@ -32,7 +32,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
 }) => {
   return (
     <div className="flex flex-row gap-4 justify-between">
-      {month && (
+      {month && year && (
         <Select
           name="month"
           key={month.selectedMonth}
@@ -46,7 +46,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Months</SelectLabel>
-              {month.months?.length > 0 ? (
+              {year.years?.length > 0 ? (
                 month.months.map((month) => (
                   <SelectItem key={month.value} value={month.value}>
                     {month.label}
@@ -92,7 +92,12 @@ const DateSelector: React.FC<DateSelectorProps> = ({
         </Select>
       )}
 
-      <Button type="button" variant="outline" onClick={onRefresh}>
+      <Button
+        type="button"
+        variant="outline"
+        onClick={onRefresh}
+        disabled={year?.years.length === 0}
+      >
         <Icons.refreshCcw className="w-4 h-4" />
       </Button>
     </div>

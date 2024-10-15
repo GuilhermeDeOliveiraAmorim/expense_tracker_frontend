@@ -8,11 +8,33 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageContentProps } from "@/props_types/props.types";
 import { GetTotalExpensesMonthCurrentYearForm } from "../forms/presenters/get_total_expenses_month_current_year_form";
+import { MonthOption } from "@/internal/presenters/get_available_months_years";
+import { useQuery } from "@tanstack/react-query";
+import { getAvailableMonthsYears } from "../query_functions/qf.presenters";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
 
+  const [avaliableMonths, setAvaliableMonths] = useState<MonthOption[]>([]);
+  const [avaliableYears, setAvaliableYears] = useState<number[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
+
+  const {
+    data: monthsYearsAvailableData,
+    error: monthsYearsAvailableError,
+    isLoading: monthsYearsAvailableLoading,
+  } = useQuery({
+    queryKey: ["months-years-available", "months-years-available"],
+    queryFn: () => getAvailableMonthsYears({}),
+  });
+
+  useEffect(() => {
+    if (monthsYearsAvailableData) {
+      setAvaliableMonths(monthsYearsAvailableData.available_months);
+      setAvaliableYears(monthsYearsAvailableData.available_years);
+    }
+  }, [monthsYearsAvailableData, monthsYearsAvailableLoading]);
 
   useEffect(() => {
     const access_token = sessionStorage.getItem("access_token");
@@ -47,17 +69,35 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     );
   }
 
+  if (monthsYearsAvailableError) {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Failed to fetch years and months available",
+      duration: 2500,
+    });
+    return;
+  }
+
   return (
     <div className="flex flex-col justify-between h-full">
       {header ? header : ""}
 
       <main className="flex flex-col bg-gray-100 pl-48 pr-48 pt-4 pb-4 gap-4 w-full h-full">
         <div className="flex flex-row gap-4 w-12/12">
-          <GetTotalExpensesMonthCurrentYearForm />
-          <GetCategoryTagsTotalsByMonthYearForm />
+          <GetTotalExpensesMonthCurrentYearForm
+            availableYears={avaliableYears}
+          />
+          <GetCategoryTagsTotalsByMonthYearForm
+            availableMonths={avaliableMonths}
+            availableYears={avaliableYears}
+          />
         </div>
         <div className="w-12/12">
-          <GetExpensesByMonthYearForm />
+          <GetExpensesByMonthYearForm
+            availableMonths={avaliableMonths}
+            availableYears={avaliableYears}
+          />
         </div>
       </main>
 

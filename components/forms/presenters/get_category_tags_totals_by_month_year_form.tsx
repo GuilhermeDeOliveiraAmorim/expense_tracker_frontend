@@ -15,6 +15,7 @@ import {
 import DateSelector from "@/components/ui/dateselector";
 import { Icons } from "@/components/ui/icons";
 import { toast } from "@/hooks/use-toast";
+import { MonthOption } from "@/internal/presenters/get_available_months_years";
 import {
   CategoryTagsTotals,
   GetCategoryTagsTotalsByMonthYearInputDTO,
@@ -23,11 +24,15 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-export default function GetCategoryTagsTotalsByMonthYearForm() {
-  const [availableYears, setAvailableYears] = useState<number[]>([]);
-  const [availableMonths, setAvailableMonths] = useState<
-    { label: string; value: string }[]
-  >([]);
+type GetCategoryTagsTotalsByMonthYearFormProps = {
+  availableYears: number[];
+  availableMonths: MonthOption[];
+};
+
+export default function GetCategoryTagsTotalsByMonthYearForm({
+  availableMonths,
+  availableYears,
+}: GetCategoryTagsTotalsByMonthYearFormProps) {
   const [month, setMonth] = useState<string>(
     (new Date().getMonth() + 1).toString().padStart(2, "0")
   );
@@ -63,15 +68,11 @@ export default function GetCategoryTagsTotalsByMonthYearForm() {
       setMonth(categoryTagsTotalsData.expenses.month);
       setYear(categoryTagsTotalsData.expenses.year);
       setTotalAmount(categoryTagsTotalsData.expenses.total);
-      setAvailableYears(categoryTagsTotalsData.expenses.available_years);
-      setAvailableMonths(categoryTagsTotalsData.expenses.available_months);
     } else {
       setCategoryTagsTotals(undefined);
       setMonth((new Date().getMonth() + 1).toString().padStart(2, "0"));
       setYear(new Date().getFullYear());
       setTotalAmount(0);
-      setAvailableYears([]);
-      setAvailableMonths([]);
     }
   }, [categoryTagsTotalsData, categoryTagsTotalsLoading]);
 
@@ -87,13 +88,21 @@ export default function GetCategoryTagsTotalsByMonthYearForm() {
       setMonth(output.expenses.month);
       setYear(output.expenses.year);
       setTotalAmount(output.expenses.total);
-      setAvailableYears(output.expenses.available_years);
-      setAvailableMonths(output.expenses.available_months);
     },
     onError: () => setCategoryTagsTotals(undefined),
   });
 
   const handleChangeDate = () => {
+    if (availableYears.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "No available years to select.",
+        duration: 2500,
+      });
+      return;
+    }
+
     if (selectedMonth && selectedYear) {
       setIsLoadingcategoryTagsTotalsData(true);
 
