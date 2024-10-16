@@ -87,13 +87,13 @@ export default function SignupForm() {
   };
 
   return (
-    <div className="flex flex-col h-full pl-52 pr-52 pb-52 pt-24 justify-between">
+    <div className="flex flex-col p-20 justify-center gap-20">
       <div className="flex justify-end">
         <Button onClick={goToLoginPage}>Login</Button>
       </div>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 align-middle content-center justify-center w-full h-full"
+        className="flex flex-col gap-2 align-middle content-center justify-center w-full h-full"
       >
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">

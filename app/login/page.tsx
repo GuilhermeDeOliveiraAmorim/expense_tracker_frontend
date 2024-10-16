@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className="flex h-screen">
-      <div className="w-1/2 bg-black">
+    <div className="flex flex-col w-full h-screen">
+      <div className="bg-black">
         <AuthLogo />
       </div>
-      <div className="w-1/2 bg-white">
+      <div className="bg-white">
         <LoginForm />
       </div>
     </div>

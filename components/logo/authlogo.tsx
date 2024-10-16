@@ -11,7 +11,7 @@ export default function AuthLogo() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full">
+    <div className="flex flex-row items-center justify-center h-full w-full pb-4">
       <div
         onClick={goToHomePage}
         className="flex flex-col items-center justify-center cursor-pointer"
