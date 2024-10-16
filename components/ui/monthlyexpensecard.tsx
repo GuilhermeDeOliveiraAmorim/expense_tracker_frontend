@@ -8,7 +8,7 @@ export default function MonthlyExpensesCard({
   weeks,
 }: MonthlyExpensesCardProps) {
   return (
-    <div className="grid grid-cols-2 gap-2 w-full">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 w-full">
       {weeks?.map((week) =>
         week.days.map((day) => (
           <div

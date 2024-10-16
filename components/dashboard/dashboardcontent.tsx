@@ -83,8 +83,8 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
     <div className="flex flex-col justify-between w-full">
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 p-2 gap-2 w-full h-full">
-        <div className="flex flex-col gap-2 w-12/12">
+      <main className="flex flex-col bg-gray-100 p-2 lg:pl-16 lg:pr-16 xl:pl-48 xl:pr-48 gap-2 w-full h-full">
+        <div className="flex flex-col lg:flex-row gap-2">
           <GetTotalExpensesMonthCurrentYearForm
             availableYears={avaliableYears}
           />
@@ -93,7 +93,7 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
             availableYears={avaliableYears}
           />
         </div>
-        <div className="w-12/12">
+        <div>
           <GetExpensesByMonthYearForm
             availableMonths={avaliableMonths}
             availableYears={avaliableYears}
