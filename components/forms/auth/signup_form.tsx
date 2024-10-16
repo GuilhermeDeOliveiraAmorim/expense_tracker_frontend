@@ -87,7 +87,7 @@ export default function SignupForm() {
   };
 
   return (
-    <div className="flex flex-col p-20 justify-center gap-20">
+    <div className="flex flex-col p-10 sm:pl-20 sm:pr-20 xl:pl-40 xl:pr-40 justify-center gap-20">
       <div className="flex justify-end">
         <Button onClick={goToLoginPage}>Login</Button>
       </div>
