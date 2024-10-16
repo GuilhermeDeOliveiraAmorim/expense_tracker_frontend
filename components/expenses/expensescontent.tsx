@@ -83,14 +83,12 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
   }
 
   return (
-    <>
+    <div className="flex flex-col justify-between w-full">
       {header ? header : ""}
 
-      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
-        <div className="flex flex-col gap-6">
-          <AddExpenseForm />
-        </div>
-        <div className="flex gap-6 w-full">
+      <main className="flex flex-col bg-gray-100 p-2 lg:pl-16 lg:pr-16 xl:pl-32 xl:pr-32 gap-2 w-full h-full">
+        <AddExpenseForm />
+        <div className="flex gap-2 w-full">
           <div className="w-full">
             <Card>
               <CardHeader>
@@ -114,6 +112,6 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
       </main>
 
       {footer ? footer : ""}
-    </>
+    </div>
   );
 }

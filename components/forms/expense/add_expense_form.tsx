@@ -1,8 +1,5 @@
 "use client";
 
-import AddCategoryForm from "../category/add_category_form";
-import AddTagForm from "../tag/add_tag_form";
-import FormDialog from "@/components/ui/formdialog";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -176,12 +173,12 @@ export default function AddExpenseForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="w-[350px]">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Add Expense</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full items-center gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 w-full items-center gap-2">
             <div className="flex flex-col space-y-1.5">
               <Input
                 id="amount"
@@ -214,7 +211,7 @@ export default function AddExpenseForm() {
                 />
               </PopoverContent>
             </Popover>
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               {categoriesLoading ? (
                 <Skeleton className="w-full rounded-md" />
               ) : (
@@ -255,10 +252,10 @@ export default function AddExpenseForm() {
                 </Select>
               )}
 
-              <FormDialog
+              {/* <FormDialog
                 ariaDescribedby="add-category"
                 form={<AddCategoryForm />}
-              />
+              /> */}
             </div>
             <div className="flex gap-4">
               {tagsLoading ? (
@@ -277,21 +274,21 @@ export default function AddExpenseForm() {
                 />
               )}
 
-              <FormDialog ariaDescribedby="add-tag" form={<AddTagForm />} />
+              {/* <FormDialog ariaDescribedby="add-tag" form={<AddTagForm />} /> */}
             </div>
-            <div className="flex gap-4 items-end">
-              <Textarea
-                name="notes"
-                id="notes"
-                value={notes}
-                placeholder="Type your note here"
-                onChange={(e) => setNotes(e.target.value)}
-                aria-label="Notes"
-              />
-              <Button type="submit">
-                <Icons.save className="w-5" />
-              </Button>
-            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-end mt-2">
+            <Textarea
+              name="notes"
+              id="notes"
+              value={notes}
+              placeholder="Type your note here"
+              onChange={(e) => setNotes(e.target.value)}
+              aria-label="Notes"
+            />
+            <Button type="submit">
+              <Icons.save className="w-4" />
+            </Button>
           </div>
         </CardContent>
       </Card>
