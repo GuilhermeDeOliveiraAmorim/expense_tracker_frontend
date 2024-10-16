@@ -75,39 +75,30 @@ export default function AddCategoryForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="w-[350px]">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Add Category</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid w-full items-center gap-4 mb-4">
-            <div className="flex flex-col space-y-1.5">
-              <Input
-                id="name"
-                type="text"
-                placeholder="Your category name here"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                aria-label="Category name"
-              />
-            </div>
-          </div>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <div className="flex gap-4">
-                <Input
-                  id="color"
-                  type="color"
-                  value={color}
-                  onChange={(e) => setColor(e.target.value)}
-                  aria-label="Category color"
-                ></Input>
-                <Button type="submit">
-                  <Icons.save className="w-5" />
-                </Button>
-              </div>
-            </div>
-          </div>
+        <CardContent className="flex flex-row justify-between gap-2">
+          <Input
+            id="name"
+            type="text"
+            placeholder="Your category name here"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            aria-label="Category name"
+          />
+          <Input
+            id="color"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            aria-label="Category color"
+            className="w-14"
+          />
+          <Button type="submit">
+            <Icons.save className="w-4" />
+          </Button>
         </CardContent>
       </Card>
     </form>

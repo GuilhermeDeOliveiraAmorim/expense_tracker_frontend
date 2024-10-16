@@ -71,7 +71,7 @@ export function DataTable<T>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center pb-2 gap-2">
         <Input
           placeholder={filterPlaceholder || "Filter..."}
           value={
@@ -161,8 +161,8 @@ export function DataTable<T>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
+      <div className="flex items-center justify-end pt-2">
+        <div className="flex gap-2">
           <Button
             variant="outline"
             size="sm"

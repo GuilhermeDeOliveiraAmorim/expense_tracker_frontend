@@ -108,16 +108,16 @@ export default function ConfigurationsContent({
   }
 
   return (
-    <>
+    <div className="flex flex-col justify-between w-full">
       {header ? header : ""}
 
-      <main className="flex flex-1 bg-gray-100 pl-48 pr-48 pt-6 pb-6 gap-6 w-full">
-        <div className="flex flex-col gap-6">
+      <main className="flex flex-col bg-gray-100 p-2 lg:pl-16 lg:pr-16 xl:pl-32 xl:pr-32 gap-2 w-full h-full">
+        <div className="grid grid-cols-1 gap-2 w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
           <AddCategoryForm />
           <AddTagForm />
         </div>
-        <div className="flex gap-6 w-full">
-          <div className="w-1/2">
+        <div className="flex flex-col xl:flex-row gap-2 w-full">
+          <div className="w-full">
             <Card>
               <CardHeader>
                 <CardTitle>Categories</CardTitle>
@@ -136,7 +136,7 @@ export default function ConfigurationsContent({
               </CardContent>
             </Card>
           </div>
-          <div className="w-1/2">
+          <div className="w-full">
             <Card>
               <CardHeader>
                 <CardTitle>Tags</CardTitle>
@@ -159,6 +159,6 @@ export default function ConfigurationsContent({
       </main>
 
       {footer ? footer : ""}
-    </>
+    </div>
   );
 }
