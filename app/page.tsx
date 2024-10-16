@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Expense Insight",
   description:
-    "Expense Insight é uma ferramenta simples e poderosa para ajudar você a organizar e visualizar suas despesas com gráficos interativos e insights personalizados para melhorar seu controle financeiro.",
+    "Expense Insight é uma ferramenta simples e poderosa para ajudar você a organizar e visualizar suas despesas com gráficos interativos para melhorar seu controle financeiro.",
 };
 
 export default function Home() {
@@ -44,10 +44,10 @@ export default function Home() {
           </h2>
           <p className="text-lg mb-8">
             Nosso app ajuda você a cadastrar, organizar e visualizar suas
-            despesas com gráficos interativos e insights personalizados para
-            melhorar seu controle financeiro.
+            despesas com gráficos interativos e para melhorar seu controle
+            financeiro.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white shadow-lg p-6 rounded-lg">
               <h3 className="text-2xl font-semibold mb-4">Cadastro Simples</h3>
               <p>
@@ -62,15 +62,6 @@ export default function Home() {
               <p>
                 Visualize seus gastos com gráficos de fácil entendimento e
                 compare suas despesas mês a mês.
-              </p>
-            </div>
-            <div className="bg-white shadow-lg p-6 rounded-lg">
-              <h3 className="text-2xl font-semibold mb-4">
-                Insights Personalizados
-              </h3>
-              <p>
-                Receba insights automáticos baseados nos seus hábitos de gastos
-                e dicas de economia personalizadas.
               </p>
             </div>
           </div>
