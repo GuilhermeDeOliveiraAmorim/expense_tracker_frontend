@@ -1,4 +1,5 @@
 import MonthlyExpensesCard from "@/components/ui/monthlyexpensecard";
+import DateSelector from "@/components/ui/dateselector";
 import { getExpensesByMonthYear } from "@/components/query_functions/qf.presenters";
 import {
   Card,
@@ -7,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import DateSelector from "@/components/ui/dateselector";
-import { Icons } from "@/components/ui/icons";
 import {
   GetExpensesByMonthYearInputDTO,
   GetExpensesByMonthYearOutputDTO,
@@ -18,6 +17,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { MonthOption } from "@/internal/presenters/get_available_months_years";
 import { toast } from "@/hooks/use-toast";
+import { IconFileX } from "@/components/ui/iconfilex";
+import { IconSpinner } from "@/components/ui/iconspinner";
 
 type GetExpensesByMonthYearFormProps = {
   availableYears: number[];
@@ -146,14 +147,10 @@ export default function GetExpensesByMonthYearForm({
           !isLoadingExpensesByMonthYearData ? (
             <MonthlyExpensesCard weeks={weeks} />
           ) : (
-            <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center">
-              <Icons.spinner className="w-4 h-4 animate-spin" />
-            </div>
+            <IconSpinner />
           )
         ) : (
-          <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center text-[#e5e7eb]">
-            <Icons.fileX2 />
-          </div>
+          <IconFileX />
         )}
       </CardContent>
     </Card>

@@ -21,9 +21,9 @@ export default function PageHeader({ menu }: DashboardHeaderProps) {
 
   return (
     <header className="bg-white">
-      <div className="mx-auto flex justify-between items-center py-4 px-6">
-        <div className="flex items-center space-x-3">
-          <Link href={"/"} className="flex items-center gap-1">
+      <div className="flex flex-col items-center p-2 gap-2">
+        <div className="flex items-center gap-2">
+          <Link href={"/"} className="flex items-center gap-2">
             <Logo height="40" width="40" />
             <span className="text-xl font-bold text-gray-700">
               Expense Insight
@@ -31,11 +31,11 @@ export default function PageHeader({ menu }: DashboardHeaderProps) {
           </Link>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex flex-row gap-2">
           {menu ? menu : ""}
           <Link href={"/login"}>
             <Button onClick={logout} variant="destructive">
-              <Icons.power className="w-5" />
+              <Icons.power className="w-4" />
             </Button>
           </Link>
         </div>

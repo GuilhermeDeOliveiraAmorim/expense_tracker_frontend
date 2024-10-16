@@ -24,7 +24,7 @@ import {
 import { getTotalExpensesMonthCurrentYear } from "@/components/query_functions/qf.presenters";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
-import { Icons } from "@/components/ui/icons";
+import { IconFileX } from "@/components/ui/iconfilex";
 
 const chartConfig = {
   total: {
@@ -119,8 +119,8 @@ export function GetTotalExpensesMonthCurrentYearForm({
 
   return (
     <Card className="w-full">
-      <CardHeader className="flex flex-col w-full pb-4">
-        <div className="flex flex-row justify-between gap-4">
+      <CardHeader className="flex flex-col w-full pb-2">
+        <div className="flex flex-row justify-between gap-2">
           <div>
             <CardTitle className="text-sm">Expenses per month</CardTitle>
             <CardDescription className="text-xs text-muted-foreground">
@@ -159,9 +159,7 @@ export function GetTotalExpensesMonthCurrentYearForm({
             </BarChart>
           </ChartContainer>
         ) : (
-          <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center text-[#e5e7eb]">
-            <Icons.fileX2 />
-          </div>
+          <IconFileX />
         )}
       </CardContent>
     </Card>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function DashboardContainer() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen w-full">
       <DashboardContent
         header={<PageHeader menu={<PageMenu />} />}
         footer={<Footer />}

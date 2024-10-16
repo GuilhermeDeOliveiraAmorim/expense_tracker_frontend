@@ -13,7 +13,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import DateSelector from "@/components/ui/dateselector";
-import { Icons } from "@/components/ui/icons";
+import { IconFileX } from "@/components/ui/iconfilex";
+import { IconSpinner } from "@/components/ui/iconspinner";
 import { toast } from "@/hooks/use-toast";
 import { MonthOption } from "@/internal/presenters/get_available_months_years";
 import {
@@ -131,7 +132,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-col w-full pb-4">
-        <div className="flex flex-row justify-between gap-4">
+        <div className="flex flex-row justify-between gap-2">
           <div>
             <CardTitle className="text-sm">
               Total by tags and category
@@ -162,7 +163,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
             <Accordion type="single" collapsible className="w-full">
               {categoryTagsTotals.categories.map((category, index) => (
                 <AccordionItem key={category.name} value={`item-${index}`}>
-                  <AccordionTrigger className="flex justify-between gap-4">
+                  <AccordionTrigger className="flex justify-between gap-2">
                     <div className="w-full flex justify-between">
                       <span>{category.name}</span>
                       <span>R$ {category.total.toFixed(2)}</span>
@@ -184,14 +185,10 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
               ))}
             </Accordion>
           ) : (
-            <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center text-[#e5e7eb]">
-              <Icons.fileX2 />
-            </div>
+            <IconFileX />
           )
         ) : (
-          <div className="pt-[10px] pb-[10px] w-full flex h-full justify-center items-center">
-            <Icons.spinner className="w-4 h-4 animate-spin" />
-          </div>
+          <IconSpinner />
         )}
       </CardContent>
     </Card>

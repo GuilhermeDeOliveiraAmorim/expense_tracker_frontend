@@ -31,7 +31,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
   onRefresh,
 }) => {
   return (
-    <div className="flex flex-row gap-4 justify-between">
+    <div className="flex flex-row gap-2 justify-between">
       {month && year && (
         <Select
           name="month"
@@ -40,7 +40,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
           value={month.selectedMonth}
           aria-label="Months listing"
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger>
             <SelectValue placeholder="Select a month" />
           </SelectTrigger>
           <SelectContent>
@@ -70,7 +70,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
           value={year.selectedYear.toString()}
           aria-label="Years listing"
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger>
             <SelectValue placeholder="Select a year" />
           </SelectTrigger>
           <SelectContent>
