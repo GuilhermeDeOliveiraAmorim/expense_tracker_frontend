@@ -13,6 +13,8 @@ import { DataTable } from "../ui/datatable";
 import { PageContentProps } from "@/props_types/props.types";
 import { getExpenses } from "../query_functions/qf.expense";
 import { columnsExpenses } from "../ui/datacolumns";
+import { MainContent } from "../ui/maincontent";
+import { Content } from "../ui/content";
 
 export default function ExpensesContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -83,35 +85,33 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
   }
 
   return (
-    <div className="flex flex-col justify-between w-full">
+    <Content>
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 p-2 lg:pl-16 lg:pr-16 xl:pl-32 xl:pr-32 gap-2 w-full h-full">
+      <MainContent>
         <AddExpenseForm />
-        <div className="flex gap-2 w-full">
-          <div className="w-full">
-            <Card>
-              <CardHeader>
-                <CardTitle>Expenses</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {expensesLoading ? (
-                  <Skeleton className="w-full h-[20px] rounded-full" />
-                ) : (
-                  <DataTable
-                    data={expenses || []}
-                    columns={columnsExpenses}
-                    filterColumnName="notes"
-                    filterPlaceholder="Filter by notes"
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </div>
+        <div className="flex flex-col gap-2 w-full">
+          <Card>
+            <CardHeader>
+              <CardTitle>Expenses</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {expensesLoading ? (
+                <Skeleton className="w-full h-[20px] rounded-full" />
+              ) : (
+                <DataTable
+                  data={expenses || []}
+                  columns={columnsExpenses}
+                  filterColumnName="notes"
+                  filterPlaceholder="Filter by notes"
+                />
+              )}
+            </CardContent>
+          </Card>
         </div>
-      </main>
+      </MainContent>
 
       {footer ? footer : ""}
-    </div>
+    </Content>
   );
 }

@@ -11,6 +11,8 @@ import { GetTotalExpensesMonthCurrentYearForm } from "../forms/presenters/get_to
 import { MonthOption } from "@/internal/presenters/get_available_months_years";
 import { useQuery } from "@tanstack/react-query";
 import { getAvailableMonthsYears } from "../query_functions/qf.presenters";
+import { MainContent } from "../ui/maincontent";
+import { Content } from "../ui/content";
 
 export default function DashboardContent({ header, footer }: PageContentProps) {
   const router = useRouter();
@@ -80,10 +82,10 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
   }
 
   return (
-    <div className="flex flex-col justify-between w-full">
+    <Content>
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 p-2 lg:pl-16 lg:pr-16 xl:pl-48 xl:pr-48 gap-2 w-full h-full">
+      <MainContent>
         <div className="flex flex-col lg:flex-row gap-2">
           <GetTotalExpensesMonthCurrentYearForm
             availableYears={avaliableYears}
@@ -99,9 +101,9 @@ export default function DashboardContent({ header, footer }: PageContentProps) {
             availableYears={avaliableYears}
           />
         </div>
-      </main>
+      </MainContent>
 
       {footer ? footer : ""}
-    </div>
+    </Content>
   );
 }

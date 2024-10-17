@@ -70,7 +70,7 @@ export function DataTable<T>({
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <div className="flex items-center pb-2 gap-2">
         <Input
           placeholder={filterPlaceholder || "Filter..."}

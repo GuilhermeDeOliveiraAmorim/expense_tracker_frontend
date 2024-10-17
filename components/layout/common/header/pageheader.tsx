@@ -20,7 +20,7 @@ export default function PageHeader({ menu }: DashboardHeaderProps) {
   };
 
   return (
-    <header className="bg-white">
+    <header className="bg-white h-fit">
       <div className="flex flex-col md:flex-row md:justify-between items-center p-2 gap-2">
         <div className="flex items-center gap-2">
           <Link href={"/"} className="flex items-center gap-2">

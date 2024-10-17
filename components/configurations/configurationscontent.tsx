@@ -16,6 +16,8 @@ import { PageContentProps } from "@/props_types/props.types";
 import { getCategories } from "../query_functions/qf.categoy";
 import { getTags } from "../query_functions/qf.tag";
 import { columnsCategories, columnsTags } from "../ui/datacolumns";
+import { MainContent } from "../ui/maincontent";
+import { Content } from "../ui/content";
 
 export default function ConfigurationsContent({
   header,
@@ -108,10 +110,10 @@ export default function ConfigurationsContent({
   }
 
   return (
-    <div className="flex flex-col justify-between w-full">
+    <Content>
       {header ? header : ""}
 
-      <main className="flex flex-col bg-gray-100 p-2 lg:pl-16 lg:pr-16 xl:pl-32 xl:pr-32 gap-2 w-full h-full">
+      <MainContent>
         <div className="grid grid-cols-1 gap-2 w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
           <AddCategoryForm />
           <AddTagForm />
@@ -156,9 +158,9 @@ export default function ConfigurationsContent({
             </Card>
           </div>
         </div>
-      </main>
+      </MainContent>
 
       {footer ? footer : ""}
-    </div>
+    </Content>
   );
 }
