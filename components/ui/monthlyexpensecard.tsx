@@ -1,4 +1,5 @@
 import { WeekExpenses } from "@/internal/presenters/get_expenses_by_month_year";
+import { isDarkColor } from "../util/color.handler";
 
 type MonthlyExpensesCardProps = {
   weeks: WeekExpenses[] | undefined;
@@ -30,8 +31,11 @@ export default function MonthlyExpensesCard({
               {day.tags.map((tag) => (
                 <div
                   key={tag.name}
-                  style={{ backgroundColor: tag.color }}
-                  className="w-full flex flex-col justify-center items-center pt-1 pb-1 text-white rounded-sm"
+                  className="w-full flex flex-col justify-center items-center pt-1 pb-1 rounded-sm"
+                  style={{
+                    backgroundColor: tag.color,
+                    color: isDarkColor(tag.color) ? "#ffffff" : "#1d1d1d",
+                  }}
                 >
                   {tag.name} (R$ {tag.total.toFixed(2).replace(".", ",")})
                 </div>

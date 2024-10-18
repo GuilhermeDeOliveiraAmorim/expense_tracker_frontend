@@ -154,17 +154,15 @@ export const columnsTags: ColumnDef<Tag>[] = [
 export const columnsExpenses: ColumnDef<Expense>[] = [
   {
     accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Amount
+        <ArrowUpDown className="ml-2 h-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
       const amount = new Intl.NumberFormat("pt-BR", {
         style: "currency",
@@ -176,17 +174,15 @@ export const columnsExpenses: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: "category_name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Category
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Category
+        <ArrowUpDown className="ml-2 h-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <Badge
         variant="outline"
@@ -203,89 +199,84 @@ export const columnsExpenses: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: "tag_name",
-    header: ({ column }) => {
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Tags
+        <ArrowUpDown className="ml-2 h-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const tags = row.original.tags || [];
+
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tags
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
+        <>
+          {tags.map((tag) => (
+            <Badge
+              key={tag.id}
+              variant="outline"
+              style={{
+                backgroundColor: tag.color,
+                color: isDarkColor(tag.color) ? "#ffffff" : "#000000",
+              }}
+              className="ml-1"
+            >
+              {tag.name}
+            </Badge>
+          ))}
+        </>
       );
     },
-    cell: ({ row }) =>
-      !row.original.tags
-        ? ""
-        : row.original.tags.map((tag) => {
-            return (
-              <Badge
-                key={tag.id}
-                variant="outline"
-                style={{
-                  backgroundColor: tag.color,
-                  color: isDarkColor(tag.color) ? "#ffffff" : "#000000",
-                }}
-                className="ml-1"
-              >
-                {tag.name}
-              </Badge>
-            );
-          }),
   },
   {
     accessorKey: "notes",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Notes
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Notes
+        <ArrowUpDown className="ml-2 h-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div className="lowercase">{row.getValue("notes")}</div>,
   },
   {
     accessorKey: "expense_date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date
-          <ArrowUpDown className="ml-2 h-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Date
+        <ArrowUpDown className="ml-2 h-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className="lowercase">
-        {new Date(row.getValue("expense_date")).toLocaleDateString()}
+        {new Date(row.getValue("expense_date")).toLocaleDateString("pt-BR")}
       </div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <div className="flex gap-2">
-          <Delete
-            entity_id={row.original.id}
-            mutationKey={"delete-expense"}
-            mutationFn={deleteExpense}
-            queryName={"get-expenses"}
-            entityIdKey="expense_id"
-          />
-          <Update
-            ariaDescribedby="update-expense"
-            form={<UpdateExpenseForm expense={row.original} />}
-          />
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="flex gap-2">
+        <Delete
+          entity_id={row.original.id}
+          mutationKey={"delete-expense"}
+          mutationFn={deleteExpense}
+          queryName={"get-expenses"}
+          entityIdKey="expense_id"
+        />
+        <Update
+          ariaDescribedby="update-expense"
+          form={<UpdateExpenseForm expense={row.original} />}
+        />
+      </div>
+    ),
   },
 ];
