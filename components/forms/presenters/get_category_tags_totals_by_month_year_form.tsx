@@ -68,7 +68,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
       setCategoryTagsTotals(categoryTagsTotalsData.expenses);
       setMonth(categoryTagsTotalsData.expenses.month);
       setYear(categoryTagsTotalsData.expenses.year);
-      setTotalAmount(categoryTagsTotalsData.expenses.total);
+      setTotalAmount(categoryTagsTotalsData.expenses.expenses_amount);
     } else {
       setCategoryTagsTotals(undefined);
       setMonth((new Date().getMonth() + 1).toString().padStart(2, "0"));
@@ -88,7 +88,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
       setCategoryTagsTotals(output.expenses);
       setMonth(output.expenses.month);
       setYear(output.expenses.year);
-      setTotalAmount(output.expenses.total);
+      setTotalAmount(output.expenses.expenses_amount);
     },
     onError: () => setCategoryTagsTotals(undefined),
   });
@@ -166,7 +166,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
                   <AccordionTrigger className="flex justify-between gap-2">
                     <div className="w-full flex justify-between">
                       <span>{category.name}</span>
-                      <span>R$ {category.total.toFixed(2)}</span>
+                      <span>R$ {category.category_amount.toFixed(2)}</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -175,7 +175,7 @@ export default function GetCategoryTagsTotalsByMonthYearForm({
                         <li key={tag.name} className="flex justify-between">
                           <span className="text-gray-700">{tag.name}</span>
                           <span className="text-gray-600">
-                            R$ {tag.total.toFixed(2)}
+                            R$ {tag.tag_amount.toFixed(2)}
                           </span>
                         </li>
                       ))}

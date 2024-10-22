@@ -3,12 +3,12 @@ import { PresentersRepository } from "../repository/presenters.repository";
 
 export type CategoryTagTotal = {
   name: string;
-  total: number;
+  tag_amount: number;
 };
 
 export type CategoryWithTags = {
   name: string;
-  total: number;
+  category_amount: number;
   tags: CategoryTagTotal[];
 };
 
@@ -20,7 +20,7 @@ export type MonthOption = {
 export type CategoryTagsTotals = {
   month: string;
   year: number;
-  total: number;
+  expenses_amount: number;
   categories: CategoryWithTags[];
   available_years: number[];
   available_months: MonthOption[];
