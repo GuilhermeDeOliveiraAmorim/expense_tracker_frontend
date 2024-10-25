@@ -37,7 +37,6 @@ export default function ExpensesContent({ header, footer }: PageContentProps) {
     if (
       access_token === null ||
       access_token === undefined ||
-      access_token === "" ||
       access_token === ""
     ) {
       toast({

@@ -12,6 +12,9 @@ http.interceptors.request.use(
       config.url?.includes(route)
     );
 
+    console.log(config.url);
+    console.log(isPublicRoute);
+
     if (!isPublicRoute) {
       const accessToken = sessionStorage.getItem("access_token");
 
