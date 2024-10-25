@@ -6,13 +6,21 @@ export const http = axios.create({
 
 http.interceptors.request.use(
   (config) => {
-    const accessToken = sessionStorage.getItem("access_token");
+    const publicRoutes = ["/signup", "/login"];
 
-    if (accessToken === null || accessToken === undefined) {
-      return Promise.reject(new Error("User not authenticated"));
+    const isPublicRoute = publicRoutes.some((route) =>
+      config.url?.includes(route)
+    );
+
+    if (!isPublicRoute) {
+      const accessToken = sessionStorage.getItem("access_token");
+
+      if (accessToken === null || accessToken === undefined) {
+        return Promise.reject(new Error("User not authenticated"));
+      }
+
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
-
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
 
     return config;
   },
