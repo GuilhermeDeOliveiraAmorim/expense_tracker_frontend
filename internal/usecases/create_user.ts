@@ -19,12 +19,13 @@ export class CreateUserUseCase {
   async execute(input: CreateUserInputDTO): Promise<CreateUserOutputDTO> {
     try {
       const output = await this.UserGateway.createUser(input);
-
+      console.log("output", output);
       return output;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw error;
       } else {
+        console.log("error", error);
         throw new Error("An unexpected error occurred");
       }
     }
