@@ -1,5 +1,5 @@
 export const apiRoutes = {
-  createUser: "/users",
+  createUser: "/signup",
   login: "/login",
   createCategory: "/categories",
   createExpense: "/expenses",
