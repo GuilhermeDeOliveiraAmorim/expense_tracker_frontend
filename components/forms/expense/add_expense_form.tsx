@@ -49,6 +49,7 @@ export default function AddExpenseForm() {
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategory] = useState<Category[]>([]);
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
+  const [resetKey, setResetKey] = useState(0);
 
   const {
     data: categoriesData,
@@ -169,6 +170,7 @@ export default function AddExpenseForm() {
     setNotes("");
     setCategoryId("");
     setSelectedTags([]);
+    setResetKey((prev) => prev + 1);
   };
 
   return (
@@ -262,6 +264,7 @@ export default function AddExpenseForm() {
                 <Skeleton className="w-full rounded-md" />
               ) : (
                 <MultiSelect
+                  key={resetKey}
                   options={tags || []}
                   onValueChange={(selectedValues) =>
                     setSelectedTags(selectedValues)
