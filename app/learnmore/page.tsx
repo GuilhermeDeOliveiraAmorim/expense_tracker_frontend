@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Expense Insight | Learn More",
+  title: "Expense Tracker | Learn More",
   description:
-    "Learn more about Expense Insight, our simple and powerful app that helps you track, organize, and visualize your expenses with interactive graphs and personalized insights for better financial control.",
+    "Learn more about Expense Tracker, our simple and powerful app that helps you track, organize, and visualize your expenses with interactive graphs and personalized insights for better financial control.",
 };
 
 export default function LearnMore() {
@@ -18,11 +18,11 @@ export default function LearnMore() {
         className="py-16 bg-gray-100 text-gray-800 px-4 h-full"
       >
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Expense Insight</h2>
+          <h2 className="text-3xl font-bold mb-6">Expense Tracker</h2>
           <p className="text-lg mb-8">
             Nosso app ajuda você a cadastrar, organizar e visualizar suas
-            despesas com gráficos interativos e para
-            melhorar seu controle financeiro.
+            despesas com gráficos interativos e para melhorar seu controle
+            financeiro.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="flex flex-col justify-between">

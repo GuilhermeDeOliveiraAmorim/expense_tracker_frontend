@@ -9,7 +9,7 @@ export default function CommomHeader() {
         <Link href={"/"} className="flex items-center gap-1">
           <Logo height="40" width="40" />
           <span className="text-xl font-bold text-gray-700">
-            Expense Insight
+            Expense Tracker
           </span>
         </Link>
       </div>

@@ -3,8 +3,8 @@ import AuthLogo from "@/components/logo/authlogo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Expense Insight | Sign Up",
-  description: "Sign up for a new account on Expense Insight",
+  title: "Expense Tracker | Sign Up",
+  description: "Sign up for a new account on Expense Tracker",
 };
 
 export default function Signup() {

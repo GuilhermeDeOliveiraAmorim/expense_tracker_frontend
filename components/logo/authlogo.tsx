@@ -17,7 +17,7 @@ export default function AuthLogo() {
         className="flex flex-col items-center justify-center cursor-pointer"
       >
         <Logo height="150" width="150" />
-        <h1 className="text-white text-3xl">Expense Insight</h1>
+        <h1 className="text-white text-3xl">Expense Tracker</h1>
       </div>
     </div>
   );

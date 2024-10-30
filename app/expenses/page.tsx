@@ -5,7 +5,7 @@ import { PageMenu } from "@/components/layout/common/menu/pagemenu";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Expense Insight | Expense",
+  title: "Expense Tracker | Expense",
   description: "View your expense insights",
 };
 
