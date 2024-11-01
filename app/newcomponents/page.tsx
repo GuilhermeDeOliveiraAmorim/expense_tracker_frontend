@@ -3,6 +3,7 @@
 import GraphButton from "@/components/ui/buttons/graph_button";
 import NextPrevButton from "@/components/ui/buttons/next_prev_button";
 import SideMenuButton from "@/components/ui/buttons/side_menu_button";
+import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
 import { Icons } from "@/components/ui/icons";
 
 export default function NewComponents() {
@@ -28,6 +29,7 @@ export default function NewComponents() {
           label="Fechar"
         />
       </div>
+      <CurrentMonthAmount amount={78994.45} month="Setembro" />
     </main>
   );
 }

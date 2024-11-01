@@ -1,25 +1,21 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../card";
+import { numberToBRL } from "@/components/util/money.handler";
 
-export function CurrentMonthAmount() {
+type CurrentMonthAmountProps = {
+  amount: number;
+  month: string;
+};
+
+export function CurrentMonthAmount({ amount, month }: CurrentMonthAmountProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
-    </Card>
+    <div className="relative">
+      <div className="absolute -top-2 right-4 bg-[#134074] text-[30px] text-[#EEF4ED] rounded-[12px] px-8 py-3 h-[70px] shadow-md">
+        {numberToBRL(amount)}
+      </div>
+      <div className=" bg-[#EEF4ED] rounded-[12px] pl-3 pt-3 pb-3 shadow-md">
+        <span className="text-[20px] font-bold text-center text-[#0B2545]">
+          {month}
+        </span>
+      </div>
+    </div>
   );
 }
