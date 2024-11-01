@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function NewComponents() {
-  return <CurrentMonthAmount />;
+  return (
+    <main className="grid grid-cols-4 gap-4 pl-36 pr-36 pt-12">
+      <CurrentMonthAmount />
+    </main>
+  );
 }
