@@ -27,8 +27,8 @@ export default function SideMenuButton({
       <Button
         className={`${
           isClicked
-            ? "w-full bg-[#8DA9C4] text-[#0B2545] font-semibold hover:bg-[#97b2ca] hover:text-[#0B2545] rounded-[6px]"
-            : "w-full bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#13315C] hover:text-[#EEF4ED] rounded-[6px]"
+            ? "w-full bg-[#8DA9C4] text-[#0B2545] font-semibold hover:bg-[#97b2ca] hover:text-[#0B2545] rounded-[12px]"
+            : "w-full bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#13315C] hover:text-[#EEF4ED] rounded-[12px]"
         }`}
         onClick={handleClick}
       >
