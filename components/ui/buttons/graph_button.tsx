@@ -19,8 +19,8 @@ export default function GraphButton({ text }: GraphButtonProps) {
       onClick={handleClick}
       className={`${
         isClicked
-          ? "bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#0B2545] hover:text-[#EEF4ED]"
-          : "bg-[#8DA9C4] text-[#0B2545] font-semibold hover:bg-[#a2b7ca] hover:text-[#0B2545]"
+          ? "bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#0B2545] hover:text-[#EEF4ED] rounded-[6px]"
+          : "bg-[#8DA9C4] text-[#0B2545] font-semibold hover:bg-[#97b2ca] hover:text-[#0B2545] rounded-[6px]"
       }`}
     >
       {text}
