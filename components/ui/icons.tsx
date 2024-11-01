@@ -33,6 +33,8 @@ import {
   RefreshCcw,
   RefreshCw,
   ChevronsLeft,
+  ChevronsUpDown,
+  ChevronsDownUp,
 } from "lucide-react";
 
 export const Icons = {
@@ -67,6 +69,8 @@ export const Icons = {
   refreshCcw: RefreshCcw,
   refreshCw: RefreshCw,
   chevronsLeft: ChevronsLeft,
+  chevronsUpDown: ChevronsUpDown,
+  chevronsDownUp: ChevronsDownUp,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
