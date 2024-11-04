@@ -9,6 +9,7 @@ import TagsInCategoriesByMonth, {
   CategoriesData,
 } from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
 import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
+import { Header } from "@/components/ui/header/header";
 
 const months = [
   { value: "January", label: "January" },
@@ -92,6 +93,13 @@ const categoriesData: CategoriesData = {
 export default function NewComponents() {
   return (
     <main className="grid grid-cols-4 gap-4 pl-36 pr-36 pt-12">
+      <Header
+        userName="Guilherme"
+        avatarFallback="GU"
+        alt="@gui___amorim"
+        avatarUrl="/avatar.png"
+        menu={["Despesas", "Receitas", "Configurações", "Sair"]}
+      />
       <GraphButton text="View Graph" />
       <NextPrevButton isNext={false} onClick={() => console.log("Prev")} />
       <NextPrevButton isNext={true} onClick={() => console.log("Next")} />
