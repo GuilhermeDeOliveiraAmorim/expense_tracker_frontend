@@ -1,13 +1,92 @@
 "use client";
 
+import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
+import { Icons } from "@/components/ui/icons";
 import GraphButton from "@/components/ui/buttons/graph_button";
 import NextPrevButton from "@/components/ui/buttons/next_prev_button";
 import SideMenuButton from "@/components/ui/buttons/side_menu_button";
-import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
-import { Icons } from "@/components/ui/icons";
-import TagsInCategoriesByMonth from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
-import TagsInCategoriesByMonthCategory from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month_category";
-import TagsInCategoriesByMonthTag from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month_tag";
+import TagsInCategoriesByMonth, {
+  CategoriesData,
+} from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
+
+const months = [
+  { value: "January", label: "January" },
+  { value: "February", label: "February" },
+  { value: "March", label: "March" },
+  { value: "April", label: "April" },
+  { value: "May", label: "May" },
+  { value: "June", label: "June" },
+  { value: "July", label: "July" },
+  { value: "August", label: "August" },
+  { value: "September", label: "September" },
+  { value: "October", label: "October" },
+  { value: "November", label: "November" },
+  { value: "December", label: "December" },
+];
+
+const years = [
+  { value: "2024", label: "2024" },
+  { value: "2023", label: "2023" },
+  { value: "2022", label: "2022" },
+  { value: "2021", label: "2021" },
+  { value: "2020", label: "2020" },
+];
+
+const categoriesData: CategoriesData = {
+  categories: [
+    {
+      amount: 1234.56,
+      color: "#7C14C2",
+      name: "Alimentação",
+      tags: [
+        {
+          amount: 123.45,
+          name: "Comida",
+          color: "#ff0000",
+        },
+        {
+          amount: 456.78,
+          name: "Bebidas",
+          color: "#00ff00",
+        },
+      ],
+    },
+    {
+      amount: 5678.9,
+      color: "#B5661C",
+      name: "Transporte",
+      tags: [
+        {
+          amount: 123.45,
+          name: "Carro",
+          color: "orange",
+        },
+        {
+          amount: 456.78,
+          name: "Ônibus",
+          color: "pink",
+        },
+      ],
+    },
+    {
+      amount: 3456.78,
+      color: "#8EDBDC",
+      name: "Lazer",
+      tags: [
+        {
+          amount: 123.45,
+          name: "Casa",
+          color: "brown",
+        },
+        {
+          amount: 456.78,
+          name: "Praia",
+          color: "gray",
+        },
+      ],
+    },
+  ],
+};
 
 export default function NewComponents() {
   return (
@@ -34,68 +113,9 @@ export default function NewComponents() {
       </div>
       <CurrentMonthAmount amount={78994.45} month="Setembro" />
       <TagsInCategoriesByMonth
-        categories={[
-          <TagsInCategoriesByMonthCategory
-            amount={1234.56}
-            color="#7C14C2"
-            name="Alimentação"
-            tags={[
-              <TagsInCategoriesByMonthTag
-                amount={123.45}
-                name="Comida"
-                key={"Comida"}
-                color="#ff0000"
-              />,
-              <TagsInCategoriesByMonthTag
-                amount={456.78}
-                name="Bebidas"
-                key={"Bebidas"}
-                color="#00ff00"
-              />,
-            ]}
-            key={"Alimentação"}
-          />,
-          <TagsInCategoriesByMonthCategory
-            amount={5678.9}
-            color="#B5661C"
-            name="Transporte"
-            tags={[
-              <TagsInCategoriesByMonthTag
-                amount={123.45}
-                name="Carro"
-                key={"Carro"}
-                color="orange"
-              />,
-              <TagsInCategoriesByMonthTag
-                amount={456.78}
-                name="Ônibus"
-                key={"Ônibus"}
-                color="pink"
-              />,
-            ]}
-            key={"Transporte"}
-          />,
-          <TagsInCategoriesByMonthCategory
-            amount={3456.78}
-            color="#8EDBDC"
-            name="Lazer"
-            tags={[
-              <TagsInCategoriesByMonthTag
-                amount={123.45}
-                name="Casa"
-                key={"Casa"}
-                color="brown"
-              />,
-              <TagsInCategoriesByMonthTag
-                amount={456.78}
-                name="Praia"
-                key={"Praia"}
-                color="gray"
-              />,
-            ]}
-            key={"Lazer"}
-          />,
-        ]}
+        months={months}
+        years={years}
+        categories={categoriesData}
       />
     </main>
   );
