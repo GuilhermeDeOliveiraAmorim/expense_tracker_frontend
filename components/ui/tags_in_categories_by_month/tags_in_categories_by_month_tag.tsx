@@ -14,10 +14,10 @@ export default function TagsInCategoriesByMonthTag({
   return (
     <div
       style={{ borderColor: color }}
-      className={`flex justify-between border-[2px] items-center py-[8px] px-[12px] w-full bg-white rounded-tr-[12px] rounded-br-[12px]`}
+      className={`flex justify-between border-[2px] items-center py-[8px] px-[12px] w-full bg-white rounded-tr-[12px] rounded-br-[12px] mt-[10px]`}
     >
-      <div className="pl-[12px]">{name}</div>
-      <div className="pl-[12px]">{numberToBRL(amount)}</div>
+      <div className="pl-[12px] font-semibold">{name}</div>
+      <div className="pl-[12px] font-semibold">{numberToBRL(amount)}</div>
     </div>
   );
 }

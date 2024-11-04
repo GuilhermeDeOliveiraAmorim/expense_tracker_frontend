@@ -51,7 +51,7 @@ export default function TagsInCategoriesByMonthCategory({
           )}
         </div>
       </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col items-center justify-center gap-2 pl-4 w-full">
+      <CollapsibleContent className="flex flex-col items-center justify-center pl-4 w-full">
         {tags.map((tag, index) => (
           <div
             key={index}
