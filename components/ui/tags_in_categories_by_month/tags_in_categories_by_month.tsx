@@ -1,6 +1,6 @@
 "use client";
 
-import SelectV2 from "../select_v2";
+import SelectV2 from "../selects/select_v2";
 import TagsInCategoriesByMonthCategory from "./tags_in_categories_by_month_category";
 import TagsInCategoriesByMonthTag from "./tags_in_categories_by_month_tag";
 

@@ -8,6 +8,7 @@ import SideMenuButton from "@/components/ui/buttons/side_menu_button";
 import TagsInCategoriesByMonth, {
   CategoriesData,
 } from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
+import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
 
 const months = [
   { value: "January", label: "January" },
@@ -111,10 +112,28 @@ export default function NewComponents() {
           label="Fechar"
         />
       </div>
-      <CurrentMonthAmount amount={78994.45} month="Setembro" />
+      <CurrentMonthAmount amount={78994.45} month="Outubro" />
       <TagsInCategoriesByMonth
         months={months}
         years={years}
+        categories={categoriesData}
+      />
+      <TagsDayToDay
+        day="04"
+        nameOfDay="Segunda-Feira"
+        amount={1234.56}
+        months={{
+          label: "Mês",
+          options: months,
+          onChange: (value: string) => console.log(value),
+          placeholder: "Mês",
+        }}
+        years={{
+          label: "Ano",
+          options: years,
+          onChange: (value: string) => console.log(value),
+          placeholder: "Ano",
+        }}
         categories={categoriesData}
       />
     </main>

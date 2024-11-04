@@ -14,7 +14,7 @@ export default function NextPrevButton({
 }: NextPrevButtonProps) {
   return (
     <Button
-      className="bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#1b385f] hover:text-[#EEF4ED] rounded-[12px]"
+      className="bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#1b385f] hover:text-[#EEF4ED] rounded-[12px] h-full"
       onClick={onClick}
     >
       {isNext ? <Icons.chevronRight /> : <Icons.chevronLeft />}

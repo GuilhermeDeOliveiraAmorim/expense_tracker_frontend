@@ -8,7 +8,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from "../select";
 
 type SelectV2Props = {
   options: Array<{ value: string; label: string }>;
