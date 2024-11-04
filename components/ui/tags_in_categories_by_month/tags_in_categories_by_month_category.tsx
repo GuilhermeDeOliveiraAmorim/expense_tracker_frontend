@@ -33,7 +33,7 @@ export default function TagsInCategoriesByMonthCategory({
           style={{ borderColor: color }}
           className={`border-[2px] bg-white font-semibold text-[20px] rounded-[12px] pl-2 p-2 flex items-center gap-4 justify-between w-full`}
         >
-          <div className="flex items-center justify-between w-full">
+          <div className="flex items-center text-[#0B2545] justify-between w-full">
             <div>{name}</div>
             <div>{numberToBRL(amount)}</div>
           </div>
