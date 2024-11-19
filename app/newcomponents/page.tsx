@@ -1,10 +1,11 @@
 "use client";
 
-import AmountMonthByMonthInAYearCard from "@/components/ui/amount_month_by_month_in_a_year/amount_month_by_month_in_a_year_card";
+import AmountMonthByMonthInAYear from "@/components/ui/amount_month_by_month_in_a_year/amount_month_by_month_in_a_year";
 import GraphButton from "@/components/ui/buttons/graph_button";
 import NextPrevButton from "@/components/ui/buttons/next_prev_button";
 import SideMenuButton from "@/components/ui/buttons/side_menu_button";
 import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
+import { ExpensesByPeriod } from "@/components/ui/expenses_by_period/expenses_by_period";
 import { Header } from "@/components/ui/header/header";
 import { Icons } from "@/components/ui/icons";
 import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
@@ -111,7 +112,7 @@ export default function NewComponents() {
         userName="Guilherme"
         avatarFallback="GU"
         alt="@gui___amorim"
-        avatarUrl="/avatar.png"
+        avatarUrl=""
         menu={["Despesas", "Receitas", "Configurações", "Sair"]}
       />
       <GraphButton text="View Graph" height={50} />
@@ -158,7 +159,8 @@ export default function NewComponents() {
         }}
         categories={categoriesData}
       />
-      <AmountMonthByMonthInAYearCard data={chartData} years={years} />
+      <AmountMonthByMonthInAYear data={chartData} years={years} />
+      <ExpensesByPeriod />
     </main>
   );
 }

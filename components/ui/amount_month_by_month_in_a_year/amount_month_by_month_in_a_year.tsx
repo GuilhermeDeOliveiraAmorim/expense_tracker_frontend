@@ -7,20 +7,20 @@ import AmountMonthByMonthInAYearChart, {
   ChartData,
 } from "./amount_month_by_month_in_a_year_chart";
 
-type AmountMonthByMonthInAYearCardProps = {
+type AmountMonthByMonthInAYearProps = {
   years: Array<{ value: string; label: string }>;
   data: ChartData;
 };
 
-export default function AmountMonthByMonthInAYearCard({
+export default function AmountMonthByMonthInAYear({
   years,
   data,
-}: AmountMonthByMonthInAYearCardProps) {
+}: AmountMonthByMonthInAYearProps) {
   const [activeButton, setActiveButton] = useState<"bt1" | "bt2" | null>("bt1");
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md justify-between">
+    <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md">
       <AmountMonthByMonthInAYearChart years={years} data={data} />
       <div className="flex flex-row gap-2 p-2 w-full">
         <GraphButton

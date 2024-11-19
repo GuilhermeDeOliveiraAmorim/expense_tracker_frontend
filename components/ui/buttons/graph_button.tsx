@@ -26,8 +26,8 @@ export default function GraphButton({
       }}
       className={`${
         isClicked
-          ? "bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#0B2545] hover:text-[#EEF4ED] rounded-[12px] h-full"
-          : "bg-[#8DA9C4] text-[#0B2545] font-semibold hover:bg-[#97b2ca] hover:text-[#0B2545] rounded-[12px] h-full"
+          ? "bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#0B2545] hover:text-[#EEF4ED] rounded-[12px] h-full w-full"
+          : "bg-[#8DA9C4] text-[#0B2545] font-semibold hover:bg-[#97b2ca] hover:text-[#0B2545] rounded-[12px] h-full w-full"
       }`}
     >
       {text}
