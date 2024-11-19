@@ -4,6 +4,7 @@ import AmountMonthByMonthInAYear from "@/components/ui/amount_month_by_month_in_
 import GraphButton from "@/components/ui/buttons/graph_button";
 import NextPrevButton from "@/components/ui/buttons/next_prev_button";
 import SideMenuButton from "@/components/ui/buttons/side_menu_button";
+import CategoriesByMonthAndYear from "@/components/ui/categories_by_month_and_year/categories_by_month_and_year";
 import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
 import { ExpensesByPeriod } from "@/components/ui/expenses_by_period/expenses_by_period";
 import { Header } from "@/components/ui/header/header";
@@ -12,6 +13,40 @@ import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
 import TagsInCategoriesByMonth, {
   CategoriesData,
 } from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
+
+const chartData01 = [
+  { value: "01", amount: 186 },
+  { value: "02", amount: 374 },
+  { value: "03", amount: 237 },
+  { value: "04", amount: 73 },
+  { value: "05", amount: 209 },
+  { value: "06", amount: 214 },
+  { value: "07", amount: 45 },
+  { value: "08", amount: 305 },
+  { value: "09", amount: 73 },
+  { value: "10", amount: 209 },
+  { value: "11", amount: 45 },
+  { value: "12", amount: 42 },
+  { value: "13", amount: 214 },
+  { value: "14", amount: 186 },
+  { value: "15", amount: 305 },
+  { value: "16", amount: 785 },
+  { value: "17", amount: 209 },
+  { value: "18", amount: 57 },
+  { value: "19", amount: 186 },
+  { value: "20", amount: 123 },
+  { value: "21", amount: 186 },
+  { value: "22", amount: 305 },
+  { value: "23", amount: 237 },
+  { value: "24", amount: 73 },
+  { value: "25", amount: 209 },
+  { value: "26", amount: 214 },
+  { value: "27", amount: 186 },
+  { value: "28", amount: 305 },
+  { value: "29", amount: 73 },
+  { value: "30", amount: 209 },
+  { value: "31", amount: 214 },
+];
 
 const months = [
   { value: "January", label: "January" },
@@ -29,6 +64,8 @@ const months = [
 ];
 
 const years = [
+  { value: "2024", label: "2024" },
+  { value: "2023", label: "2023" },
   { value: "2022", label: "2022" },
   { value: "2021", label: "2021" },
   { value: "2020", label: "2020" },
@@ -91,18 +128,18 @@ const categoriesData: CategoriesData = {
 };
 
 const chartData = [
-  { month: "January", amount: 186 },
-  { month: "February", amount: 305 },
-  { month: "March", amount: 237 },
-  { month: "April", amount: 73 },
-  { month: "May", amount: 209 },
-  { month: "June", amount: 214 },
-  { month: "July", amount: 234 },
-  { month: "August", amount: 56 },
-  { month: "September", amount: 142 },
-  { month: "October", amount: 678 },
-  { month: "November", amount: 123 },
-  { month: "December", amount: 678 },
+  { value: "January", amount: 186 },
+  { value: "February", amount: 305 },
+  { value: "March", amount: 237 },
+  { value: "April", amount: 73 },
+  { value: "May", amount: 209 },
+  { value: "June", amount: 214 },
+  { value: "July", amount: 234 },
+  { value: "August", amount: 56 },
+  { value: "September", amount: 142 },
+  { value: "October", amount: 678 },
+  { value: "November", amount: 123 },
+  { value: "December", amount: 678 },
 ];
 
 export default function NewComponents() {
@@ -160,7 +197,8 @@ export default function NewComponents() {
         categories={categoriesData}
       />
       <AmountMonthByMonthInAYear data={chartData} years={years} />
-      <ExpensesByPeriod />
+      <ExpensesByPeriod data={chartData01} />
+      <CategoriesByMonthAndYear months={months} years={years} />
     </main>
   );
 }

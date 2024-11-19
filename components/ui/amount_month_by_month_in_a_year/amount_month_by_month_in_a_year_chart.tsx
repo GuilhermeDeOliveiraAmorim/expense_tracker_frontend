@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/chart";
 
 type ChartDataItem = {
-  month: string;
+  value: string;
   amount: number;
 };
 
@@ -35,7 +35,7 @@ export default function AmountMonthByMonthInAYearChart({
       <BarChart accessibilityLayer data={data}>
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="value"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
