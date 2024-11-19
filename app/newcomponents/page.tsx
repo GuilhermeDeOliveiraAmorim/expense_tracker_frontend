@@ -1,15 +1,16 @@
 "use client";
 
-import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
-import { Icons } from "@/components/ui/icons";
+import AmountMonthByMonthInAYearCard from "@/components/ui/amount_month_by_month_in_a_year/amount_month_by_month_in_a_year_card";
 import GraphButton from "@/components/ui/buttons/graph_button";
 import NextPrevButton from "@/components/ui/buttons/next_prev_button";
 import SideMenuButton from "@/components/ui/buttons/side_menu_button";
+import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
+import { Header } from "@/components/ui/header/header";
+import { Icons } from "@/components/ui/icons";
+import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
 import TagsInCategoriesByMonth, {
   CategoriesData,
 } from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
-import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
-import { Header } from "@/components/ui/header/header";
 
 const months = [
   { value: "January", label: "January" },
@@ -27,8 +28,6 @@ const months = [
 ];
 
 const years = [
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
   { value: "2022", label: "2022" },
   { value: "2021", label: "2021" },
   { value: "2020", label: "2020" },
@@ -90,6 +89,21 @@ const categoriesData: CategoriesData = {
   ],
 };
 
+const chartData = [
+  { month: "January", amount: 186 },
+  { month: "February", amount: 305 },
+  { month: "March", amount: 237 },
+  { month: "April", amount: 73 },
+  { month: "May", amount: 209 },
+  { month: "June", amount: 214 },
+  { month: "July", amount: 234 },
+  { month: "August", amount: 56 },
+  { month: "September", amount: 142 },
+  { month: "October", amount: 678 },
+  { month: "November", amount: 123 },
+  { month: "December", amount: 678 },
+];
+
 export default function NewComponents() {
   return (
     <main className="grid grid-cols-4 gap-4 pl-36 pr-36 pt-12">
@@ -100,7 +114,7 @@ export default function NewComponents() {
         avatarUrl="/avatar.png"
         menu={["Despesas", "Receitas", "Configurações", "Sair"]}
       />
-      <GraphButton text="View Graph" />
+      <GraphButton text="View Graph" height={50} />
       <NextPrevButton isNext={false} onClick={() => console.log("Prev")} />
       <NextPrevButton isNext={true} onClick={() => console.log("Next")} />
       <div className="flex flex-col gap-2">
@@ -144,6 +158,7 @@ export default function NewComponents() {
         }}
         categories={categoriesData}
       />
+      <AmountMonthByMonthInAYearCard data={chartData} years={years} />
     </main>
   );
 }

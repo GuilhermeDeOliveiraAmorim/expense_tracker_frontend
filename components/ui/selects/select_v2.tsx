@@ -24,7 +24,7 @@ export default function SelectV2({
   placeholder,
 }: SelectV2Props) {
   return (
-    <Select>
+    <Select onValueChange={onChange}>
       <SelectTrigger className="bg-white rounded-[12px] text-[14px] text-[#0B2545] font-semibold h-[50px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
@@ -37,10 +37,9 @@ export default function SelectV2({
             <SelectItem
               key={option.value}
               value={option.value}
-              onClick={() => onChange(option.value)}
               className="text-[14px] text-[#0B2545] font-normal hover:bg-gray-100"
             >
-              {option.value}
+              {option.label}
             </SelectItem>
           ))}
         </SelectGroup>

@@ -1,22 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "../button";
 
 type GraphButtonProps = {
   text: string;
+  height: number;
+  onChange?: () => object;
+  onClick?: () => void;
+  isClicked?: boolean;
 };
 
-export default function GraphButton({ text }: GraphButtonProps) {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
-
+export default function GraphButton({
+  text,
+  height,
+  onChange,
+  onClick,
+  isClicked,
+}: GraphButtonProps) {
   return (
     <Button
-      onClick={handleClick}
+      onClick={onClick}
+      onChange={onChange}
+      style={{
+        height: height,
+      }}
       className={`${
         isClicked
           ? "bg-[#0B2545] text-[#EEF4ED] font-semibold hover:bg-[#0B2545] hover:text-[#EEF4ED] rounded-[12px] h-full"
