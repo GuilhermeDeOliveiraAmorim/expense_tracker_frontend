@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,6 +16,7 @@ type SelectV2Props = {
   label: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  defaultValue?: string;
 };
 
 export default function SelectV2({
@@ -22,9 +24,19 @@ export default function SelectV2({
   label,
   onChange,
   placeholder,
+  defaultValue,
 }: SelectV2Props) {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(
+    defaultValue
+  );
+
+  const handleChange = (value: string) => {
+    setSelectedValue(value);
+    onChange(value);
+  };
+
   return (
-    <Select onValueChange={onChange}>
+    <Select onValueChange={handleChange} value={selectedValue}>
       <SelectTrigger className="bg-white rounded-[12px] text-[14px] text-[#0B2545] font-semibold h-[50px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

@@ -1,13 +1,14 @@
 import SelectV2 from "../selects/select_v2";
 import { useEffect, useState } from "react";
 import { CategoriesByMonthAndYearChart } from "./categories_by_month_and_year_chart";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getExpensesByCategoryPeriod } from "@/components/query_functions/qf.presenters";
 import { rangerDate } from "@/components/util/date.handler";
 import {
   GetExpensesByCategoryPeriodInputDTO,
   GetExpensesByCategoryPeriodOutputDTO,
 } from "@/internal/presenters/get_expenses_by_category_period";
+import { IconSpinner } from "../iconspinner";
 
 type CategoriesByMonthAndYearProps = {
   months: Array<{ value: string; label: string }>;
@@ -83,6 +84,19 @@ export default function CategoriesByMonthAndYear({
     })
   );
 
+  const {
+    data: categoriesData,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useQuery({
+    queryKey: ["getExpensesByCategoryPeriod", "getExpensesByCategoryPeriod"],
+    queryFn: () =>
+      getExpensesByCategoryPeriod({
+        startDate: startDate,
+        endDate: endDate,
+      }),
+  });
+
   const mutation = useMutation<
     GetExpensesByCategoryPeriodOutputDTO,
     Error,
@@ -101,9 +115,17 @@ export default function CategoriesByMonthAndYear({
   });
 
   useEffect(() => {
+    if (!categoriesLoading) {
+      if (categoriesData?.expenses) {
+        setCategories(categoriesData.expenses);
+      }
+    }
+  }, [categoriesData?.expenses, categoriesLoading]);
+
+  useEffect(() => {
     if (selectedYear && selectedMonth) {
       const start = new Date(`${selectedYear}-${selectedMonth}-01`);
-      const end = new Date();
+      const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
 
       const formattedStartDate = formatDate(start);
       const formattedEndDate = formatDate(end);
@@ -113,25 +135,39 @@ export default function CategoriesByMonthAndYear({
         setEndDate(formattedEndDate);
       }
     }
-  }, [selectedYear, selectedMonth, startDate, endDate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedYear, selectedMonth]);
 
   useEffect(() => {
-    if (startDate && endDate) {
+    if (startDate && endDate && startDate !== endDate) {
       mutation.mutate({
         startDate: startDate,
         endDate: endDate,
       });
     }
-  }, [startDate, endDate, mutation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDate, endDate]);
+
+  if (categories) {
+    console.log(categories, categoriesError);
+  }
 
   const { chartData, chartConfig } = convertData(categories);
 
   return (
-    <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md">
-      <CategoriesByMonthAndYearChart
-        data={chartData}
-        chartConfig={chartConfig}
-      />
+    <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md justify-between">
+      {categoriesLoading ? (
+        <IconSpinner />
+      ) : categories.length === 0 ? (
+        <div className="flex justify-center h-full w-full items-center">
+          No expenses found
+        </div>
+      ) : (
+        <CategoriesByMonthAndYearChart
+          data={chartData}
+          chartConfig={chartConfig}
+        />
+      )}
       <div className="flex flex-row gap-2 p-2 w-full">
         <SelectV2
           label="Month"
@@ -141,6 +177,7 @@ export default function CategoriesByMonthAndYear({
             setSelectedMonth(value);
           }}
           options={months}
+          defaultValue="November"
         />
         <SelectV2
           label="Year"
@@ -150,6 +187,7 @@ export default function CategoriesByMonthAndYear({
             setSelectedYear(value);
           }}
           options={years}
+          defaultValue="2024"
         />
       </div>
     </div>
