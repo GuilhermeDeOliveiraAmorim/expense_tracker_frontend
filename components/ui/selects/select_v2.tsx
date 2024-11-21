@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,7 @@ type SelectV2Props = {
   label: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  defaultValue?: string;
+  value?: string | undefined; // Adicionado para suportar controle externo
 };
 
 export default function SelectV2({
@@ -24,15 +24,22 @@ export default function SelectV2({
   label,
   onChange,
   placeholder,
-  defaultValue,
+  value,
 }: SelectV2Props) {
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    defaultValue
+    value
   );
 
-  const handleChange = (value: string) => {
-    setSelectedValue(value);
-    onChange(value);
+  // Sincroniza o estado interno com o valor externo (se fornecido)
+  useEffect(() => {
+    if (value !== undefined) {
+      setSelectedValue(value);
+    }
+  }, [value]);
+
+  const handleChange = (newValue: string) => {
+    setSelectedValue(newValue);
+    onChange(newValue);
   };
 
   return (

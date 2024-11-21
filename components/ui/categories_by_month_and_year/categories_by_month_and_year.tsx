@@ -70,8 +70,12 @@ export default function CategoriesByMonthAndYear({
   months,
   years,
 }: CategoriesByMonthAndYearProps) {
-  const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<string | null>(
+    new Date().getFullYear().toString()
+  );
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(
+    new Intl.DateTimeFormat("en-US", { month: "long" }).format(new Date())
+  );
   const [categories, setCategories] = useState<CategoryExpense[]>([]);
   const [startDate, setStartDate] = useState(
     rangerDate({
@@ -148,18 +152,20 @@ export default function CategoriesByMonthAndYear({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, endDate]);
 
-  if (categories) {
-    console.log(categories, categoriesError);
-  }
-
   const { chartData, chartConfig } = convertData(categories);
 
   return (
     <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md justify-between">
-      {categoriesLoading ? (
-        <IconSpinner />
+      {categoriesError ? (
+        <div className="flex justify-center items-center h-full w-full">
+          Error loading data
+        </div>
+      ) : categoriesLoading ? (
+        <div className="flex justify-center items-center h-full w-full">
+          <IconSpinner />
+        </div>
       ) : categories.length === 0 ? (
-        <div className="flex justify-center h-full w-full items-center">
+        <div className="flex justify-center items-center h-full w-full">
           No expenses found
         </div>
       ) : (
@@ -168,26 +174,22 @@ export default function CategoriesByMonthAndYear({
           chartConfig={chartConfig}
         />
       )}
+
       <div className="flex flex-row gap-2 p-2 w-full">
         <SelectV2
           label="Month"
           placeholder="Select month"
-          onChange={(value) => {
-            console.log("Selected month:", value);
-            setSelectedMonth(value);
-          }}
+          onChange={(value) => setSelectedMonth(value)}
           options={months}
-          defaultValue="November"
+          value={selectedMonth ?? undefined}
         />
+
         <SelectV2
           label="Year"
           placeholder="Select year"
-          onChange={(value) => {
-            console.log("Selected year:", value);
-            setSelectedYear(value);
-          }}
+          onChange={(value) => setSelectedYear(value)}
           options={years}
-          defaultValue="2024"
+          value={selectedYear ?? undefined}
         />
       </div>
     </div>
