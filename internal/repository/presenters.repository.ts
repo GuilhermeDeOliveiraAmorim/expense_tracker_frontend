@@ -7,6 +7,10 @@ import {
   GetCategoryTagsTotalsByMonthYearOutputDTO,
 } from "../presenters/get_category_tags_totals_by_month_year";
 import {
+  GetDayToDayExpensesPeriodInputDTO,
+  GetDayToDayExpensesPeriodOutputDTO,
+} from "../presenters/get_day_to_day_expenses_period";
+import {
   GetExpensesByCategoryPeriodInputDTO,
   GetExpensesByCategoryPeriodOutputDTO,
 } from "../presenters/get_expenses_by_category_period";
@@ -71,4 +75,8 @@ export interface PresentersRepository {
   getAvailableMonthsYears(
     input: GetAvailableMonthsYearsInputDTO
   ): Promise<GetAvailableMonthsYearsOutputDTO>;
+
+  getDayToDayExpensesPeriod(
+    input: GetDayToDayExpensesPeriodInputDTO
+  ): Promise<GetDayToDayExpensesPeriodOutputDTO>;
 }

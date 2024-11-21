@@ -6,7 +6,7 @@ import NextPrevButton from "@/components/ui/buttons/next_prev_button";
 import SideMenuButton from "@/components/ui/buttons/side_menu_button";
 import CategoriesByMonthAndYear from "@/components/ui/categories_by_month_and_year/categories_by_month_and_year";
 import { CurrentMonthAmount } from "@/components/ui/current_month_amount/current_month_amount";
-import { ExpensesByPeriod } from "@/components/ui/expenses_by_period/expenses_by_period";
+import { DayToDayExpensesPeriod } from "@/components/ui/day_to_day_expenses_period/day_to_day_expenses_period";
 import { Header } from "@/components/ui/header/header";
 import { Icons } from "@/components/ui/icons";
 import TagsDayToDay from "@/components/ui/tags_day_to_day/tags_day_to_day";
@@ -197,7 +197,7 @@ export default function NewComponents() {
         categories={categoriesData}
       />
       <AmountMonthByMonthInAYear data={chartData} years={years} />
-      <ExpensesByPeriod data={chartData01} />
+      <DayToDayExpensesPeriod data={chartData01} />
       <CategoriesByMonthAndYear months={months} years={years} />
     </main>
   );

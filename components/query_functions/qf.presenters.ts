@@ -8,6 +8,10 @@ import {
   GetCategoryTagsTotalsByMonthYearOutputDTO,
 } from "@/internal/presenters/get_category_tags_totals_by_month_year";
 import {
+  GetDayToDayExpensesPeriodInputDTO,
+  GetDayToDayExpensesPeriodOutputDTO,
+} from "@/internal/presenters/get_day_to_day_expenses_period";
+import {
   GetExpensesByCategoryPeriodInputDTO,
   GetExpensesByCategoryPeriodOutputDTO,
 } from "@/internal/presenters/get_expenses_by_category_period";
@@ -181,6 +185,22 @@ export const getAvailableMonthsYears = async (
       presentersFactory.getAvailableMonthsYearsUseCase();
 
     const response = await getAvailableMonthsYearsUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDayToDayExpensesPeriod = async (
+  input: GetDayToDayExpensesPeriodInputDTO
+): Promise<GetDayToDayExpensesPeriodOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getDayToDayExpensesPeriodUseCase =
+      presentersFactory.getDayToDayExpensesPeriodUseCase();
+
+    const response = await getDayToDayExpensesPeriodUseCase.execute(input);
 
     return response;
   } catch (error) {

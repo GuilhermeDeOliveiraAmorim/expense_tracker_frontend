@@ -16,11 +16,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-type ExpensesByPeriodChartProps = {
+type DayToDayExpensesPeriodChartProps = {
   data: ChartData;
 };
 
-export function ExpensesByPeriodChart({ data }: ExpensesByPeriodChartProps) {
+export function DayToDayExpensesPeriodChart({
+  data,
+}: DayToDayExpensesPeriodChartProps) {
   return (
     <ChartContainer config={chartConfig}>
       <AreaChart
