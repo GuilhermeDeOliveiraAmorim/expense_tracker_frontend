@@ -197,7 +197,7 @@ export default function NewComponents() {
         categories={categoriesData}
       />
       <AmountMonthByMonthInAYear data={chartData} years={years} />
-      <DayToDayExpensesPeriod data={chartData01} />
+      <DayToDayExpensesPeriod />
       <CategoriesByMonthAndYear months={months} years={years} />
     </main>
   );

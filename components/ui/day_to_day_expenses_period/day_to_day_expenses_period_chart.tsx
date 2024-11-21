@@ -35,11 +35,11 @@ export function DayToDayExpensesPeriodChart({
       >
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="day"
+          dataKey="value"
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.slice(0, 2)}
         />
         <ChartTooltip
           cursor={false}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { PresentersRepository } from "../repository/presenters.repository";
 
-type DayToDayExpense = {
+export type DayToDayExpense = {
   day: string;
   day_name: string;
   month: string;

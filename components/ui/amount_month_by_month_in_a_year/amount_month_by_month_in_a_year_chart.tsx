@@ -8,7 +8,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-type ChartDataItem = {
+export type ChartDataItem = {
   value: string;
   amount: number;
 };
