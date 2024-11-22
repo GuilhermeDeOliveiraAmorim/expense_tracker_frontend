@@ -14,40 +14,6 @@ import TagsInCategoriesByMonth, {
   CategoriesData,
 } from "@/components/ui/tags_in_categories_by_month/tags_in_categories_by_month";
 
-const chartData01 = [
-  { value: "01", amount: 186 },
-  { value: "02", amount: 374 },
-  { value: "03", amount: 237 },
-  { value: "04", amount: 73 },
-  { value: "05", amount: 209 },
-  { value: "06", amount: 214 },
-  { value: "07", amount: 45 },
-  { value: "08", amount: 305 },
-  { value: "09", amount: 73 },
-  { value: "10", amount: 209 },
-  { value: "11", amount: 45 },
-  { value: "12", amount: 42 },
-  { value: "13", amount: 214 },
-  { value: "14", amount: 186 },
-  { value: "15", amount: 305 },
-  { value: "16", amount: 785 },
-  { value: "17", amount: 209 },
-  { value: "18", amount: 57 },
-  { value: "19", amount: 186 },
-  { value: "20", amount: 123 },
-  { value: "21", amount: 186 },
-  { value: "22", amount: 305 },
-  { value: "23", amount: 237 },
-  { value: "24", amount: 73 },
-  { value: "25", amount: 209 },
-  { value: "26", amount: 214 },
-  { value: "27", amount: 186 },
-  { value: "28", amount: 305 },
-  { value: "29", amount: 73 },
-  { value: "30", amount: 209 },
-  { value: "31", amount: 214 },
-];
-
 const months = [
   { value: "January", label: "January" },
   { value: "February", label: "February" },
@@ -67,8 +33,6 @@ const years = [
   { value: "2024", label: "2024" },
   { value: "2023", label: "2023" },
   { value: "2022", label: "2022" },
-  { value: "2021", label: "2021" },
-  { value: "2020", label: "2020" },
 ];
 
 const categoriesData: CategoriesData = {
@@ -127,21 +91,6 @@ const categoriesData: CategoriesData = {
   ],
 };
 
-const chartData = [
-  { value: "January", amount: 186 },
-  { value: "February", amount: 305 },
-  { value: "March", amount: 237 },
-  { value: "April", amount: 73 },
-  { value: "May", amount: 209 },
-  { value: "June", amount: 214 },
-  { value: "July", amount: 234 },
-  { value: "August", amount: 56 },
-  { value: "September", amount: 142 },
-  { value: "October", amount: 678 },
-  { value: "November", amount: 123 },
-  { value: "December", amount: 678 },
-];
-
 export default function NewComponents() {
   return (
     <main className="grid grid-cols-4 gap-4 pl-36 pr-36 pt-12">
@@ -196,7 +145,7 @@ export default function NewComponents() {
         }}
         categories={categoriesData}
       />
-      <AmountMonthByMonthInAYear data={chartData} years={years} />
+      <AmountMonthByMonthInAYear years={years} />
       <DayToDayExpensesPeriod />
       <CategoriesByMonthAndYear months={months} years={years} />
     </main>
