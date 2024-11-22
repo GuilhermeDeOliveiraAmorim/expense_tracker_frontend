@@ -121,7 +121,7 @@ export default function NewComponents() {
           label="Fechar"
         />
       </div>
-      <CurrentMonthAmount amount={78994.45} month="Outubro" />
+      <CurrentMonthAmount />
       <TagsInCategoriesByMonth
         months={months}
         years={years}
