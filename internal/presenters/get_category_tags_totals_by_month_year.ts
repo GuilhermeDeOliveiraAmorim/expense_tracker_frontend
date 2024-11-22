@@ -3,12 +3,14 @@ import { PresentersRepository } from "../repository/presenters.repository";
 
 export type CategoryTagTotal = {
   name: string;
+  color: string;
   tag_amount: number;
 };
 
 export type CategoryWithTags = {
   name: string;
   category_amount: number;
+  color: string;
   tags: CategoryTagTotal[];
 };
 

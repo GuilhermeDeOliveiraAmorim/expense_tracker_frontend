@@ -27,7 +27,7 @@ export default function TagsInCategoriesByMonthCategory({
   };
 
   return (
-    <Collapsible className="flex flex-col items-center justify-center w-full">
+    <Collapsible className="flex flex-col items-center justify-center w-full mb-2">
       <CollapsibleTrigger className="w-full" onClick={handleClick}>
         <div
           style={{ borderColor: color }}

@@ -86,3 +86,32 @@ export const months = [
   { value: "11", label: "November" },
   { value: "12", label: "December" },
 ];
+
+export const formatDateParameter = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}${month}${year}`;
+};
+
+export const getMonthNumber = (monthName: string): string => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const index = months.indexOf(monthName);
+  if (index === -1) return "";
+  return (index + 1).toString().padStart(2, "0");
+};

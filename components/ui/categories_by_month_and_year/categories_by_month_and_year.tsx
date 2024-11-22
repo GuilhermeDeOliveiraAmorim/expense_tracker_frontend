@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { CategoriesByMonthAndYearChart } from "./categories_by_month_and_year_chart";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getExpensesByCategoryPeriod } from "@/components/query_functions/qf.presenters";
-import { rangerDate } from "@/components/util/date.handler";
+import {
+  formatDateParameter,
+  rangerDate,
+} from "@/components/util/date.handler";
 import {
   GetExpensesByCategoryPeriodInputDTO,
   GetExpensesByCategoryPeriodOutputDTO,
@@ -56,14 +59,6 @@ const convertData = (
   );
 
   return { chartData, chartConfig };
-};
-
-const formatDate = (date: Date): string => {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-
-  return `${day}${month}${year}`;
 };
 
 export default function CategoriesByMonthAndYear({
@@ -131,8 +126,8 @@ export default function CategoriesByMonthAndYear({
       const start = new Date(`${selectedYear}-${selectedMonth}-01`);
       const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
 
-      const formattedStartDate = formatDate(start);
-      const formattedEndDate = formatDate(end);
+      const formattedStartDate = formatDateParameter(start);
+      const formattedEndDate = formatDateParameter(end);
 
       if (formattedStartDate !== startDate || formattedEndDate !== endDate) {
         setStartDate(formattedStartDate);
@@ -155,7 +150,7 @@ export default function CategoriesByMonthAndYear({
   const { chartData, chartConfig } = convertData(categories);
 
   return (
-    <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md justify-between">
+    <div className="flex flex-col gap-2 bg-[#EEF4ED] rounded-[12px] shadow-md pt-4 justify-between">
       {categoriesError ? (
         <div className="flex justify-center items-center h-full w-full">
           Error loading data

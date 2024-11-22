@@ -51,7 +51,8 @@ export default function AmountMonthByMonthInAYear({
       "total-expenses-month-current-year",
       "total-expenses-month-current-year",
     ],
-    queryFn: () => getTotalExpensesMonthCurrentYear({ year: 2024 }),
+    queryFn: () =>
+      getTotalExpensesMonthCurrentYear({ year: new Date().getFullYear() }),
   });
 
   const mutation = useMutation<
