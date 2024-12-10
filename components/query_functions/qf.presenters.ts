@@ -28,6 +28,10 @@ import {
   GetMonthlyExpensesByTagYearOutputDTO,
 } from "@/internal/presenters/get_monthly_expenses_by_tag_year";
 import {
+  GetTagsDayToDayInputDTO,
+  GetTagsDayToDayOutputDTO,
+} from "@/internal/presenters/get_tags_day_to_day";
+import {
   GetTotalExpensesForCurrentMonthInputDTO,
   GetTotalExpensesForCurrentMonthOutputDTO,
 } from "@/internal/presenters/get_total_expenses_for_current_month";
@@ -201,6 +205,21 @@ export const getDayToDayExpensesPeriod = async (
       presentersFactory.getDayToDayExpensesPeriodUseCase();
 
     const response = await getDayToDayExpensesPeriodUseCase.execute(input);
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTagsDayToDay = async (
+  input: GetTagsDayToDayInputDTO
+): Promise<GetTagsDayToDayOutputDTO> => {
+  try {
+    const presentersFactory = new PresentersFactory();
+    const getTagsDayToDayUseCase = presentersFactory.getTagsDayToDayUseCase();
+
+    const response = await getTagsDayToDayUseCase.execute(input);
 
     return response;
   } catch (error) {

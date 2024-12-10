@@ -41,6 +41,10 @@ import {
   GetDayToDayExpensesPeriodInputDTO,
   GetDayToDayExpensesPeriodOutputDTO,
 } from "../presenters/get_day_to_day_expenses_period";
+import {
+  GetTagsDayToDayInputDTO,
+  GetTagsDayToDayOutputDTO,
+} from "../presenters/get_tags_day_to_day";
 
 export class PresentersGateway implements PresentersRepository {
   constructor(private http: AxiosInstance) {}
@@ -183,6 +187,20 @@ export class PresentersGateway implements PresentersRepository {
     try {
       const output = await this.http.get<GetDayToDayExpensesPeriodOutputDTO>(
         `${apiRoutes.getDayToDayExpensesPeriod}?start_date=${input.startDate}&end_date=${input.endDate}`
+      );
+
+      return output.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTagsDayToDay(
+    input: GetTagsDayToDayInputDTO
+  ): Promise<GetTagsDayToDayOutputDTO> {
+    try {
+      const output = await this.http.get<GetTagsDayToDayOutputDTO>(
+        `${apiRoutes.getTagsDayToDay}?year=${input.year}&month=${input.month}`
       );
 
       return output.data;

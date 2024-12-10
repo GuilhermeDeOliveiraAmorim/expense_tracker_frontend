@@ -23,4 +23,5 @@ export const apiRoutes = {
   getCategoryTagsTotalsByMonthYear: "/expenses/tags/monthly/total",
   getAvailableMonthsYears: "/util/months/years",
   getDayToDayExpensesPeriod: "/expenses/day/day/period",
+  getTagsDayToDay: "/expenses/tags/day/day",
 };
